@@ -1,0 +1,116 @@
+package com.mio.cliente.boxworld.compiler.parser;
+
+import com.mio.cliente.boxworld.compiler.lexer.MovesLexer;
+import com.mio.cliente.boxworld.compiler.parser.MovesParserSym;
+import java_cup.runtime.XMLElement;
+
+class MovesParser;
+
+parser code{:
+
+    public MovesParser(MovesLexer lexer){
+        super(lexer);
+    }
+:}
+
+
+/*
+	main -> main movProd
+	main -> movProd
+
+	movProd -> push dirProd
+	movProd -> dirProd
+
+	dirProd -> direccion ( numero ) ;
+
+	direccion -> right
+	direccion -> left
+	direccion -> up
+	direccion -> down
+
+	numero -> a
+	numero -> ENTERO
+
+	a -> a + b
+	a -> a - b
+	a -> b
+
+	b -> b * c
+	b -> b / c
+	b -> - c
+	b -> c
+
+	c -> ( d )
+	c -> d
+
+	d -> funcion ( a )
+	d -> ENTERO
+
+	funcion -> floor
+	funcion -> ceil
+*/
+
+terminal Token SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_A, PARENTESIS_C, PUNTO_COMA, ENTERO, DECIMAL;
+terminal Token RIGHT, LEFT, UP, DOWN, PUSH, FLOOR, CEIL;
+non terminal main, movProd, dirProd;
+non terminal Integer direccion, a, b, c, d, numero, funcion;
+
+
+start with main;
+
+main ::=
+    main movProd
+    | movProd
+    ;
+
+movProd ::=
+    PUSH dirProd
+    | dirProd
+    ;
+
+dirProd ::=
+    direccion PARENTESIS_A numero PARENTESIS_C PUNTO_COMA
+    ;
+
+direccion ::=
+    RIGHT
+    | LEFT
+    | UP
+    | DOWN
+    ;
+
+numero ::=
+    a
+    ;
+
+a ::=
+    a SUMA b
+    | a RESTA b
+    | b
+    ;
+
+b ::=
+    b MULTIPLICACION c
+    | b DIVISION c
+    | RESTA c
+    | c
+    ;
+
+c ::=
+    PARENTESIS_A d PARENTESIS_C
+    | d
+    ;
+
+d ::=
+    funcion PARENTESIS_A a PARENTESIS_C
+    | ENTERO
+    | DECIMAL
+    ;
+
+funcion ::=
+    FLOOR
+    | CEIL
+    ;
+
+
+
