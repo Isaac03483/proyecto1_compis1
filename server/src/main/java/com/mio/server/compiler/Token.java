@@ -1,4 +1,4 @@
-package com.mio.server.symbols;
+package com.mio.server.compiler;
 
 public class Token {
 

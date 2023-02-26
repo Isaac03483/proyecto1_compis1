@@ -1,11 +1,11 @@
-package com.mio.server.lexer;
+package com.mio.server.compiler.lexer;
 
 /*
 compilar archivo.jflex
 java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/server/src/main/jflex/json.jflex
 */
 
-import com.mio.server.symbols.Token;
+import com.mio.server.compiler.Token;
 //import java_cup.runtime.Symbol;
 import static com.mio.server.symbols.TokenSym.*;
 

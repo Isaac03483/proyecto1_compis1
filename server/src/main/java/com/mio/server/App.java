@@ -1,11 +1,6 @@
 package com.mio.server;
 
-import com.mio.server.lexer.JsonLexer;
-import com.mio.server.symbols.Token;
-import com.mio.server.symbols.TokenSym;
-
-import java.io.IOException;
-import java.io.StringReader;
+import com.mio.server.compiler.parser.XMLParserHandle;
 
 /**
  * Hello world!
@@ -13,17 +8,17 @@ import java.io.StringReader;
  */
 public class App {
     public static void main( String[] args ){
-        String texto = "{ ] } ; \" name   \" : \" _aw1    \" \" 3 + 4 * 6 \" 32 [ ] \" all \n\n\"   \" #fff2221\"";
-
-        JsonLexer lexer = new JsonLexer(new StringReader(texto));
-
+        String texto = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<worlds>" +
+                "<world>" +
+                "<name>ak3</name>" +
+                "</world>" +
+                "</worlds>";
+        XMLParserHandle parserHandle = new XMLParserHandle();
         try {
-            Token token = lexer.yylex();
-
-            while(token.getType() != TokenSym.EOF){
-                token = lexer.yylex();
-            }
-        } catch (IOException e) {
+            parserHandle.compile(texto);
+            System.out.println("Esto debería aparecer en caso de no crashear");
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
