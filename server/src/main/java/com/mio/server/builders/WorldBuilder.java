@@ -5,6 +5,7 @@ import com.mio.server.models.Point;
 import com.mio.server.models.World;
 import com.mio.server.models.WorldConfig;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WorldBuilder {
@@ -53,30 +54,29 @@ public class WorldBuilder {
         return this;
     }
 
-    public WorldBuilder withBoards(List<Board> board){
-        if(this.boards != null){
-            throw new RuntimeException("La lista del tablero ya ha sido declarada");
+    public WorldBuilder withBoard(Board board){
+        if(this.boards == null){
 
+            this.boards = new ArrayList<>();
         }
-        this.boards = board;
+
+        this.boards.add(board);
         return this;
     }
 
-    public WorldBuilder withBoxes(List<Point> boxes){
-        if(this.boxes != null){
-            throw new RuntimeException("La lista de cajas ya ha sido declarada");
-
+    public WorldBuilder withBox(Point box){
+        if(this.boxes == null){
+            this.boxes = new ArrayList<>();
         }
-        this.boxes = boxes;
+        this.boxes.add(box);
         return this;
     }
 
-    public WorldBuilder withTargets(List<Point> targets){
-        if(this.targets != null){
-            throw new RuntimeException("La lista de objetivos ya ha sido declarada");
-
+    public WorldBuilder withTarget(Point target){
+        if(this.targets == null){
+            this.targets = new ArrayList<>();
         }
-        this.targets = targets;
+        this.targets.add(target);
         return this;
     }
 

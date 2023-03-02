@@ -19,4 +19,12 @@ public class Board {
     public Integer getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "point=" + point +
+                ", type=" + type +
+                '}';
+    }
 }

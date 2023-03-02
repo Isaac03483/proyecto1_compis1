@@ -51,4 +51,16 @@ public class WorldConfig {
     }
 
 
+    @Override
+    public String toString() {
+        return "WorldConfig{" +
+                "boxColor='" + boxColor + '\'' +
+                ", boxOnTargetColor='" + boxOnTargetColor + '\'' +
+                ", targetColor='" + targetColor + '\'' +
+                ", brickColor='" + brickColor + '\'' +
+                ", hallColor='" + hallColor + '\'' +
+                ", undefinedColor='" + undefinedColor + '\'' +
+                ", playerColor='" + playerColor + '\'' +
+                '}';
+    }
 }

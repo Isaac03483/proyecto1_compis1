@@ -20,4 +20,12 @@ public class Point {
     public Integer getPosY() {
         return posY;
     }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "posX=" + posX +
+                ", posY=" + posY +
+                '}';
+    }
 }

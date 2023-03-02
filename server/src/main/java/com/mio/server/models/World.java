@@ -58,4 +58,18 @@ public class World {
     public Point getPlayer() {
         return player;
     }
+
+    @Override
+    public String toString() {
+        return "World{" +
+                "name='" + name + '\'' +
+                ", rows=" + rows +
+                ", cols=" + cols +
+                "\n, worldConfig=" + worldConfig +
+                "\n, board=" + board +
+                "\n, boxes=" + boxes +
+                "\n, targets=" + targets +
+                "\n, player=" + player +
+                '}';
+    }
 }

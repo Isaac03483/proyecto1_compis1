@@ -24,10 +24,12 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/Boxw
 
 %{
     private Symbol symbolWithValue(int type, Object value){
+        System.out.println("ENCONTRE UN : "+value.toString());
         return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
     }
 
     private Symbol symbolWithoutValue(int type){
+        System.out.println("ENCONTRE UN : "+type);
         return new Symbol(type, new Token(type, null, yyline+1, yycolumn+1 ));
     }
 %}

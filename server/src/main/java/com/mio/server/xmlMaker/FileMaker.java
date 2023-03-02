@@ -1,15 +1,8 @@
 package com.mio.server.xmlMaker;
 
-import com.mio.server.models.Board;
-import com.mio.server.models.Point;
-import com.mio.server.models.World;
-import com.mio.server.models.WorldConfig;
-
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -27,44 +20,19 @@ public class FileMaker {
         return fileMaker;
     }
 
-    public void fileToString() throws IOException {
+    public String read() throws IOException {
         StringBuilder content = new StringBuilder();
         Scanner scanner = new Scanner(getFile());
         while(scanner.hasNextLine()){
             content.append(scanner.nextLine()).append("\n");
         }
-
-        System.out.println(content);
-
+        return content.toString();
     }
 
-    public void worldsToXML(List<World> worlds) {
-
-
-    }
-
-    private String writeWorld(World world){
-        return null;
-    }
-
-    private String writeConfig(WorldConfig worldConfig){
-        return null;
-    }
-
-    private String writeBoards(List<Board> boards){
-        return null;
-    }
-
-    private String writeBoxes(List<Point> boxes){
-        return null;
-    }
-
-    private String writeTargets(List<Point> targets){
-        return null;
-    }
-
-    private String writePlayer(Point player){
-        return null;
+    public void write(String content) throws IOException {
+        FileWriter writer = new FileWriter(getFile());
+        writer.write(content);
+        writer.close();
     }
 
     private File getFile() {

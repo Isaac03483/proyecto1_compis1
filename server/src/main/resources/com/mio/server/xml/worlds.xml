@@ -1,3 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <worlds>
+	<world>
+		<name>nombre1</name>
+		<rows>4</rows>
+		<cols>2</cols>
+		<config>
+			<box_color>#ffffff</box_color>
+			<box_on_target_color>#f1f2f3</box_on_target_color>
+			<target_color>#f1f2f3</target_color>
+			<brick_color>#f1f2b3</brick_color>
+			<hall_color>#f1f2f7</hall_color>
+			<undefined_color>#f1f223</undefined_color>
+			<player_color>#f1f2f9</player_color>
+		</config>
+
+		<board>
+			<posX>49</posX>
+			<posY>25</posY>
+			<type>BRICK</type>
+		</board>
+		<board>
+			<posX>6</posX>
+			<posY>7</posY>
+			<type>HALL</type>
+		</board>
+
+		<boxes>
+			<posX>54</posX>
+			<posY>9</posY>
+		</boxes>
+		<boxes>
+			<posX>14</posX>
+			<posY>10</posY>
+		</boxes>
+
+		<targets>
+			<posX>26</posX>
+			<posY>9</posY>
+		</targets>
+		<targets>
+			<posX>18</posX>
+			<posY>11</posY>
+		</targets>
+
+		<player>
+			<posX>2</posX>
+			<posY>60</posY>
+		</player>
+	</world>
+	<world>
+		<name>nombre2</name>
+		<rows>4</rows>
+		<cols>5</cols>
+		<config>
+			<box_color>#f56fff</box_color>
+			<box_on_target_color>#f1f2f3</box_on_target_color>
+			<target_color>#f1f223</target_color>
+			<brick_color>#f1a2b3</brick_color>
+			<hall_color>#f1e2f7</hall_color>
+			<undefined_color>#f4f223</undefined_color>
+			<player_color>#b1f2f9</player_color>
+		</config>
+
+		<board>
+			<posX>49</posX>
+			<posY>25</posY>
+			<type>HALL</type>
+		</board>
+		<board>
+			<posX>6</posX>
+			<posY>7</posY>
+			<type>BRICK</type>
+		</board>
+
+		<boxes>
+			<posX>14</posX>
+			<posY>9</posY>
+		</boxes>
+		<boxes>
+			<posX>134</posX>
+			<posY>810</posY>
+		</boxes>
+
+		<targets>
+			<posX>24</posX>
+			<posY>9</posY>
+		</targets>
+		<targets>
+			<posX>134</posX>
+			<posY>120</posY>
+		</targets>
+
+		<player>
+			<posX>24</posX>
+			<posY>69</posY>
+		</player>
+	</world>
 </worlds>

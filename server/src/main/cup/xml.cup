@@ -3,6 +3,9 @@ package com.mio.server.compiler.parser;
 import com.mio.server.builders.*;
 import com.mio.server.compiler.Token;
 import com.mio.server.compiler.lexer.XMLLexer;
+import com.mio.server.models.World;
+import java.util.ArrayList;
+
 
 class XMLParser;
 
@@ -30,12 +33,20 @@ terminal Token NAME, ROWS, COLS, PLAYER, CONFIG, TARGETS, BOXES, BOARD, WORLD, W
 terminal Token BOX_COLOR, BOX_ON_TARGET_COLOR, TARGET_COLOR, UNDEFINED_COLOR, BRICK_COLOR, HALL_COLOR, PLAYER_COLOR;
 terminal Token INTERROGACION, XML, VERSION, IGUAL, LITERAL, ENCODING, DIAGONAL;
 terminal Token HEXADECIMAL, HALL, BRICK, ENTERO, PALABRA;
-non terminal main, encoding, worldsA, worldsProd, worldsC, worldA, worldProd, worldC, atributos, atributo,nameA, nameC;
-non terminal rowsA, rowsC, colsA, colsC, configA, configProd, configC, boardA, boardProd, boardC, pointProd, pointAtributo;
-non terminal boxesA, boxesProd, boxesC, targetsA, targetsProd, targetsC, playerA, playerProd, playerC;
-non terminal configAtributo, boxColorA, boxColorC, boxOnTargetColorA, boxOnTargetColorC, targetColorA, targetColorC;
-non terminal brickColorA, brickColorC, hallColorA, hallColorC, undefinedColorA, undefinedColorC, playerColorA, playerColorC;
-non terminal boardAtributo, posxA, posxC, posyA, posyC, typeA, typeC, typeProd, boxesAtributo, targetsAtributo, playerAtributo;
+
+//non terminals
+non terminal encoding, attributes, attribute, pointProd, pointAttribute;
+non terminal boardProd, boardAttribute, configProd, configAttribute;
+non terminal ArrayList<World> main,worldsProd;
+non terminal World worldProd;
+non terminal Integer typeAttribute;
+
+//tags
+non terminal rowsA, rowsC, colsA, colsC, configA, configC, boardA, boardC;
+non terminal boxesA, boxesC, targetsA, targetsC, playerA, playerC, worldsC, worldsA,worldA, worldC, nameA, nameC;
+non terminal boxColorA, boxColorC, boxOnTargetColorA, boxOnTargetColorC, targetColorA, targetColorC;
+non terminal brickColorA, brickColorC, hallColorA, hallColorC, undefinedColorA, undefinedColorC, playerColorA;
+non terminal posxA, posxC, posyA, posyC, typeA, typeC, playerColorC;
 
 start with main;
 
@@ -45,93 +56,72 @@ main ::= encoding worldsA worldsProd:ws worldsC                     {:RESULT = w
 encoding ::= MENOR_QUE INTERROGACION XML VERSION IGUAL LITERAL ENCODING IGUAL LITERAL INTERROGACION MAYOR_QUE
     ;
 
-worldsProd ::= worldsProd:array worldProd:w                         {:array.add(w);
+worldsProd ::= worldsProd:array worldProd:world                     {:array.add(world);
+                                                                    System.out.println(world);
                                                                     RESULT = array;:}
-	| worldProd:w                                                   {:RESULT = new ArrayList<World>();
-	                                                                RESULT.add(w);:}
-	;
-	
-worldProd ::= worldA atributos:w worldC                             {:RESULT = w.build();
+    | worldProd:world                                               {:RESULT = new ArrayList<World>();
+                                                                    System.out.println(world);
+                                                                    RESULT.add(world);:}
+    ;
+
+worldProd ::= worldA attributes worldC                              {:RESULT = worldBuilder.build();
                                                                     worldBuilder.clean();:}
-	;
+    ;
 
-atributos ::= atributos:w atributo                                  {:RESULT = w;:}
-	| atributo
-	;
-	
-atributo ::= nameA PALABRA:name nameC                               {:RESULT = worldBuilder.withName(String.valueOf(name.getValue()));:}
-	| rowsA ENTERO:rows rowsC                                       {:RESULT = worldBuilder.withRows(Integer.valueOf(rows.getValue()));:}
-	| colsA ENTERO:cols colsC                                       {:RESULT = worldBuilder.withCols(Integer.valueOf(cols.getValue()));:}
-	| configA configProd:config configC                             {:RESULT =worldBuilder.withConfig(config.build());
-	                                                                configBuilder.clean();:}
-	| boardA boardProd:array boardC                                 {:RESULT =worldBuilder.withBoards(array);:}
-	| boxesA boxesProd:array boxesC                                 {:RESULT =worldBuilder.withBoxes(array);:}
-	| targetsA targetsProd:array targetsC                           {:RESULT =worldBuilder.withTargets(array);:}
-	| playerA playerProd:point playerC                              {:RESULT =worldBuilder.withPlayer(point);:}
-	;
-	
-configProd ::= configProd:config configAtributo                     {:RESULT = config:}
-	| configAtributo
-	;
+attributes ::= attributes attribute
+    | attribute
+    ;
 
-configAtributo ::= boxColorA HEXADECIMAL:h boxColorC                {:RESULT = configBuilder.withBoxColor(h.getValue());:}
-	| boxOnTargetColorA HEXADECIMAL:h boxOnTargetColorC             {:RESULT = configBuilder.withBoxOnTargetColor(h.getValue());:}
-	| targetColorA HEXADECIMAL:h targetColorC                       {:RESULT = configBuilder.withTargetColor(h.getValue());:}
-	| brickColorA HEXADECIMAL:h brickColorC                         {:RESULT = configBuilder.withBrickColor(h.getValue());:}
-	| hallColorA HEXADECIMAL:h hallColorC                           {:RESULT = configBuilder.withHallColor(h.getValue());:}
-	| undefinedColorA HEXADECIMAL:h undefinedColorC                 {:RESULT = configBuilder.withUndefinedColor(h.getValue());:}
-	| playerColorA HEXADECIMAL:h playerColorC                       {:RESULT = configBuilder.withPlayerColor(h.getValue());:}
-	;
-
-boardProd ::= boardProd:array boardAtributo:board                   {:array.add(board.build());
-                                                                    RESULT = array;
+attribute ::= nameA PALABRA:nombre nameC                            {:worldBuilder.withName(nombre.getValue());:}
+    | rowsA ENTERO:entero rowsC                                     {:worldBuilder.withRows(Integer.valueOf(entero.getValue()));:}
+    | colsA ENTERO:entero colsC                                     {:worldBuilder.withCols(Integer.valueOf(entero.getValue()));:}
+    | configA configProd configC                                    {:worldBuilder.withConfig(configBuilder.build());
+                                                                    configBuilder.clean();:}
+    | boardA boardProd boardC                                       {:worldBuilder.withBoard(boardBuilder.withPoint(pointBuilder.build()).build());
+                                                                    pointBuilder.clean();
                                                                     boardBuilder.clean();:}
-	| boardAtributo:board                                           {:RESULT = new ArrayList<Board>();
-	                                                                RESULT.add(board.build());
-	                                                                boardBuilder.clean();:}
-	;
-
-boardAtributo ::= pointProd:point                                   {:RESULT = boardBuilder.withPoint(point);:}
-	| typeA typeProd:type typeC                                     {:RESULT = boardBuilder.withType(type);:}
-	;
-
-typeProd ::= BRICK: brick                                           {:RESULT = brick.getType();:}
-	| HALL: hall                                                    {:RESULT = hall.getType();:}
-	;
-
-boxesProd ::= boxesProd:array boxesAtributo:point                   {:array.add(point);
-                                                                    RESULT = array;:}
-	| boxesAtributo:point                                           {:RESULT = new ArrayList<Point>();
-	                                                                RESULT.add(point);:}
-	;
-
-boxesAtributo ::= pointProd:point                                   {:RESULT =point; :}
-	;
-
-targetsProd ::= targetsProd:array targetsAtributo:point             {:array.add(point);
-                                                                    RESULT = array;:}
-	| targetsAtributo:point                                         {:RESULT = new ArrayList<Point>();
-	                                                                RESULT.add(point);:}
-	;
-
-targetsAtributo ::= pointProd:point                                 {:RESULT = point;:}
-	;
-
-playerProd ::= playerProd:point playerAtributo                      {:RESULT = point;:}
-	| playerAtributo
-	;
-
-playerAtributo ::= pointProd:point                                  {:RESULT = point;:}
-	;
-
-pointProd ::= pointProd:point pointAtributo                         {:RESULT = pointBuilder.build();
+    | boxesA pointProd boxesC                                       {:worldBuilder.withBox(pointBuilder.build());
                                                                     pointBuilder.clean();:}
-    | pointAtributo
+    | targetsA pointProd targetsC                                   {:worldBuilder.withTarget(pointBuilder.build());
+                                                                    pointBuilder.clean();:}
+    | playerA pointProd playerC                                     {:worldBuilder.withPlayer(pointBuilder.build());
+                                                                    pointBuilder.clean();:}
     ;
 
-pointAtributo ::= posxA ENTERO:posx posxC                           {:RESULT = pointBuilder.withPosX(Integer.valueOf(posx.getValue()));:}
-    | posyA ENTERO:posy posyC                                       {:RESULT = pointBuilder.withPosY(Integer.valueOf(posy.getValue()));:}
+configProd ::= configProd configAttribute
+    | configAttribute
     ;
+
+configAttribute ::= boxColorA HEXADECIMAL:h boxColorC               {:configBuilder.withBoxColor(h.getValue());:}
+	| boxOnTargetColorA HEXADECIMAL:h boxOnTargetColorC             {:configBuilder.withBoxOnTargetColor(h.getValue());:}
+	| targetColorA HEXADECIMAL:h targetColorC                       {:configBuilder.withTargetColor(h.getValue());:}
+	| brickColorA HEXADECIMAL:h brickColorC                         {:configBuilder.withBrickColor(h.getValue());:}
+	| hallColorA HEXADECIMAL:h hallColorC                           {:configBuilder.withHallColor(h.getValue());:}
+	| undefinedColorA HEXADECIMAL:h undefinedColorC                 {:configBuilder.withUndefinedColor(h.getValue());:}
+	| playerColorA HEXADECIMAL:h playerColorC                       {:configBuilder.withPlayerColor(h.getValue());:}
+	;
+
+boardProd ::= boardProd boardAttribute
+    | boardAttribute
+    ;
+
+boardAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Integer.valueOf(entero.getValue()));:}
+    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Integer.valueOf(entero.getValue()));:}
+    typeA typeAttribute:type typeC                                  {:boardBuilder.withType(type);:}
+    ;
+
+typeAttribute ::= BRICK:type                                        {:RESULT = Integer.valueOf(type.getType());:}
+    | HALL:type                                                     {:RESULT = Integer.valueOf(type.getType());:}
+    ;
+
+pointProd ::= pointProd pointAttribute
+    | pointAttribute
+    ;
+
+pointAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Integer.valueOf(entero.getValue()));:}
+    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Integer.valueOf(entero.getValue()));:}
+    ;
+
 
 worldsA ::= MENOR_QUE WORLDS MAYOR_QUE
 	;
@@ -198,7 +188,7 @@ hallColorC ::= MENOR_QUE DIAGONAL HALL_COLOR MAYOR_QUE
 undefinedColorA ::= MENOR_QUE UNDEFINED_COLOR MAYOR_QUE
 	;
 
-undefinedColorC ::= MENOR_QUE UNDEFINED_COLOR MAYOR_QUE
+undefinedColorC ::= MENOR_QUE DIAGONAL UNDEFINED_COLOR MAYOR_QUE
 	;
 
 playerColorA ::= MENOR_QUE PLAYER_COLOR MAYOR_QUE
@@ -248,10 +238,3 @@ playerA ::= MENOR_QUE PLAYER MAYOR_QUE
 
 playerC ::= MENOR_QUE DIAGONAL PLAYER MAYOR_QUE
 	;
-
-
-
-
-
-
-
