@@ -16,7 +16,7 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/Boxw
 %unicode
 %line
 %column
-%type java_cup_runtime.Symbol
+%type java_cup.runtime.Symbol
 %cup
 
 %state BLOQUE_COMENTARIO

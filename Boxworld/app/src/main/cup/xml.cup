@@ -1,0 +1,274 @@
+package com.mio.cliente.boxworld.compiler.parser;
+
+import com.mio.server.builders.*;
+import com.mio.server.compiler.Token;
+import com.mio.server.compiler.lexer.XMLLexer;
+import com.mio.server.models.World;
+import java.util.ArrayList;
+
+
+class XMLParser;
+
+/*
+ java -jar java-cup-11b.jar /home/mio/Escritorio/2023/proyecto-1-compis1/server/src/main/cup/xml.cup
+*/
+
+parser code {:
+
+    private WorldBuilder worldBuilder;
+    private WConfigBuilder configBuilder;
+    private PointBuilder pointBuilder;
+    private BoardBuilder boardBuilder;
+    public XMLParser(XMLLexer lexer){
+        super(lexer);
+        this.worldBuilder = new WorldBuilder();
+        this.configBuilder = new WConfigBuilder();
+        this.pointBuilder = new PointBuilder();
+        this.boardBuilder = new BoardBuilder();
+    }
+:}
+
+
+terminal Token NAME, ROWS, COLS, PLAYER, CONFIG, TARGETS, BOXES, BOARD, WORLD, WORLDS, TYPE, POSX, POSY, MENOR_QUE, MAYOR_QUE;
+terminal Token BOX_COLOR, BOX_ON_TARGET_COLOR, TARGET_COLOR, UNDEFINED_COLOR, BRICK_COLOR, HALL_COLOR, PLAYER_COLOR;
+terminal Token INTERROGACION, XML, VERSION, IGUAL, LITERAL, ENCODING, DIAGONAL;
+terminal Token ERRORS, ERROR, LINE, COLUMN, DESCRIPTION;
+terminal Token HEXADECIMAL, HALL, BRICK, ENTERO, PALABRA;
+
+//non terminals
+non terminal encoding, attributes, attribute, pointProd, pointAttribute;
+non terminal boardProd, boardAttribute, configProd, configAttribute;
+non terminal ArrayList<World> main,worldsProd;
+non terminal World worldProd;
+non terminal Integer typeAttribute;
+
+//tags
+non terminal rowsA, rowsC, colsA, colsC, configA, configC, boardA, boardC;
+non terminal boxesA, boxesC, targetsA, targetsC, playerA, playerC, worldsC, worldsA,worldA, worldC, nameA, nameC;
+non terminal boxColorA, boxColorC, boxOnTargetColorA, boxOnTargetColorC, targetColorA, targetColorC;
+non terminal brickColorA, brickColorC, hallColorA, hallColorC, undefinedColorA, undefinedColorC, playerColorA;
+non terminal posxA, posxC, posyA, posyC, typeA, typeC, playerColorC;
+
+start with main;
+
+main ::= encoding worldsA worldsProd:ws worldsC                     {:RESULT = ws;:}
+	;
+
+encoding ::= MENOR_QUE INTERROGACION XML VERSION IGUAL LITERAL ENCODING IGUAL LITERAL INTERROGACION MAYOR_QUE
+    ;
+
+worldsProd ::= worldsProd:array worldProd:world                     {:array.add(world);
+                                                                    System.out.println(world);
+                                                                    RESULT = array;:}
+    | worldProd:world                                               {:RESULT = new ArrayList<World>();
+                                                                    System.out.println(world);
+                                                                    RESULT.add(world);:}
+    ;
+
+worldProd ::= worldA attributes worldC                              {:RESULT = worldBuilder.build();
+                                                                    worldBuilder.clean();:}
+    ;
+
+attributes ::= attributes attribute
+    | attribute
+    ;
+
+attribute ::= nameA PALABRA:nombre nameC                            {:worldBuilder.withName(nombre.getValue());:}
+    | rowsA ENTERO:entero rowsC                                     {:worldBuilder.withRows(Double.valueOf(entero.getValue()));:}
+    | colsA ENTERO:entero colsC                                     {:worldBuilder.withCols(Double.valueOf(entero.getValue()));:}
+    | configA configProd configC                                    {:worldBuilder.withConfig(configBuilder.build());
+                                                                    configBuilder.clean();:}
+    | boardA boardProd boardC                                       {:worldBuilder.withBoard(boardBuilder.withPoint(pointBuilder.build()).build());
+                                                                    pointBuilder.clean();
+                                                                    boardBuilder.clean();:}
+    | boxesA pointProd boxesC                                       {:worldBuilder.withBox(pointBuilder.build());
+                                                                    pointBuilder.clean();:}
+    | targetsA pointProd targetsC                                   {:worldBuilder.withTarget(pointBuilder.build());
+                                                                    pointBuilder.clean();:}
+    | playerA pointProd playerC                                     {:worldBuilder.withPlayer(pointBuilder.build());
+                                                                    pointBuilder.clean();:}
+    ;
+
+configProd ::= configProd configAttribute
+    | configAttribute
+    ;
+
+configAttribute ::= boxColorA HEXADECIMAL:h boxColorC               {:configBuilder.withBoxColor(h.getValue());:}
+	| boxOnTargetColorA HEXADECIMAL:h boxOnTargetColorC             {:configBuilder.withBoxOnTargetColor(h.getValue());:}
+	| targetColorA HEXADECIMAL:h targetColorC                       {:configBuilder.withTargetColor(h.getValue());:}
+	| brickColorA HEXADECIMAL:h brickColorC                         {:configBuilder.withBrickColor(h.getValue());:}
+	| hallColorA HEXADECIMAL:h hallColorC                           {:configBuilder.withHallColor(h.getValue());:}
+	| undefinedColorA HEXADECIMAL:h undefinedColorC                 {:configBuilder.withUndefinedColor(h.getValue());:}
+	| playerColorA HEXADECIMAL:h playerColorC                       {:configBuilder.withPlayerColor(h.getValue());:}
+	;
+
+boardProd ::= boardProd boardAttribute
+    | boardAttribute
+    ;
+
+boardAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Double.valueOf(entero.getValue()));:}
+    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Double.valueOf(entero.getValue()));:}
+    typeA typeAttribute:type typeC                                  {:boardBuilder.withType(type);:}
+    ;
+
+typeAttribute ::= BRICK:type                                        {:RESULT = Integer.valueOf(type.getType());:}
+    | HALL:type                                                     {:RESULT = Integer.valueOf(type.getType());:}
+    ;
+
+pointProd ::= pointProd pointAttribute
+    | pointAttribute
+    ;
+
+pointAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Double.valueOf(entero.getValue()));:}
+    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Double.valueOf(entero.getValue()));:}
+    ;
+
+
+worldsA ::= MENOR_QUE WORLDS MAYOR_QUE
+	;
+
+worldsC ::= MENOR_QUE DIAGONAL WORLDS MAYOR_QUE
+	;
+
+worldA ::= MENOR_QUE WORLD MAYOR_QUE
+	;
+
+worldC ::= MENOR_QUE DIAGONAL WORLD MAYOR_QUE
+	;
+
+nameA ::= MENOR_QUE NAME MAYOR_QUE
+	;
+
+nameC ::= MENOR_QUE DIAGONAL NAME MAYOR_QUE
+	;
+
+rowsA ::= MENOR_QUE ROWS MAYOR_QUE
+	;
+rowsC ::= MENOR_QUE DIAGONAL ROWS MAYOR_QUE
+	;
+
+colsA ::= MENOR_QUE COLS MAYOR_QUE
+	;
+
+colsC ::= MENOR_QUE DIAGONAL COLS MAYOR_QUE
+	;
+
+configA ::= MENOR_QUE CONFIG MAYOR_QUE
+	;
+
+configC ::= MENOR_QUE DIAGONAL CONFIG MAYOR_QUE
+	;
+
+boxColorA ::= MENOR_QUE BOX_COLOR MAYOR_QUE
+	;
+
+boxColorC ::= MENOR_QUE DIAGONAL BOX_COLOR MAYOR_QUE
+	;
+
+boxOnTargetColorA ::= MENOR_QUE BOX_ON_TARGET_COLOR MAYOR_QUE
+	;
+boxOnTargetColorC ::= MENOR_QUE DIAGONAL BOX_ON_TARGET_COLOR MAYOR_QUE
+	;
+
+targetColorA ::= MENOR_QUE TARGET_COLOR MAYOR_QUE
+	;
+targetColorC ::= MENOR_QUE DIAGONAL TARGET_COLOR MAYOR_QUE
+	;
+
+brickColorA ::= MENOR_QUE BRICK_COLOR MAYOR_QUE
+	;
+brickColorC ::= MENOR_QUE DIAGONAL BRICK_COLOR MAYOR_QUE
+	;
+
+hallColorA ::= MENOR_QUE HALL_COLOR MAYOR_QUE
+	;
+
+hallColorC ::= MENOR_QUE DIAGONAL HALL_COLOR MAYOR_QUE
+	;
+
+undefinedColorA ::= MENOR_QUE UNDEFINED_COLOR MAYOR_QUE
+	;
+
+undefinedColorC ::= MENOR_QUE DIAGONAL UNDEFINED_COLOR MAYOR_QUE
+	;
+
+playerColorA ::= MENOR_QUE PLAYER_COLOR MAYOR_QUE
+	;
+
+playerColorC ::= MENOR_QUE DIAGONAL PLAYER_COLOR MAYOR_QUE
+	;
+
+boardA ::= MENOR_QUE BOARD MAYOR_QUE
+	;
+
+boardC ::= MENOR_QUE DIAGONAL BOARD MAYOR_QUE
+	;
+
+posxA ::= MENOR_QUE POSX MAYOR_QUE
+	;
+
+posxC ::= MENOR_QUE DIAGONAL POSX MAYOR_QUE
+	;
+
+posyA ::= MENOR_QUE POSY MAYOR_QUE
+	;
+
+posyC ::= MENOR_QUE DIAGONAL POSY MAYOR_QUE
+	;
+
+typeA ::= MENOR_QUE TYPE MAYOR_QUE
+	;
+
+typeC ::= MENOR_QUE DIAGONAL TYPE MAYOR_QUE
+	;
+
+boxesA ::= MENOR_QUE BOXES MAYOR_QUE
+	;
+
+boxesC ::= MENOR_QUE DIAGONAL BOXES MAYOR_QUE
+	;
+
+targetsA ::= MENOR_QUE TARGETS MAYOR_QUE
+	;
+
+targetsC ::= MENOR_QUE DIAGONAL TARGETS MAYOR_QUE
+	;
+
+playerA ::= MENOR_QUE PLAYER MAYOR_QUE
+	;
+
+playerC ::= MENOR_QUE DIAGONAL PLAYER MAYOR_QUE
+	;
+
+errorsA ::= MENOR_QUE ERRORS MAYOR_QUE
+    ;
+
+errorsC ::= MENOR_QUE DIAGONAL ERRORS MAYOR_QUE
+    ;
+
+errorA ::= MENOR_QUE ERROR MAYOR_QUE
+    ;
+
+errorC ::= MENOR_QUE DIAGONAL ERROR MAYOR_QUE
+    ;
+
+lineA ::= MENOR_QUE LINE MAYOR_QUE
+    ;
+
+lineC ::= MENOR_QUE DIAGONAL LINE MAYOR_QUE
+    ;
+
+columnA ::= MENOR_QUE COLUMN MAYOR_QUE
+    ;
+
+columnC ::= MENOR_QUE DIAGONAL COLUMN MAYOR_QUE
+    ;
+
+descriptionA ::= MENOR_QUE DIAGONAL DESCRIPTION MAYOR_QUE
+    ;
+
+descriptionC ::= MENOR_QUE DIAGONAL DESCRIPTION MAYOR_QUE
+    ;
+
+
+

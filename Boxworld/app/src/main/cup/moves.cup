@@ -2,7 +2,14 @@ package com.mio.cliente.boxworld.compiler.parser;
 
 import com.mio.cliente.boxworld.compiler.lexer.MovesLexer;
 import com.mio.cliente.boxworld.compiler.parser.MovesParserSym;
-import java_cup.runtime.XMLElement;
+import com.mio.cliente.boxworld.compiler.Token;
+import com.mio.cliente.boxworld.models.Move;
+import java.util.ArrayList;
+
+
+/*
+ java -jar java-cup-11b.jar /home/mio/Escritorio/2023/proyecto-1-compis1/Boxworld/app/src/main/cup/moves.cup
+*/
 
 class MovesParser;
 
@@ -44,6 +51,7 @@ parser code{:
 	c -> d
 
 	d -> funcion ( a )
+	d -> a
 	d -> ENTERO
 
 	funcion -> floor
@@ -52,64 +60,69 @@ parser code{:
 
 terminal Token SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_A, PARENTESIS_C, PUNTO_COMA, ENTERO, DECIMAL;
 terminal Token RIGHT, LEFT, UP, DOWN, PUSH, FLOOR, CEIL;
-non terminal main, movProd, dirProd;
-non terminal Integer direccion, a, b, c, d, numero, funcion;
+non terminal ArrayList<Move> main;
+non terminal Move movProd, dirProd;
+non terminal Double a, b, c, d;
+non terminal Integer direccion, funcion,numero;
 
 
 start with main;
 
 main ::=
-    main movProd
-    | movProd
+    main:moves movProd:m                        {:moves.add(m);
+                                                RESULT = moves;:}
+    | movProd:m                                 {:RESULT = new ArrayList<Move>();
+                                                RESULT.add(m);:}
     ;
 
 movProd ::=
-    PUSH dirProd
-    | dirProd
+    PUSH dirProd:m                              {:m.setPush(true);
+                                                  RESULT = m;:}
+    | dirProd:m                                 {:RESULT = m;:}
     ;
 
 dirProd ::=
-    direccion PARENTESIS_A numero PARENTESIS_C PUNTO_COMA
+    direccion:d PARENTESIS_A numero:n1 PARENTESIS_C PUNTO_COMA        {:RESULT = new Move(false,d,n1);:}
     ;
 
 direccion ::=
-    RIGHT
-    | LEFT
-    | UP
-    | DOWN
+    RIGHT:d                                     {:RESULT = Integer.valueOf(d.getType());:}
+    | LEFT:d                                    {:RESULT = Integer.valueOf(d.getType());:}
+    | UP:d                                      {:RESULT = Integer.valueOf(d.getType());:}
+    | DOWN:d                                    {:RESULT = Integer.valueOf(d.getType());:}
     ;
 
 numero ::=
-    a
+    a:n1                                        {:RESULT = n1.intValue();:}
     ;
 
 a ::=
-    a SUMA b
-    | a RESTA b
-    | b
+    a:n1 SUMA b:n2                              {:RESULT = n1 + n2;:}
+    | a:n1 RESTA b:n2                           {:RESULT = n1 - n2;:}
+    | b:n1                                      {:RESULT = n1;:}
     ;
 
 b ::=
-    b MULTIPLICACION c
-    | b DIVISION c
-    | RESTA c
-    | c
+    b:n1 MULTIPLICACION c:n2                    {:RESULT = n1 * n2;:}
+    | b:n1 DIVISION c:n2                        {:RESULT = n1 / n2;:}
+    | RESTA c:n1                                {:RESULT = -1 * n1;:}
+    | c:n1                                      {:RESULT = n1;:}
     ;
 
 c ::=
-    PARENTESIS_A d PARENTESIS_C
-    | d
+    PARENTESIS_A a:n1 PARENTESIS_C              {:RESULT = n1;:}
+    | d:n1                                      {:RESULT = n1;:}
     ;
 
 d ::=
-    funcion PARENTESIS_A a PARENTESIS_C
-    | ENTERO
-    | DECIMAL
+    funcion:f PARENTESIS_A a:n1 PARENTESIS_C      {:RESULT = f == MovesParserSym.FLOOR ? Math.floor(n1): Math.ceil(n1);:}
+    | ENTERO:e                                  {:RESULT = Double.valueOf(e.getValue());:}
+    | DECIMAL:d                                 {:RESULT = Double.valueOf(d.getValue());:}
     ;
 
 funcion ::=
-    FLOOR
-    | CEIL
+    FLOOR:f                                     {:RESULT = f.getType();:}
+    | CEIL:c                                    {:RESULT = c.getType();:}
     ;
 
 

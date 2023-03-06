@@ -2,17 +2,13 @@ package com.mio.cliente.boxworld.models
 
 open class Move(_push: Boolean, _direction: Int, _number: Int) {
 
-    private val direction = _direction
-    private val number = _number
-    private val push = _push
+    val direction = _direction
+    val number = _number
+    var push = _push
 
-    fun moves(){
-        if(push){
-
-            return
-        }
-
-
+    override fun toString(): String {
+        return "Move(direction=$direction, number=$number, push=$push)"
     }
+
 
 }

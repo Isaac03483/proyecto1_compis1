@@ -15,16 +15,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun lexer(){
-        val codigo = "down (2 * 5 / 10);\n" +
+        /*val codigo = "down (3 * 5 / 10);\n" +
                 "\n" +
                 "# empujando la caja hacia la derecha\n" +
-                "push right (6 - 5);\n" +
+                "push right ( (10 - 5) *3);\n" +
                 "\n" +
                 "# hacia la izquierda una casilla\n" +
-                "left (6 / 2 - 2);\n" +
+                "left (6 / 3 - 2);\n" +
                 "\n" +
                 "# hacia arriba una casilla\n" +
-                "down (-1);"
+                "down (CEIL(7 + FLOOR(4.5)));"*/
+        val codigo = "push left ((4*4)/(3+3));" +
+                "push left (FLOOR ((4.2*2)) * 3 - 5);"
 
         MovesParserHandle().compile(codigo)
 
