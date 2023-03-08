@@ -386,7 +386,7 @@ class CUP$XMLParser$actions {
 		int worldright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()).right;
 		World world = (World)((java_cup.runtime.Symbol) CUP$XMLParser$stack.peek()).value;
 		array.add(world);
-//                                                                    System.out.println(world);
+                                                                    System.out.println(world);
                                                                     RESULT = array;
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("worldsProd",10, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
@@ -400,7 +400,7 @@ class CUP$XMLParser$actions {
 		int worldright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()).right;
 		World world = (World)((java_cup.runtime.Symbol) CUP$XMLParser$stack.peek()).value;
 		RESULT = new ArrayList<World>();
-//                                                                    System.out.println(world);
+                                                                    System.out.println(world);
                                                                     RESULT.add(world);
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("worldsProd",10, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
@@ -453,7 +453,7 @@ class CUP$XMLParser$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).right;
 		Token entero = (Token)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
-		worldBuilder.withRows(Integer.valueOf(entero.getValue()));
+		worldBuilder.withRows(Double.valueOf(entero.getValue()));
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("attribute",2, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-2)), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
           return CUP$XMLParser$result;
@@ -465,7 +465,7 @@ class CUP$XMLParser$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).right;
 		Token entero = (Token)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
-		worldBuilder.withCols(Integer.valueOf(entero.getValue()));
+		worldBuilder.withCols(Double.valueOf(entero.getValue()));
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("attribute",2, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-2)), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
           return CUP$XMLParser$result;
@@ -648,7 +648,7 @@ class CUP$XMLParser$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).right;
 		Token entero = (Token)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
-		pointBuilder.withPosX(Integer.valueOf(entero.getValue()));
+		pointBuilder.withPosX(Double.valueOf(entero.getValue()));
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("boardAttribute",6, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-2)), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
           return CUP$XMLParser$result;
@@ -660,7 +660,7 @@ class CUP$XMLParser$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).right;
 		Token entero = (Token)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
-pointBuilder.withPosY(Integer.valueOf(entero.getValue()));
+pointBuilder.withPosY(Double.valueOf(entero.getValue()));
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("NT$0",53, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
           return CUP$XMLParser$result;
@@ -731,7 +731,7 @@ pointBuilder.withPosY(Integer.valueOf(entero.getValue()));
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).right;
 		Token entero = (Token)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
-		pointBuilder.withPosX(Integer.valueOf(entero.getValue()));
+		pointBuilder.withPosX(Double.valueOf(entero.getValue()));
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("pointAttribute",4, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-2)), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
           return CUP$XMLParser$result;
@@ -743,7 +743,7 @@ pointBuilder.withPosY(Integer.valueOf(entero.getValue()));
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).right;
 		Token entero = (Token)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
-		pointBuilder.withPosY(Integer.valueOf(entero.getValue()));
+		pointBuilder.withPosY(Double.valueOf(entero.getValue()));
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("pointAttribute",4, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-2)), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
           return CUP$XMLParser$result;

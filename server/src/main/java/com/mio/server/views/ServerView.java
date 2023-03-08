@@ -4,6 +4,16 @@
  */
 package com.mio.server.views;
 
+import com.mio.server.compiler.parser.JsonParserHandle;
+import com.mio.server.models.World;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.Executors;
+
 /**
  *
  * @author mio
@@ -16,6 +26,51 @@ public class ServerView extends javax.swing.JFrame {
     public ServerView() {
         initComponents();
         this.setLocationRelativeTo(null);
+        initSocket();
+    }
+
+    public void initSocket(){
+        Executors.newFixedThreadPool(1).execute(() -> {
+            ServerSocket server;
+            Socket socket;
+            DataInputStream scanner;
+            DataOutputStream printWriter;
+
+            try {
+                server = new ServerSocket(50000);
+                System.out.println("Servidor iniciado");
+                infoLabel.setText("Servidor esperando...");
+
+                while(true){
+                    socket = server.accept();
+                    printWriter = new DataOutputStream(socket.getOutputStream());
+                    scanner = new DataInputStream(socket.getInputStream());
+
+                    String texto = scanner.readUTF();
+                    System.out.println(texto);
+                    infoLabel.setText("Petición recibida desde: "+socket.getInetAddress().getHostAddress());
+
+                    jsonArea.setText("Información recibida del cliente:\n"+texto);
+
+                    JsonParserHandle jsonParserHandle = new JsonParserHandle();
+                    World world = jsonParserHandle.compile(texto);
+
+                    System.out.println(world);
+
+                    printWriter.writeUTF("Mensaje de regreso del servidor");
+
+                    socket.close();
+
+//                    infoLabel.setText("Servidor esperando...");
+//                    jsonArea.setText("");
+
+                    System.out.println("Socket desconectado del servidor");
+
+                }
+            } catch (Exception e) {
+                System.err.println("Something  went wrong.");
+            }
+        });
     }
 
     /**
@@ -27,38 +82,52 @@ public class ServerView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        infoLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jsonArea = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        xmlArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Esperando...");
+        infoLabel.setText("Esperando...");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setEnabled(false);
-        jScrollPane1.setViewportView(jTextArea1);
+        jsonArea.setColumns(20);
+        jsonArea.setRows(5);
+        jsonArea.setEnabled(false);
+        jScrollPane1.setViewportView(jsonArea);
+
+        xmlArea.setColumns(20);
+        xmlArea.setRows(5);
+        xmlArea.setEnabled(false);
+        jScrollPane2.setViewportView(xmlArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(infoLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 6, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel1)
+                .addComponent(infoLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -102,8 +171,10 @@ public class ServerView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel infoLabel;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jsonArea;
+    private javax.swing.JTextArea xmlArea;
     // End of variables declaration//GEN-END:variables
 }

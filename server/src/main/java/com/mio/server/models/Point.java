@@ -4,20 +4,20 @@ import com.mio.server.builders.PointBuilder;
 
 public class Point {
 
-    private final Integer posX;
-    private final Integer posY;
+    private final Double posX;
+    private final Double posY;
 
     public Point(PointBuilder builder) {
         this.posX = builder.getPosX();
         this.posY = builder.getPosY();
     }
 
-    public Integer getPosX() {
+    public Double getPosX() {
         return posX;
     }
 
 
-    public Integer getPosY() {
+    public Double getPosY() {
         return posY;
     }
 

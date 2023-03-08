@@ -1,0 +1,196 @@
+package com.mio.server.compiler.parser;
+
+import com.mio.server.compiler.Token;
+import com.mio.server.builders.*;
+import com.mio.server.compiler.lexer.JsonLexer;
+import com.mio.server.models.Board;
+import com.mio.server.models.Point;
+import com.mio.server.models.World;
+import java.util.ArrayList;
+
+class JsonParser;
+
+
+parser code {:
+
+    BoardBuilder boardBuilder;
+    PointBuilder pointBuilder;
+    WConfigBuilder configBuilder;
+    WorldBuilder worldBuilder;
+    public JsonParser(JsonLexer lexer){
+
+        super(lexer);
+        this.boardBuilder = new BoardBuilder();
+        this.pointBuilder = new PointBuilder();
+        this.configBuilder = new WConfigBuilder();
+        this.worldBuilder = new WorldBuilder();
+
+    }
+
+:}
+
+
+terminal Token NAME, ROWS, COLS, PLAYER, CONFIG, TARGETS, BOXES, BOARD,WORLDS, WORLD,ALL, TYPE, POSX, POSY, COMILLA;
+terminal Token BOX_COLOR, BOX_ON_TARGET_COLOR, TARGET_COLOR, UNDEFINED_COLOR, BRICK_COLOR, HALL_COLOR, PLAYER_COLOR;
+terminal Token LLAVE_A, LLAVE_C, PARENTESIS_A, PARENTESIS_C, CORCHETE_A, CORCHETE_C, COMA, DOS_PUNTOS;
+terminal Token SUMA, RESTA, MULTIPLICACION, DIVISION;
+terminal Token HEXADECIMAL, HALL, BRICK, ENTERO, DECIMAL, PALABRA, FLOOR, CEIL;
+
+non terminal worldProd, worldAttribute, configProd, configAttribute;
+non terminal Double a, b, c, d,numProd;
+non terminal Integer funcion,colorType,posType,boardType;
+non terminal ArrayList<Board> boardArray;
+non terminal ArrayList<Point> pointArray;
+non terminal World optionProd, main;
+non terminal boardProd, boardAttribute, pointProd, pointAttribute;
+
+start with main;
+
+main ::= LLAVE_A optionProd:world LLAVE_C                                           {:RESULT = world;:}
+    ;
+
+optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL:all COMILLA            {:worldBuilder.withName(JsonParserSym.terminalNames[all.getType()]);
+                                                                                    RESULT =worldBuilder.build();:}
+    | COMILLA WORLD COMILLA DOS_PUNTOS COMILLA PALABRA:name COMILLA                 {:worldBuilder.withName(String.valueOf(name.getValue()));
+                                                                                    RESULT = worldBuilder.build();:}
+    | worldProd                                                                     {:RESULT = worldBuilder.build();
+                                                                                    System.out.println("Creando el mundo  "+RESULT);
+                                                                                    worldBuilder.clean();:}
+    ;
+
+worldProd ::= worldProd COMA worldAttribute
+    | worldAttribute
+    ;
+
+worldAttribute ::= COMILLA NAME COMILLA DOS_PUNTOS COMILLA PALABRA:name COMILLA             {:worldBuilder.withName(String.valueOf(name.getValue()));:}
+    | COMILLA ROWS COMILLA DOS_PUNTOS numProd:number                                        {:worldBuilder.withRows(number);:}
+    | COMILLA COLS COMILLA DOS_PUNTOS numProd:number                                        {:worldBuilder.withCols(number);:}
+    | COMILLA CONFIG COMILLA DOS_PUNTOS LLAVE_A configProd LLAVE_C                          {:worldBuilder.withConfig(configBuilder.build());
+                                                                                            configBuilder.clean();:}
+    | COMILLA BOARD COMILLA DOS_PUNTOS CORCHETE_A boardArray:array CORCHETE_C               {:worldBuilder.withBoards(array);:}
+    | COMILLA BOXES COMILLA DOS_PUNTOS CORCHETE_A pointArray:array CORCHETE_C               {:worldBuilder.withBoxes(array);:}
+    | COMILLA TARGETS COMILLA DOS_PUNTOS CORCHETE_A pointArray:array CORCHETE_C             {:worldBuilder.withTargets(array);:}
+    | COMILLA PLAYER COMILLA DOS_PUNTOS LLAVE_A pointProd LLAVE_C                           {:worldBuilder.withPlayer(pointBuilder.build());
+                                                                                            pointBuilder.clean();:}
+    ;
+
+pointArray ::= pointArray:array COMA LLAVE_A pointProd LLAVE_C                              {:array.add(pointBuilder.build());
+                                                                                            pointBuilder.clean();
+                                                                                            RESULT = array;:}
+    | LLAVE_A pointProd LLAVE_C                                                             {:RESULT = new ArrayList<Point>();
+                                                                                            RESULT.add(pointBuilder.build());
+                                                                                            pointBuilder.clean();:}
+    ;
+
+pointProd ::= pointProd COMA pointAttribute
+    | pointAttribute
+    ;
+
+pointAttribute ::= COMILLA posType:pt COMILLA DOS_PUNTOS numProd:number
+    {:
+        if(pt == POSX){
+            pointBuilder.withPosX(number);
+        } else {
+            pointBuilder.withPosY(number);
+        }
+    :}
+    ;
+
+boardArray ::= boardArray:array COMA LLAVE_A boardProd:board LLAVE_C        {:array.add(boardBuilder.withPoint(pointBuilder.build()).build());
+                                                                            pointBuilder.clean();
+                                                                            boardBuilder.clean();
+                                                                            RESULT = array;:}
+    | LLAVE_A boardProd LLAVE_C                                             {:RESULT = new ArrayList<Board>();
+                                                                            RESULT.add(boardBuilder.withPoint(pointBuilder.build()).build());
+                                                                            pointBuilder.clean();
+                                                                            boardBuilder.clean();:}
+    ;
+
+boardProd ::= boardProd COMA boardAttribute
+    | boardAttribute
+    ;
+
+boardAttribute ::= COMILLA posType:pt COMILLA DOS_PUNTOS numProd:number
+    {:
+        if(pt == POSX){
+            pointBuilder.withPosX(number);
+        } else {
+            pointBuilder.withPosY(number);
+        }
+    :}
+
+    | COMILLA TYPE COMILLA DOS_PUNTOS COMILLA boardType:bt COMILLA              {:boardBuilder.withType(bt);:}
+    ;
+
+boardType ::= BRICK:b                               {:RESULT = b.getType();:}
+    | HALL:h                                        {:RESULT = h.getType();:}
+    ;
+
+posType ::= POSX:x                                  {:RESULT = x.getType();:}
+    | POSY:y                                        {:RESULT = y.getType();:}
+    ;
+
+configProd ::= configProd COMA configAttribute
+    | configAttribute
+    ;
+
+configAttribute ::= COMILLA colorType:type COMILLA DOS_PUNTOS COMILLA HEXADECIMAL:value COMILLA
+    {:
+        switch (type) {
+            case BOX_COLOR -> configBuilder.withBoxColor(String.valueOf(value.getValue()));
+            case BOX_ON_TARGET_COLOR -> configBuilder.withBoxOnTargetColor(String.valueOf(value.getValue()));
+            case TARGET_COLOR -> configBuilder.withTargetColor(String.valueOf(value.getValue()));
+            case BRICK_COLOR -> configBuilder.withBrickColor(String.valueOf(value.getValue()));
+            case HALL_COLOR -> configBuilder.withHallColor(String.valueOf(value.getValue()));
+            case UNDEFINED_COLOR -> configBuilder.withUndefinedColor(String.valueOf(value.getValue()));
+            case PLAYER_COLOR -> configBuilder.withPlayerColor(String.valueOf(value.getValue()));
+            case default -> System.err.println("Something went wrong. :c");
+        }
+    :}
+    ;
+
+colorType ::= BOX_COLOR:colorType               {:RESULT = colorType.getType();:}
+    | BOX_ON_TARGET_COLOR:colorType             {:RESULT = colorType.getType();:}
+    | TARGET_COLOR:colorType                    {:RESULT = colorType.getType();:}
+    | BRICK_COLOR:colorType                     {:RESULT = colorType.getType();:}
+    | HALL_COLOR:colorType                      {:RESULT = colorType.getType();:}
+    | UNDEFINED_COLOR:colorType                 {:RESULT = colorType.getType();:}
+    | PLAYER_COLOR:colorType                    {:RESULT = colorType.getType();:}
+    ;
+
+numProd ::= ENTERO:number                       {:RESULT = Double.valueOf(number.getValue());:}
+    | COMILLA a:number COMILLA                  {:RESULT = number;:}
+    ;
+
+a ::=
+    a:n1 SUMA b:n2                              {:RESULT = n1 + n2;:}
+    | a:n1 RESTA b:n2                           {:RESULT = n1 - n2;:}
+    | b:n1                                      {:RESULT = n1;:}
+    ;
+
+b ::=
+    b:n1 MULTIPLICACION c:n2                    {:RESULT = n1 * n2;:}
+    | b:n1 DIVISION c:n2                        {:RESULT = n1 / n2;:}
+    | RESTA c:n1                                {:RESULT = -1 * n1;:}
+    | c:n1                                      {:RESULT = n1;:}
+    ;
+
+c ::=
+    PARENTESIS_A a:n1 PARENTESIS_C              {:RESULT = n1;:}
+    | d:n1                                      {:RESULT = n1;:}
+    ;
+
+d ::=
+    funcion:f PARENTESIS_A a:n1 PARENTESIS_C      {:RESULT = f == JsonParserSym.FLOOR ? Math.floor(n1): Math.ceil(n1);:}
+    | ENTERO:e                                  {:RESULT = Double.valueOf(e.getValue());:}
+    | DECIMAL:d                                 {:RESULT = Double.valueOf(d.getValue());:}
+    ;
+
+funcion ::=
+    FLOOR:f                                     {:RESULT = f.getType();:}
+    | CEIL:c                                    {:RESULT = c.getType();:}
+    ;
+
+
+
+

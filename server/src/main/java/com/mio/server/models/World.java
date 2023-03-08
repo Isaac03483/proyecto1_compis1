@@ -7,8 +7,8 @@ import java.util.List;
 public class World {
 
     private final String name;
-    private final Integer rows;
-    private final Integer cols;
+    private final Double rows;
+    private final Double cols;
     private final WorldConfig worldConfig;
     private final List<Board> board;
     private final List<Point> boxes;
@@ -31,11 +31,11 @@ public class World {
         return name;
     }
 
-    public Integer getRows() {
+    public Double getRows() {
         return rows;
     }
 
-    public Integer getCols() {
+    public Double getCols() {
         return cols;
     }
 

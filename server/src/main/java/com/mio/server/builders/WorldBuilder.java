@@ -11,8 +11,8 @@ import java.util.List;
 public class WorldBuilder {
 
     private String name;
-    private Integer rows;
-    private Integer cols;
+    private Double rows;
+    private Double cols;
     private WorldConfig worldConfig;
     private List<Board> boards;
     private List<Point> boxes;
@@ -30,7 +30,7 @@ public class WorldBuilder {
         return this;
     }
 
-    public WorldBuilder withRows(Integer rows){
+    public WorldBuilder withRows(Double rows){
         if(this.rows != null){
             throw new RuntimeException("El número de filas ya ha sido declarado.");
         }
@@ -38,7 +38,7 @@ public class WorldBuilder {
         return this;
     }
 
-    public WorldBuilder withCols(Integer cols){
+    public WorldBuilder withCols(Double cols){
         if(this.cols != null){
             throw new RuntimeException("El número de filas ya ha sido declarado.");
         }
@@ -70,6 +70,7 @@ public class WorldBuilder {
         }
         this.boxes.add(box);
         return this;
+
     }
 
     public WorldBuilder withTarget(Point target){
@@ -78,6 +79,38 @@ public class WorldBuilder {
         }
         this.targets.add(target);
         return this;
+
+    }
+
+    public WorldBuilder withBoards(List<Board> boards){
+        if(this.boards != null){
+            System.err.println("El atributo Boards ya ha sido declarado");
+            return null;
+        }
+
+        this.boards = boards;
+        return this;
+
+    }
+
+    public WorldBuilder withBoxes(List<Point> boxes){
+        if(this.boxes != null){
+            System.err.println("El atributo boxes ya ha sido declarado");
+            return null;
+        }
+        this.boxes = boxes;
+        return this;
+    }
+
+    public WorldBuilder withTargets(List<Point> targets){
+        if(this.targets != null){
+            System.err.println("El atributo targets1 ya ha sido declarado");
+            return null;
+        }
+
+        this.targets = targets;
+        return this;
+
     }
 
     public WorldBuilder withPlayer(Point player){
@@ -86,6 +119,7 @@ public class WorldBuilder {
         }
         this.player = player;
         return this;
+
     }
 
     public World build(){
@@ -96,11 +130,11 @@ public class WorldBuilder {
         return name;
     }
 
-    public Integer getRows() {
+    public Double getRows() {
         return rows;
     }
 
-    public Integer getCols() {
+    public Double getCols() {
         return cols;
     }
 

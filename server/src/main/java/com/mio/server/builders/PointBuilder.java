@@ -4,13 +4,13 @@ import com.mio.server.models.Point;
 
 public class PointBuilder {
 
-    private Integer posX;
-    private Integer posY;
+    private Double posX;
+    private Double posY;
 
     public PointBuilder() {
     }
 
-    public PointBuilder withPosX(Integer posX){
+    public PointBuilder withPosX(Double posX){
         if(this.posX != null){
             throw  new RuntimeException("la posición X ya ha sido declarada");
 
@@ -19,7 +19,7 @@ public class PointBuilder {
         return this;
     }
 
-    public PointBuilder withPosY(Integer posY){
+    public PointBuilder withPosY(Double posY){
         if(this.posY != null){
             throw  new RuntimeException("la posición X ya ha sido declarada");
 
@@ -37,11 +37,11 @@ public class PointBuilder {
         this.posY = null;
     }
 
-    public int getPosX() {
+    public Double getPosX() {
         return posX;
     }
 
-    public int getPosY() {
+    public Double getPosY() {
         return posY;
     }
 }

@@ -6,8 +6,10 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/serv
 */
 
 import com.mio.server.compiler.Token;
-//import java_cup.runtime.Symbol;
-import static com.mio.server.symbols.TokenSym.*;
+import static com.mio.server.compiler.parser.JsonParserSym.*;
+import java_cup.runtime.Symbol;
+
+
 
 %%
 
@@ -16,12 +18,9 @@ import static com.mio.server.symbols.TokenSym.*;
 %unicode
 %line
 %column
-%type Token//java_cup_runtime.Symbol
-//%cup
+%type java_cup.runtime.Symbol
+%cup
 
-%state BLOQUE_COMILLAS
-
-/*
 %{
     private Symbol symbolWithValue(int type, Object value){
         return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
@@ -31,8 +30,8 @@ import static com.mio.server.symbols.TokenSym.*;
         return new Symbol(type, new Token(type, null, yyline+1, yycolumn+1 ));
     }
 %}
-*/
 
+/*
 %{
     private Token symbolWithValue(int type, Object value){
         Token token = new Token(type, value.toString(), yyline+1, yycolumn+1 );
@@ -45,7 +44,7 @@ import static com.mio.server.symbols.TokenSym.*;
         System.out.println(token);
         return token;
     }
-%}
+%}*/
 
 %eofval{
     return symbolWithoutValue(EOF);
@@ -164,19 +163,6 @@ DECIMAL = {ENTERO} \. [0-9]+
 
     {COMILLA}
     {
-        yybegin(BLOQUE_COMILLAS);
-        return symbolWithoutValue(COMILLA);
-    }
-
-}
-
-<BLOQUE_COMILLAS>{
-
-    {ESPACIO_BLANCO}                {;}
-
-    {COMILLA}
-    {
-        yybegin(YYINITIAL);
         return symbolWithoutValue(COMILLA);
     }
 
@@ -211,16 +197,6 @@ DECIMAL = {ENTERO} \. [0-9]+
     {
         return symbolWithoutValue(DIVISION);
 
-    }
-
-    {ENTERO}
-    {
-        return symbolWithValue(ENTERO, yytext());
-    }
-
-    {DECIMAL}
-    {
-        return symbolWithValue(DECIMAL, yytext());
     }
 
     {COLS}
@@ -291,13 +267,13 @@ DECIMAL = {ENTERO} \. [0-9]+
 
     {POS_X}
     {
-        return symbolWithoutValue(POS_X);
+        return symbolWithoutValue(POSX);
 
     }
 
     {POS_Y}
     {
-        return symbolWithoutValue(POS_Y);
+        return symbolWithoutValue(POSY);
 
     }
 
@@ -352,8 +328,6 @@ DECIMAL = {ENTERO} \. [0-9]+
     {
         return symbolWithoutValue(ALL);
     }
-
-
 
     {PALABRA}
     {

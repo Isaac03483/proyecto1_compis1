@@ -73,8 +73,8 @@ attributes ::= attributes attribute
     ;
 
 attribute ::= nameA PALABRA:nombre nameC                            {:worldBuilder.withName(nombre.getValue());:}
-    | rowsA ENTERO:entero rowsC                                     {:worldBuilder.withRows(Integer.valueOf(entero.getValue()));:}
-    | colsA ENTERO:entero colsC                                     {:worldBuilder.withCols(Integer.valueOf(entero.getValue()));:}
+    | rowsA ENTERO:entero rowsC                                     {:worldBuilder.withRows(Double.valueOf(entero.getValue()));:}
+    | colsA ENTERO:entero colsC                                     {:worldBuilder.withCols(Double.valueOf(entero.getValue()));:}
     | configA configProd configC                                    {:worldBuilder.withConfig(configBuilder.build());
                                                                     configBuilder.clean();:}
     | boardA boardProd boardC                                       {:worldBuilder.withBoard(boardBuilder.withPoint(pointBuilder.build()).build());
@@ -105,8 +105,8 @@ boardProd ::= boardProd boardAttribute
     | boardAttribute
     ;
 
-boardAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Integer.valueOf(entero.getValue()));:}
-    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Integer.valueOf(entero.getValue()));:}
+boardAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Double.valueOf(entero.getValue()));:}
+    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Double.valueOf(entero.getValue()));:}
     typeA typeAttribute:type typeC                                  {:boardBuilder.withType(type);:}
     ;
 
@@ -118,8 +118,8 @@ pointProd ::= pointProd pointAttribute
     | pointAttribute
     ;
 
-pointAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Integer.valueOf(entero.getValue()));:}
-    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Integer.valueOf(entero.getValue()));:}
+pointAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Double.valueOf(entero.getValue()));:}
+    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Double.valueOf(entero.getValue()));:}
     ;
 
 

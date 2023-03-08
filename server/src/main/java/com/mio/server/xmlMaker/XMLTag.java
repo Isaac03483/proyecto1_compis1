@@ -43,5 +43,19 @@ public class XMLTag {
     public static final String TARGETS_C = "</targets>";
     public static final String PLAYER_A = "<player>";
     public static final String PLAYER_C = "</player>";
+    public static final String ERRORS_A = "<errors>";
+    public static final String ERRORS_C = "</errors>";
+    public static final String ERROR_A = "<error>";
+    public static final String ERROR_C = "</error>";
+    public static final String LEXEME_A = "<lexema>";
+    public static final String LEXEME_C = "</lexema>";
+    public static final String LINE_A = "<line>";
+    public static final String LINE_C = "</line>";
+    public static final String COLUMN_A = "<column>";
+    public static final String COLUMN_C = "</column>";
+    public static final String DESCRIPTION_A = "<description>";
+    public static final String DESCRIPTION_C = "</description>";
+
+
 
 }
