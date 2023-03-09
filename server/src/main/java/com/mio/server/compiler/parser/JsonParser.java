@@ -10,9 +10,12 @@ import com.mio.server.builders.*;
 import com.mio.server.compiler.lexer.JsonLexer;
 import com.mio.server.models.Board;
 import com.mio.server.models.Point;
-import com.mio.server.models.World;
+import com.mio.server.models.Request;
 import java.util.ArrayList;
 import static com.mio.server.compiler.parser.JsonParserSym.*;
+import static com.mio.server.models.RequestType.*;
+
+
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
 @SuppressWarnings({"rawtypes"})
@@ -307,7 +310,7 @@ class CUP$JsonParser$actions {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
 		int start_valright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
-		World start_val = (World)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
+		Request start_val = (Request)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
 		RESULT = start_val;
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("$START",0, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
@@ -318,11 +321,11 @@ class CUP$JsonParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 1: // main ::= LLAVE_A optionProd LLAVE_C 
             {
-              World RESULT =null;
-		int worldleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
-		int worldright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
-		World world = (World)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
-		RESULT = world;
+              Request RESULT =null;
+		int requestleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
+		int requestright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
+		Request request = (Request)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
+		RESULT = request;
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("main",16, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
@@ -330,12 +333,12 @@ class CUP$JsonParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 2: // optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL COMILLA 
             {
-              World RESULT =null;
+              Request RESULT =null;
 		int allleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
 		int allright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		Token all = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
 		worldBuilder.withName(JsonParserSym.terminalNames[all.getType()]);
-                                                                                    RESULT =worldBuilder.build();
+                                                                                    RESULT =new Request(FIND_ALL, null);
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd",15, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
@@ -343,12 +346,13 @@ class CUP$JsonParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 3: // optionProd ::= COMILLA WORLD COMILLA DOS_PUNTOS COMILLA PALABRA COMILLA 
             {
-              World RESULT =null;
+              Request RESULT =null;
 		int nameleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
 		int nameright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		Token name = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
 		worldBuilder.withName(String.valueOf(name.getValue()));
-                                                                                    RESULT = worldBuilder.build();
+                                                                                    RESULT = new Request(FIND_BY_NAME, worldBuilder.build());
+                                                                                    worldBuilder.clean();
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd",15, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
@@ -356,8 +360,8 @@ class CUP$JsonParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 4: // optionProd ::= worldProd 
             {
-              World RESULT =null;
-		RESULT = worldBuilder.build();
+              Request RESULT =null;
+		RESULT = new Request(CREATE, worldBuilder.build());
                                                                                     System.out.println("Creando el mundo  "+RESULT);
                                                                                     worldBuilder.clean();
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd",15, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);

@@ -1,9 +1,6 @@
 package com.mio.server;
 
-import com.mio.server.compiler.parser.XMLParserHandle;
 import com.mio.server.views.ServerView;
-
-import java.awt.*;
 
 /**
  * Hello world!

@@ -1,13 +1,14 @@
-package com.mio.server.compiler.parser;
+package com.mio.server.handlers;
 
 import com.mio.server.compiler.lexer.XMLLexer;
+import com.mio.server.compiler.parser.XMLParser;
 import com.mio.server.models.World;
 
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XMLParserHandle implements ParserHandle<List<World>> {
+public class XMLParserHandler implements ParserHandler<List<World>> {
 
 
     @Override

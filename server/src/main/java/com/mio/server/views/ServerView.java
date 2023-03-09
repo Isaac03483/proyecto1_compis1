@@ -4,12 +4,13 @@
  */
 package com.mio.server.views;
 
-import com.mio.server.compiler.parser.JsonParserHandle;
-import com.mio.server.models.World;
+import com.mio.server.handlers.JsonParserHandler;
+import com.mio.server.handlers.RequestHandler;
+import com.mio.server.models.Request;
+import com.mio.server.models.Response;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.Executors;
@@ -49,13 +50,14 @@ public class ServerView extends javax.swing.JFrame {
                     String texto = scanner.readUTF();
                     System.out.println(texto);
                     infoLabel.setText("Petición recibida desde: "+socket.getInetAddress().getHostAddress());
+                    System.out.println("Petición recibida desde: "+socket.getInetAddress().getHostAddress());
 
                     jsonArea.setText("Información recibida del cliente:\n"+texto);
 
-                    JsonParserHandle jsonParserHandle = new JsonParserHandle();
-                    World world = jsonParserHandle.compile(texto);
+                    JsonParserHandler jsonParserHandle = new JsonParserHandler();
+                    Response response = new RequestHandler().jsonParse(texto);
 
-                    System.out.println(world);
+//                    System.out.println(request.getRequestType()+" "+request.getWorld());
 
                     printWriter.writeUTF("Mensaje de regreso del servidor");
 

@@ -1,17 +1,11 @@
 package com.mio.server.xmlMaker;
 
-import com.mio.server.builders.BoardBuilder;
-import com.mio.server.builders.PointBuilder;
-import com.mio.server.builders.WConfigBuilder;
-import com.mio.server.builders.WorldBuilder;
-import com.mio.server.compiler.parser.JsonParserHandle;
-import com.mio.server.compiler.parser.ParserHandle;
-import com.mio.server.compiler.parser.XMLParserHandle;
+import com.mio.server.handlers.JsonParserHandler;
 import com.mio.server.compiler.parser.XMLParserSym;
 import com.mio.server.models.*;
 import com.mio.server.models.Error;
-import java.io.IOException;
-import java.util.Arrays;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.mio.server.xmlMaker.XMLTag.*;
@@ -123,6 +117,18 @@ public class XMLMaker {
                 ERROR_C;
     }
 
+    public String worldsNameToXML(ArrayList<World> worlds){
+        StringBuilder content = new StringBuilder();
+        content.append(HEADER).append("\n").append(WORLDS_A);
+
+        worlds.forEach(world -> {
+            content.append("\n\t").append(WORLD_A).append(world.getName()).append(WORLD_C);
+        });
+        content.append(WORLDS_C);
+
+        return content.toString();
+    }
+
 
     public static void main(String[] args) {
         /*
@@ -231,10 +237,10 @@ public class XMLMaker {
                 "    \"posY\": \"(5 + 2) / (3 + 4)\"\n" +
                 "  }\n" +
                 "}";
-        JsonParserHandle parserHandle = new JsonParserHandle();
+        JsonParserHandler parserHandle = new JsonParserHandler();
         try {
-            World worlds1 = parserHandle.compile(content);
-            System.out.println("worlds1 = " + worlds1);
+            Request worlds1 = parserHandle.compile(content);
+            System.out.println("worlds1 = " + worlds1.getWorld());
 //            worlds1.forEach(System.out::println);
             /*FileMaker fileMaker = FileMaker.getInstance();
             fileMaker.write(maker.worldsToXML(worlds));*/

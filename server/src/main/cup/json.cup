@@ -5,8 +5,10 @@ import com.mio.server.builders.*;
 import com.mio.server.compiler.lexer.JsonLexer;
 import com.mio.server.models.Board;
 import com.mio.server.models.Point;
-import com.mio.server.models.World;
+import com.mio.server.models.Request;
 import java.util.ArrayList;
+//import static com.mio.server.compiler.parser.JsonParserSym.*;
+//import static com.mio.server.models.RequestType.*;
 
 class JsonParser;
 
@@ -41,19 +43,20 @@ non terminal Double a, b, c, d,numProd;
 non terminal Integer funcion,colorType,posType,boardType;
 non terminal ArrayList<Board> boardArray;
 non terminal ArrayList<Point> pointArray;
-non terminal World optionProd, main;
+non terminal Request optionProd, main;
 non terminal boardProd, boardAttribute, pointProd, pointAttribute;
 
 start with main;
 
-main ::= LLAVE_A optionProd:world LLAVE_C                                           {:RESULT = world;:}
+main ::= LLAVE_A optionProd:request LLAVE_C                                           {:RESULT = request;:}
     ;
 
 optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL:all COMILLA            {:worldBuilder.withName(JsonParserSym.terminalNames[all.getType()]);
-                                                                                    RESULT =worldBuilder.build();:}
+                                                                                    RESULT =new Request(FIND_ALL, null);:}
     | COMILLA WORLD COMILLA DOS_PUNTOS COMILLA PALABRA:name COMILLA                 {:worldBuilder.withName(String.valueOf(name.getValue()));
-                                                                                    RESULT = worldBuilder.build();:}
-    | worldProd                                                                     {:RESULT = worldBuilder.build();
+                                                                                    RESULT = new Request(FIND_BY_NAME, worldBuilder.build());
+                                                                                    worldBuilder.clean();:}
+    | worldProd                                                                     {:RESULT = new Request(CREATE, worldBuilder.build());
                                                                                     System.out.println("Creando el mundo  "+RESULT);
                                                                                     worldBuilder.clean();:}
     ;
