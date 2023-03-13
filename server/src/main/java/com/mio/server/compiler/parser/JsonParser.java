@@ -8,13 +8,19 @@ package com.mio.server.compiler.parser;
 import com.mio.server.compiler.Token;
 import com.mio.server.builders.*;
 import com.mio.server.compiler.lexer.JsonLexer;
+import com.mio.server.exceptions.DuplicateAttributeException;
 import com.mio.server.models.Board;
 import com.mio.server.models.Point;
 import com.mio.server.models.Request;
 import java.util.ArrayList;
+import java.util.List;
+import com.mio.server.models.WorldError;
+import java_cup.runtime.Symbol;
 import static com.mio.server.compiler.parser.JsonParserSym.*;
+import static com.mio.server.models.ErrorType.*;
 import static com.mio.server.models.RequestType.*;
 
+import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
@@ -39,24 +45,27 @@ public class JsonParser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\070\000\002\002\004\000\002\022\005\000\002\021" +
-    "\011\000\002\021\011\000\002\021\003\000\002\002\005" +
-    "\000\002\002\003\000\002\003\011\000\002\003\007\000" +
-    "\002\003\007\000\002\003\011\000\002\003\011\000\002" +
-    "\003\011\000\002\003\011\000\002\003\011\000\002\020" +
-    "\007\000\002\020\005\000\002\025\005\000\002\025\003" +
-    "\000\002\026\007\000\002\017\007\000\002\017\005\000" +
-    "\002\023\005\000\002\023\003\000\002\024\007\000\002" +
-    "\024\011\000\002\016\003\000\002\016\003\000\002\015" +
-    "\003\000\002\015\003\000\002\004\005\000\002\004\003" +
-    "\000\002\005\011\000\002\014\003\000\002\014\003\000" +
-    "\002\014\003\000\002\014\003\000\002\014\003\000\002" +
-    "\014\003\000\002\014\003\000\002\012\003\000\002\012" +
-    "\005\000\002\006\005\000\002\006\005\000\002\006\003" +
-    "\000\002\007\005\000\002\007\005\000\002\007\004\000" +
-    "\002\007\003\000\002\010\005\000\002\010\003\000\002" +
-    "\011\006\000\002\011\003\000\002\011\003\000\002\013" +
-    "\003\000\002\013\003" });
+    "\000\101\000\002\002\004\000\002\022\005\000\002\022" +
+    "\004\000\002\021\011\000\002\021\011\000\002\021\003" +
+    "\000\002\002\005\000\002\002\003\000\002\002\004\000" +
+    "\002\003\011\000\002\003\007\000\002\003\007\000\002" +
+    "\003\011\000\002\003\011\000\002\003\011\000\002\003" +
+    "\011\000\002\003\011\000\002\003\004\000\002\017\007" +
+    "\000\002\017\005\000\002\017\004\000\002\025\005\000" +
+    "\002\025\003\000\002\025\004\000\002\026\007\000\002" +
+    "\016\007\000\002\016\005\000\002\016\004\000\002\023" +
+    "\005\000\002\023\003\000\002\023\004\000\002\024\007" +
+    "\000\002\024\011\000\002\015\003\000\002\015\003\000" +
+    "\002\020\003\000\002\020\003\000\002\004\005\000\002" +
+    "\004\003\000\002\004\004\000\002\005\011\000\002\014" +
+    "\003\000\002\014\003\000\002\014\003\000\002\014\003" +
+    "\000\002\014\003\000\002\014\003\000\002\014\003\000" +
+    "\002\012\003\000\002\012\005\000\002\006\005\000\002" +
+    "\006\005\000\002\006\003\000\002\007\005\000\002\007" +
+    "\005\000\002\007\004\000\002\007\003\000\002\010\005" +
+    "\000\002\010\003\000\002\010\004\000\002\011\006\000" +
+    "\002\011\003\000\002\011\003\000\002\013\003\000\002" +
+    "\013\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -64,103 +73,117 @@ public class JsonParser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\231\000\004\032\005\001\002\000\004\002\233\001" +
-    "\002\000\004\022\010\001\002\000\006\033\ufffb\040\ufffb" +
-    "\001\002\000\004\033\232\001\002\000\026\004\024\005" +
-    "\016\006\017\007\020\010\015\011\023\012\021\013\022" +
-    "\014\217\015\216\001\002\000\006\033\ufffd\040\012\001" +
-    "\002\000\004\022\014\001\002\000\006\033\ufffc\040\ufffc" +
-    "\001\002\000\022\004\024\005\016\006\017\007\020\010" +
-    "\015\011\023\012\021\013\022\001\002\000\004\022\170" +
-    "\001\002\000\004\022\165\001\002\000\004\022\162\001" +
-    "\002\000\004\022\155\001\002\000\004\022\150\001\002" +
-    "\000\004\022\114\001\002\000\004\022\032\001\002\000" +
-    "\004\022\025\001\002\000\004\041\026\001\002\000\004" +
-    "\022\027\001\002\000\004\053\030\001\002\000\004\022" +
-    "\031\001\002\000\006\033\ufffa\040\ufffa\001\002\000\004" +
-    "\041\033\001\002\000\004\036\034\001\002\000\004\032" +
-    "\036\001\002\000\006\037\110\040\107\001\002\000\004" +
-    "\022\040\001\002\000\006\033\105\040\104\001\002\000" +
-    "\006\020\043\021\042\001\002\000\006\033\uffef\040\uffef" +
-    "\001\002\000\004\022\uffe4\001\002\000\004\022\uffe5\001" +
-    "\002\000\004\022\045\001\002\000\004\041\046\001\002" +
-    "\000\006\022\050\051\051\001\002\000\006\033\uffee\040" +
-    "\uffee\001\002\000\016\034\063\043\064\051\055\052\052" +
-    "\054\054\055\062\001\002\000\006\033\uffd9\040\uffd9\001" +
-    "\002\000\016\022\uffcc\035\uffcc\042\uffcc\043\uffcc\044\uffcc" +
-    "\045\uffcc\001\002\000\004\034\101\001\002\000\004\034" +
-    "\uffcb\001\002\000\016\022\uffcd\035\uffcd\042\uffcd\043\uffcd" +
-    "\044\uffcd\045\uffcd\001\002\000\016\022\uffcf\035\uffcf\042" +
-    "\uffcf\043\uffcf\044\uffcf\045\uffcf\001\002\000\016\022\uffd1" +
-    "\035\uffd1\042\uffd1\043\uffd1\044\uffd1\045\uffd1\001\002\000" +
-    "\016\022\uffd5\035\uffd5\042\uffd5\043\uffd5\044\073\045\074" +
-    "\001\002\000\010\022\100\042\071\043\067\001\002\000" +
-    "\004\034\uffca\001\002\000\016\034\063\043\064\051\055" +
-    "\052\052\054\054\055\062\001\002\000\014\034\063\051" +
-    "\055\052\052\054\054\055\062\001\002\000\016\022\uffd2" +
-    "\035\uffd2\042\uffd2\043\uffd2\044\uffd2\045\uffd2\001\002\000" +
-    "\010\035\070\042\071\043\067\001\002\000\016\034\063" +
-    "\043\064\051\055\052\052\054\054\055\062\001\002\000" +
-    "\016\022\uffd0\035\uffd0\042\uffd0\043\uffd0\044\uffd0\045\uffd0" +
-    "\001\002\000\016\034\063\043\064\051\055\052\052\054" +
-    "\054\055\062\001\002\000\016\022\uffd7\035\uffd7\042\uffd7" +
-    "\043\uffd7\044\073\045\074\001\002\000\014\034\063\051" +
-    "\055\052\052\054\054\055\062\001\002\000\014\034\063" +
-    "\051\055\052\052\054\054\055\062\001\002\000\016\022" +
-    "\uffd3\035\uffd3\042\uffd3\043\uffd3\044\uffd3\045\uffd3\001\002" +
-    "\000\016\022\uffd4\035\uffd4\042\uffd4\043\uffd4\044\uffd4\045" +
-    "\uffd4\001\002\000\016\022\uffd6\035\uffd6\042\uffd6\043\uffd6" +
-    "\044\073\045\074\001\002\000\006\033\uffd8\040\uffd8\001" +
-    "\002\000\016\034\063\043\064\051\055\052\052\054\054" +
-    "\055\062\001\002\000\010\035\103\042\071\043\067\001" +
-    "\002\000\016\022\uffce\035\uffce\042\uffce\043\uffce\044\uffce" +
-    "\045\uffce\001\002\000\004\022\040\001\002\000\006\037" +
-    "\ufff1\040\ufff1\001\002\000\006\033\ufff0\040\ufff0\001\002" +
-    "\000\004\032\111\001\002\000\006\033\ufff4\040\ufff4\001" +
-    "\002\000\004\022\040\001\002\000\006\033\113\040\104" +
-    "\001\002\000\006\037\ufff2\040\ufff2\001\002\000\004\041" +
-    "\115\001\002\000\004\036\116\001\002\000\004\032\120" +
-    "\001\002\000\006\037\144\040\143\001\002\000\004\022" +
-    "\123\001\002\000\006\033\141\040\140\001\002\000\006" +
-    "\033\uffea\040\uffea\001\002\000\010\017\125\020\043\021" +
-    "\042\001\002\000\004\022\135\001\002\000\004\022\126" +
-    "\001\002\000\004\041\127\001\002\000\004\022\130\001" +
-    "\002\000\006\047\132\050\131\001\002\000\004\022\uffe7" +
-    "\001\002\000\004\022\uffe6\001\002\000\004\022\134\001" +
-    "\002\000\006\033\uffe8\040\uffe8\001\002\000\004\041\136" +
-    "\001\002\000\006\022\050\051\051\001\002\000\006\033" +
-    "\uffe9\040\uffe9\001\002\000\004\022\123\001\002\000\006" +
-    "\037\uffec\040\uffec\001\002\000\006\033\uffeb\040\uffeb\001" +
-    "\002\000\004\032\145\001\002\000\006\033\ufff6\040\ufff6" +
-    "\001\002\000\004\022\123\001\002\000\006\033\147\040" +
-    "\140\001\002\000\006\037\uffed\040\uffed\001\002\000\004" +
-    "\041\151\001\002\000\004\036\152\001\002\000\004\032" +
-    "\036\001\002\000\006\037\154\040\107\001\002\000\006" +
-    "\033\ufff5\040\ufff5\001\002\000\004\041\156\001\002\000" +
-    "\004\032\157\001\002\000\004\022\040\001\002\000\006" +
-    "\033\161\040\104\001\002\000\006\033\ufff3\040\ufff3\001" +
-    "\002\000\004\041\163\001\002\000\006\022\050\051\051" +
-    "\001\002\000\006\033\ufff8\040\ufff8\001\002\000\004\041" +
-    "\166\001\002\000\006\022\050\051\051\001\002\000\006" +
-    "\033\ufff9\040\ufff9\001\002\000\004\041\171\001\002\000" +
-    "\004\032\172\001\002\000\004\022\174\001\002\000\006" +
-    "\033\uffe2\040\uffe2\001\002\000\020\023\204\024\210\025" +
-    "\206\026\207\027\202\030\201\031\205\001\002\000\006" +
-    "\033\177\040\176\001\002\000\004\022\174\001\002\000" +
-    "\006\033\ufff7\040\ufff7\001\002\000\006\033\uffe3\040\uffe3" +
-    "\001\002\000\004\022\uffdc\001\002\000\004\022\uffdd\001" +
-    "\002\000\004\022\211\001\002\000\004\022\uffe0\001\002" +
-    "\000\004\022\uffda\001\002\000\004\022\uffde\001\002\000" +
-    "\004\022\uffdb\001\002\000\004\022\uffdf\001\002\000\004" +
-    "\041\212\001\002\000\004\022\213\001\002\000\004\046" +
-    "\214\001\002\000\004\022\215\001\002\000\006\033\uffe1" +
-    "\040\uffe1\001\002\000\004\022\225\001\002\000\004\022" +
-    "\220\001\002\000\004\041\221\001\002\000\004\022\222" +
-    "\001\002\000\004\016\223\001\002\000\004\022\224\001" +
-    "\002\000\004\033\uffff\001\002\000\004\041\226\001\002" +
-    "\000\004\022\227\001\002\000\004\053\230\001\002\000" +
-    "\004\022\231\001\002\000\004\033\ufffe\001\002\000\004" +
-    "\002\000\001\002\000\004\002\001\001\002" });
+    "\000\253\000\006\003\005\032\006\001\002\000\004\002" +
+    "\255\001\002\000\004\033\254\001\002\000\006\003\011" +
+    "\022\012\001\002\000\004\033\253\001\002\000\006\033" +
+    "\ufffa\040\ufffa\001\002\000\006\033\235\040\252\001\002" +
+    "\000\026\004\027\005\021\006\022\007\023\010\020\011" +
+    "\026\012\024\013\025\014\237\015\236\001\002\000\006" +
+    "\033\ufffc\040\014\001\002\000\006\003\016\022\017\001" +
+    "\002\000\006\033\ufffb\040\ufffb\001\002\000\004\033\235" +
+    "\001\002\000\022\004\027\005\021\006\022\007\023\010" +
+    "\020\011\026\012\024\013\025\001\002\000\004\022\205" +
+    "\001\002\000\004\022\202\001\002\000\004\022\177\001" +
+    "\002\000\004\022\172\001\002\000\004\022\165\001\002" +
+    "\000\004\022\125\001\002\000\004\022\035\001\002\000" +
+    "\004\022\030\001\002\000\004\041\031\001\002\000\004" +
+    "\022\032\001\002\000\004\054\033\001\002\000\004\022" +
+    "\034\001\002\000\006\033\ufff8\040\ufff8\001\002\000\004" +
+    "\041\036\001\002\000\004\036\037\001\002\000\006\003" +
+    "\041\032\042\001\002\000\006\037\121\040\120\001\002" +
+    "\000\004\040\117\001\002\000\006\003\043\022\045\001" +
+    "\002\000\004\040\116\001\002\000\006\033\114\040\113" +
+    "\001\002\000\006\020\050\021\047\001\002\000\006\033" +
+    "\uffeb\040\uffeb\001\002\000\004\022\uffdd\001\002\000\004" +
+    "\022\uffde\001\002\000\004\022\052\001\002\000\004\041" +
+    "\053\001\002\000\006\022\055\052\056\001\002\000\006" +
+    "\033\uffe9\040\uffe9\001\002\000\020\003\065\034\072\044" +
+    "\071\052\062\053\057\055\061\056\070\001\002\000\006" +
+    "\033\uffd1\040\uffd1\001\002\000\016\022\uffc3\035\uffc3\043" +
+    "\uffc3\044\uffc3\045\uffc3\046\uffc3\001\002\000\004\034\110" +
+    "\001\002\000\004\034\uffc2\001\002\000\016\022\uffc4\035" +
+    "\uffc4\043\uffc4\044\uffc4\045\uffc4\046\uffc4\001\002\000\016" +
+    "\022\uffc7\035\uffc7\043\uffc7\044\uffc7\045\uffc7\046\uffc7\001" +
+    "\002\000\016\022\uffc9\035\uffc9\043\uffc9\044\uffc9\045\uffc9" +
+    "\046\uffc9\001\002\000\004\035\107\001\002\000\016\022" +
+    "\uffcd\035\uffcd\043\uffcd\044\uffcd\045\100\046\101\001\002" +
+    "\000\010\022\106\043\076\044\074\001\002\000\004\034" +
+    "\uffc1\001\002\000\016\003\065\034\072\052\062\053\057" +
+    "\055\061\056\070\001\002\000\020\003\065\034\072\044" +
+    "\071\052\062\053\057\055\061\056\070\001\002\000\010" +
+    "\035\075\043\076\044\074\001\002\000\020\003\065\034" +
+    "\072\044\071\052\062\053\057\055\061\056\070\001\002" +
+    "\000\016\022\uffc8\035\uffc8\043\uffc8\044\uffc8\045\uffc8\046" +
+    "\uffc8\001\002\000\020\003\065\034\072\044\071\052\062" +
+    "\053\057\055\061\056\070\001\002\000\016\022\uffcf\035" +
+    "\uffcf\043\uffcf\044\uffcf\045\100\046\101\001\002\000\016" +
+    "\003\065\034\072\052\062\053\057\055\061\056\070\001" +
+    "\002\000\016\003\065\034\072\052\062\053\057\055\061" +
+    "\056\070\001\002\000\016\022\uffcb\035\uffcb\043\uffcb\044" +
+    "\uffcb\045\uffcb\046\uffcb\001\002\000\016\022\uffcc\035\uffcc" +
+    "\043\uffcc\044\uffcc\045\uffcc\046\uffcc\001\002\000\016\022" +
+    "\uffce\035\uffce\043\uffce\044\uffce\045\100\046\101\001\002" +
+    "\000\016\022\uffca\035\uffca\043\uffca\044\uffca\045\uffca\046" +
+    "\uffca\001\002\000\006\033\uffd0\040\uffd0\001\002\000\016" +
+    "\022\uffc6\035\uffc6\043\uffc6\044\uffc6\045\uffc6\046\uffc6\001" +
+    "\002\000\020\003\065\034\072\044\071\052\062\053\057" +
+    "\055\061\056\070\001\002\000\010\035\112\043\076\044" +
+    "\074\001\002\000\016\022\uffc5\035\uffc5\043\uffc5\044\uffc5" +
+    "\045\uffc5\046\uffc5\001\002\000\004\022\045\001\002\000" +
+    "\006\037\uffee\040\uffee\001\002\000\006\033\uffec\040\uffec" +
+    "\001\002\000\006\033\uffea\040\uffea\001\002\000\006\037" +
+    "\uffed\040\uffed\001\002\000\004\032\122\001\002\000\006" +
+    "\033\ufff2\040\ufff2\001\002\000\006\003\043\022\045\001" +
+    "\002\000\006\033\124\040\113\001\002\000\006\037\uffef" +
+    "\040\uffef\001\002\000\004\041\126\001\002\000\004\036" +
+    "\127\001\002\000\006\003\130\032\132\001\002\000\004" +
+    "\040\164\001\002\000\006\037\160\040\157\001\002\000" +
+    "\006\003\135\022\136\001\002\000\006\033\155\040\154" +
+    "\001\002\000\006\033\uffe4\040\uffe4\001\002\000\004\040" +
+    "\153\001\002\000\010\017\140\020\050\021\047\001\002" +
+    "\000\004\022\150\001\002\000\004\022\141\001\002\000" +
+    "\004\041\142\001\002\000\004\022\143\001\002\000\006" +
+    "\050\145\051\144\001\002\000\004\022\uffe0\001\002\000" +
+    "\004\022\uffdf\001\002\000\004\022\147\001\002\000\006" +
+    "\033\uffe1\040\uffe1\001\002\000\004\041\151\001\002\000" +
+    "\006\022\055\052\056\001\002\000\006\033\uffe2\040\uffe2" +
+    "\001\002\000\006\033\uffe3\040\uffe3\001\002\000\004\022" +
+    "\136\001\002\000\006\037\uffe7\040\uffe7\001\002\000\006" +
+    "\033\uffe5\040\uffe5\001\002\000\004\032\161\001\002\000" +
+    "\006\033\ufff4\040\ufff4\001\002\000\006\003\135\022\136" +
+    "\001\002\000\006\033\163\040\154\001\002\000\006\037" +
+    "\uffe8\040\uffe8\001\002\000\006\037\uffe6\040\uffe6\001\002" +
+    "\000\004\041\166\001\002\000\004\036\167\001\002\000" +
+    "\006\003\041\032\042\001\002\000\006\037\171\040\120" +
+    "\001\002\000\006\033\ufff3\040\ufff3\001\002\000\004\041" +
+    "\173\001\002\000\004\032\174\001\002\000\006\003\043" +
+    "\022\045\001\002\000\006\033\176\040\113\001\002\000" +
+    "\006\033\ufff1\040\ufff1\001\002\000\004\041\200\001\002" +
+    "\000\006\022\055\052\056\001\002\000\006\033\ufff6\040" +
+    "\ufff6\001\002\000\004\041\203\001\002\000\006\022\055" +
+    "\052\056\001\002\000\006\033\ufff7\040\ufff7\001\002\000" +
+    "\004\041\206\001\002\000\004\032\207\001\002\000\006" +
+    "\003\210\022\212\001\002\000\004\040\234\001\002\000" +
+    "\006\033\uffdb\040\uffdb\001\002\000\020\023\222\024\226" +
+    "\025\224\026\225\027\220\030\217\031\223\001\002\000" +
+    "\006\033\215\040\214\001\002\000\004\022\212\001\002" +
+    "\000\006\033\ufff5\040\ufff5\001\002\000\006\033\uffdc\040" +
+    "\uffdc\001\002\000\004\022\uffd4\001\002\000\004\022\uffd5" +
+    "\001\002\000\004\022\227\001\002\000\004\022\uffd8\001" +
+    "\002\000\004\022\uffd2\001\002\000\004\022\uffd6\001\002" +
+    "\000\004\022\uffd3\001\002\000\004\022\uffd7\001\002\000" +
+    "\004\041\230\001\002\000\004\022\231\001\002\000\004" +
+    "\047\232\001\002\000\004\022\233\001\002\000\006\033" +
+    "\uffd9\040\uffd9\001\002\000\006\033\uffda\040\uffda\001\002" +
+    "\000\006\033\ufff0\040\ufff0\001\002\000\004\022\245\001" +
+    "\002\000\004\022\240\001\002\000\004\041\241\001\002" +
+    "\000\004\022\242\001\002\000\004\016\243\001\002\000" +
+    "\004\022\244\001\002\000\004\033\ufffe\001\002\000\004" +
+    "\041\246\001\002\000\004\022\247\001\002\000\004\054" +
+    "\250\001\002\000\004\022\251\001\002\000\004\033\ufffd" +
+    "\001\002\000\006\033\ufff9\040\ufff9\001\002\000\004\002" +
+    "\000\001\002\000\004\002\uffff\001\002\000\004\002\001" +
+    "\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -168,55 +191,59 @@ public class JsonParser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\231\000\004\022\003\001\001\000\002\001\001\000" +
-    "\010\002\010\003\005\021\006\001\001\000\002\001\001" +
+    "\000\253\000\004\022\003\001\001\000\002\001\001\000" +
+    "\002\001\001\000\010\002\012\003\007\021\006\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\004\003\012\001\001\000\002\001\001\000\002\001\001" +
+    "\002\001\001\000\002\001\001\000\004\003\014\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\004\020\034\001" +
-    "\001\000\002\001\001\000\006\025\036\026\040\001\001" +
-    "\000\002\001\001\000\004\015\043\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\004\012\046\001\001\000\002\001" +
-    "\001\000\014\006\060\007\057\010\056\011\055\013\052" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\014\006\065\007\057\010\056\011\055" +
-    "\013\052\001\001\000\010\010\064\011\055\013\052\001" +
-    "\001\000\002\001\001\000\002\001\001\000\012\007\076" +
-    "\010\056\011\055\013\052\001\001\000\002\001\001\000" +
-    "\012\007\071\010\056\011\055\013\052\001\001\000\002" +
-    "\001\001\000\010\010\075\011\055\013\052\001\001\000" +
-    "\010\010\074\011\055\013\052\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\014\006\101\007\057\010\056\011\055\013\052\001\001" +
-    "\000\002\001\001\000\002\001\001\000\004\026\105\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\006\025\111\026\040\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\017\116\001\001\000\002\001\001\000" +
-    "\006\023\120\024\121\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\015\123\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\004\017\037\001\001" +
+    "\000\002\001\001\000\002\001\001\000\006\025\043\026" +
+    "\045\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\020\050\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
-    "\016\132\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
-    "\012\136\001\001\000\002\001\001\000\004\024\141\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\006\023\145\024\121\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\020\152\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\006" +
-    "\025\157\026\040\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\012\163\001\001\000\002" +
-    "\001\001\000\002\001\001\000\004\012\166\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\006" +
-    "\004\174\005\172\001\001\000\002\001\001\000\004\014" +
-    "\202\001\001\000\002\001\001\000\004\005\177\001\001" +
+    "\012\053\001\001\000\002\001\001\000\014\006\066\007" +
+    "\065\010\063\011\062\013\057\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\010\010\104\011\062\013\057\001\001\000\014" +
+    "\006\072\007\065\010\063\011\062\013\057\001\001\000" +
+    "\002\001\001\000\012\007\103\010\063\011\062\013\057" +
+    "\001\001\000\002\001\001\000\012\007\076\010\063\011" +
+    "\062\013\057\001\001\000\002\001\001\000\010\010\102" +
+    "\011\062\013\057\001\001\000\010\010\101\011\062\013" +
+    "\057\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\014\006\110\007\065\010\063\011\062\013\057" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\026" +
+    "\114\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\006\025\122\026\045\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\004\016\130\001\001\000\002\001\001\000\002\001\001" +
+    "\000\006\023\132\024\133\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\004\020\136\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\004\015\145\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\004\012\151\001\001\000\002\001\001" +
+    "\000\002\001\001\000\004\024\155\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\006\023\161\024\133\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\004\017\167\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\006" +
+    "\025\174\026\045\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\004\012\200\001\001\000\002" +
+    "\001\001\000\002\001\001\000\004\012\203\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\006" +
+    "\004\212\005\210\001\001\000\002\001\001\000\002\001" +
+    "\001\000\004\014\220\001\001\000\002\001\001\000\004" +
+    "\005\215\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
@@ -224,7 +251,9 @@ public class JsonParser extends java_cup.runtime.lr_parser {
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001" });
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -268,15 +297,84 @@ public class JsonParser extends java_cup.runtime.lr_parser {
     PointBuilder pointBuilder;
     WConfigBuilder configBuilder;
     WorldBuilder worldBuilder;
+    JsonLexer lexer;
+    List<WorldError> errors;
+
     public JsonParser(JsonLexer lexer){
 
         super(lexer);
+        this.lexer = lexer;
         this.boardBuilder = new BoardBuilder();
         this.pointBuilder = new PointBuilder();
         this.configBuilder = new WConfigBuilder();
         this.worldBuilder = new WorldBuilder();
+        errors = new ArrayList<>();
 
     }
+    
+    public List<WorldError> getErrors(){
+        return errors;
+    }
+
+    public Symbol scan() throws Exception {
+            Symbol symbol = this.getScanner().next_token();
+            if (symbol == null) {
+                return this.getSymbolFactory().newSymbol("END_OF_FILE", this.EOF_sym());
+            }
+
+            while(symbol != null && symbol.sym == JsonParserSym.SYM) {
+                this.report_expected_token_ids();
+                System.out.println("Ingorando: " + symbol.value.toString());
+                Token token = (Token) symbol.value;
+                errors.add(new WorldError(token.getValue(),token.getLine(),token.getColumn(), LEXICO,"No existe esta cadena en el lenguaje"));
+                symbol = this.getScanner().next_token();
+            }
+
+            if (symbol == null) {
+                return this.getSymbolFactory().newSymbol("END_OF_FILE", this.EOF_sym());
+            }
+
+            return symbol;
+        }
+
+    public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        Token token = (Token) cur_token.value;
+
+        if (cur_token.sym == JsonParserSym.EOF) {
+//          String er = "Simbolo inesperado, se esperaba: "+ simbolosTerminales.obtenerSimbolos(expected_token_ids()).toString();
+            String er = "Simbolo inesperado";
+            errors.add(new WorldError("Fin del archivo", token.getLine(),token.getColumn(), SINTACTICO,er));
+            System.out.println(er);
+        } else {
+            String er = "Simbolo inesperado";
+            errors.add(new WorldError(token.getValue(), token.getLine(), token.getColumn(),SINTACTICO,er));
+
+            System.out.println(er);
+        }
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        if (cur_token.sym == JsonParserSym.EOF) {
+            String er = "Error irrecuperable se llego al final del archivo";
+            errors.add(new WorldError("FIN ARCHIVO", cur_token.left, cur_token.right, SINTACTICO,er));
+            System.out.println(er);
+        } else {
+            Token tok = (Token) cur_token.value;
+            //String er = "Error irrecuperable, un posible simbolo esperado: "+ simbolosTerminales.obtenerSimbolos(expected_token_ids()).toString();
+            String er = "Error irrecuperable resuelva el error anterior";
+            errors.add(new WorldError(tok.getValue(), tok.getLine(), tok.getColumn(), SINTACTICO, er));
+            System.out.println(er);
+        }
+    }
+
 
 
 
@@ -331,7 +429,16 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL COMILLA 
+          case 2: // main ::= error LLAVE_C 
+            {
+              Request RESULT =null;
+
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("main",16, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 3: // optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL COMILLA 
             {
               Request RESULT =null;
 		int allleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
@@ -344,7 +451,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // optionProd ::= COMILLA WORLD COMILLA DOS_PUNTOS COMILLA PALABRA COMILLA 
+          case 4: // optionProd ::= COMILLA WORLD COMILLA DOS_PUNTOS COMILLA PALABRA COMILLA 
             {
               Request RESULT =null;
 		int nameleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
@@ -358,7 +465,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // optionProd ::= worldProd 
+          case 5: // optionProd ::= worldProd 
             {
               Request RESULT =null;
 		RESULT = new Request(CREATE, worldBuilder.build());
@@ -369,7 +476,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // worldProd ::= worldProd COMA worldAttribute 
+          case 6: // worldProd ::= worldProd COMA worldAttribute 
             {
               Object RESULT =null;
 
@@ -378,7 +485,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // worldProd ::= worldAttribute 
+          case 7: // worldProd ::= worldAttribute 
             {
               Object RESULT =null;
 
@@ -387,124 +494,235 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // worldAttribute ::= COMILLA NAME COMILLA DOS_PUNTOS COMILLA PALABRA COMILLA 
+          case 8: // worldProd ::= error COMA 
+            {
+              Object RESULT =null;
+
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldProd",0, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 9: // worldAttribute ::= COMILLA NAME COMILLA DOS_PUNTOS COMILLA PALABRA COMILLA 
             {
               Object RESULT =null;
 		int nameleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
 		int nameright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		Token name = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
-		worldBuilder.withName(String.valueOf(name.getValue()));
+		
+        try{
+            worldBuilder.withName(String.valueOf(name.getValue()));
+        } catch(DuplicateAttributeException e){
+            errors.add(new WorldError(name.getValue(), name.getLine(), name.getColumn(), SEMANTICO, e.getMessage()));
+        }
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // worldAttribute ::= COMILLA ROWS COMILLA DOS_PUNTOS numProd 
+          case 10: // worldAttribute ::= COMILLA ROWS COMILLA DOS_PUNTOS numProd 
             {
               Object RESULT =null;
+		int rowsleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).left;
+		int rowsright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).right;
+		Token rows = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).value;
 		int numberleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int numberright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Double number = (Double)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
-		worldBuilder.withRows(number);
+		
+        try{
+            worldBuilder.withRows(number);
+        } catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[rows.getType()], rows.getLine(), rows.getColumn(), SEMANTICO, e.getMessage()));
+        }
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // worldAttribute ::= COMILLA COLS COMILLA DOS_PUNTOS numProd 
+          case 11: // worldAttribute ::= COMILLA COLS COMILLA DOS_PUNTOS numProd 
             {
               Object RESULT =null;
+		int colsleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).left;
+		int colsright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).right;
+		Token cols = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).value;
 		int numberleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int numberright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Double number = (Double)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
-		worldBuilder.withCols(number);
+		
+        try{
+            worldBuilder.withCols(number);
+        } catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[cols.getType()], cols.getLine(), cols.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // worldAttribute ::= COMILLA CONFIG COMILLA DOS_PUNTOS LLAVE_A configProd LLAVE_C 
+          case 12: // worldAttribute ::= COMILLA CONFIG COMILLA DOS_PUNTOS LLAVE_A configProd LLAVE_C 
             {
               Object RESULT =null;
-		worldBuilder.withConfig(configBuilder.build());
-                                                                                            configBuilder.clean();
+		int configleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).left;
+		int configright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).right;
+		Token config = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).value;
+		
+        try{
+            worldBuilder.withConfig(configBuilder.build());
+        } catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[config.getType()], config.getLine(), config.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+            configBuilder.clean();
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // worldAttribute ::= COMILLA BOARD COMILLA DOS_PUNTOS CORCHETE_A boardArray CORCHETE_C 
+          case 13: // worldAttribute ::= COMILLA BOARD COMILLA DOS_PUNTOS CORCHETE_A boardArray CORCHETE_C 
             {
               Object RESULT =null;
+		int boardleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).left;
+		int boardright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).right;
+		Token board = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).value;
 		int arrayleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
 		int arrayright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		ArrayList<Board> array = (ArrayList<Board>)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
-		worldBuilder.withBoards(array);
+		
+        try{
+            worldBuilder.withBoards(array);
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[board.getType()], board.getLine(), board.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // worldAttribute ::= COMILLA BOXES COMILLA DOS_PUNTOS CORCHETE_A pointArray CORCHETE_C 
+          case 14: // worldAttribute ::= COMILLA BOXES COMILLA DOS_PUNTOS CORCHETE_A pointArray CORCHETE_C 
             {
               Object RESULT =null;
+		int boxesleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).left;
+		int boxesright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).right;
+		Token boxes = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).value;
 		int arrayleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
 		int arrayright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		ArrayList<Point> array = (ArrayList<Point>)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
-		worldBuilder.withBoxes(array);
+		
+        try{
+            worldBuilder.withBoxes(array);
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[boxes.getType()], boxes.getLine(), boxes.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // worldAttribute ::= COMILLA TARGETS COMILLA DOS_PUNTOS CORCHETE_A pointArray CORCHETE_C 
+          case 15: // worldAttribute ::= COMILLA TARGETS COMILLA DOS_PUNTOS CORCHETE_A pointArray CORCHETE_C 
             {
               Object RESULT =null;
+		int targetleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).left;
+		int targetright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).right;
+		Token target = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).value;
 		int arrayleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
 		int arrayright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		ArrayList<Point> array = (ArrayList<Point>)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
-		worldBuilder.withTargets(array);
+		
+        try{
+            worldBuilder.withTargets(array);
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[target.getType()], target.getLine(), target.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // worldAttribute ::= COMILLA PLAYER COMILLA DOS_PUNTOS LLAVE_A pointProd LLAVE_C 
+          case 16: // worldAttribute ::= COMILLA PLAYER COMILLA DOS_PUNTOS LLAVE_A pointProd LLAVE_C 
             {
               Object RESULT =null;
-		worldBuilder.withPlayer(pointBuilder.build());
-                                                                                            pointBuilder.clean();
+		int playerleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).left;
+		int playerright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).right;
+		Token player = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).value;
+		
+        try{
+            worldBuilder.withPlayer(pointBuilder.build());
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[player.getType()], player.getLine(), player.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+            pointBuilder.clean();
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // pointArray ::= pointArray COMA LLAVE_A pointProd LLAVE_C 
+          case 17: // worldAttribute ::= error LLAVE_C 
+            {
+              Object RESULT =null;
+
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 18: // pointArray ::= pointArray COMA LLAVE_A pointProd LLAVE_C 
             {
               ArrayList<Point> RESULT =null;
 		int arrayleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)).left;
 		int arrayright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)).right;
 		ArrayList<Point> array = (ArrayList<Point>)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)).value;
-		array.add(pointBuilder.build());
-                                                                                            pointBuilder.clean();
-                                                                                            RESULT = array;
-              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray",14, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+		
+            array.add(pointBuilder.build());
+
+            RESULT = array;
+            pointBuilder.clean();
+    
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray",13, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // pointArray ::= LLAVE_A pointProd LLAVE_C 
+          case 19: // pointArray ::= LLAVE_A pointProd LLAVE_C 
             {
               ArrayList<Point> RESULT =null;
-		RESULT = new ArrayList<Point>();
-                                                                                            RESULT.add(pointBuilder.build());
-                                                                                            pointBuilder.clean();
-              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray",14, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+		
+            RESULT = new ArrayList<Point>();
+            RESULT.add(pointBuilder.build());
+            pointBuilder.clean();
+    
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray",13, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // pointProd ::= pointProd COMA pointAttribute 
+          case 20: // pointArray ::= error COMA 
+            {
+              ArrayList<Point> RESULT =null;
+
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray",13, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 21: // pointProd ::= pointProd COMA pointAttribute 
             {
               Object RESULT =null;
 
@@ -513,7 +731,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // pointProd ::= pointAttribute 
+          case 22: // pointProd ::= pointAttribute 
             {
               Object RESULT =null;
 
@@ -522,58 +740,97 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // pointAttribute ::= COMILLA posType COMILLA DOS_PUNTOS numProd 
+          case 23: // pointProd ::= error COMA 
+            {
+              Object RESULT =null;
+
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointProd",19, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 24: // pointAttribute ::= COMILLA posType COMILLA DOS_PUNTOS numProd 
             {
               Object RESULT =null;
 		int ptleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).left;
 		int ptright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).right;
-		Integer pt = (Integer)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).value;
+		Token pt = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).value;
 		int numberleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int numberright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Double number = (Double)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
 		
-        if(pt == POSX){
-            pointBuilder.withPosX(number);
-        } else {
-            pointBuilder.withPosY(number);
+        try{
+            if(pt.getType() == POSX){
+                pointBuilder.withPosX(number);
+            } else {
+                pointBuilder.withPosY(number);
+            }
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), SEMANTICO, e.getMessage()));
         }
+
     
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointAttribute",20, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // boardArray ::= boardArray COMA LLAVE_A boardProd LLAVE_C 
+          case 25: // boardArray ::= boardArray COMA LLAVE_A boardProd LLAVE_C 
             {
               ArrayList<Board> RESULT =null;
 		int arrayleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)).left;
 		int arrayright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)).right;
 		ArrayList<Board> array = (ArrayList<Board>)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)).value;
-		int boardleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
-		int boardright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
-		Object board = (Object)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
-		array.add(boardBuilder.withPoint(pointBuilder.build()).build());
-                                                                            pointBuilder.clean();
-                                                                            boardBuilder.clean();
-                                                                            RESULT = array;
-              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray",13, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+		int llleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
+		int llright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).right;
+		Token ll = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).value;
+		
+        try{
+            array.add(boardBuilder.withPoint(pointBuilder.build()).build());
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(),ll.getColumn(),SEMANTICO, e.getMessage()));
+        }
+        pointBuilder.clean();
+        boardBuilder.clean();
+        RESULT = array;
+    
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray",12, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // boardArray ::= LLAVE_A boardProd LLAVE_C 
+          case 26: // boardArray ::= LLAVE_A boardProd LLAVE_C 
             {
               ArrayList<Board> RESULT =null;
-		RESULT = new ArrayList<Board>();
-                                                                            RESULT.add(boardBuilder.withPoint(pointBuilder.build()).build());
-                                                                            pointBuilder.clean();
-                                                                            boardBuilder.clean();
-              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray",13, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+		int llleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
+		int llright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).right;
+		Token ll = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).value;
+		
+        RESULT = new ArrayList<Board>();
+        try{
+            RESULT.add(boardBuilder.withPoint(pointBuilder.build()).build());
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(),ll.getColumn(),SEMANTICO, e.getMessage()));
+        }
+        pointBuilder.clean();boardBuilder.clean();
+    
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray",12, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // boardProd ::= boardProd COMA boardAttribute 
+          case 27: // boardArray ::= error COMA 
+            {
+              ArrayList<Board> RESULT =null;
+
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray",12, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 28: // boardProd ::= boardProd COMA boardAttribute 
             {
               Object RESULT =null;
 
@@ -582,7 +839,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // boardProd ::= boardAttribute 
+          case 29: // boardProd ::= boardAttribute 
             {
               Object RESULT =null;
 
@@ -591,88 +848,118 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 24: // boardAttribute ::= COMILLA posType COMILLA DOS_PUNTOS numProd 
+          case 30: // boardProd ::= error COMA 
             {
               Object RESULT =null;
+
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardProd",17, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 31: // boardAttribute ::= COMILLA posType COMILLA DOS_PUNTOS numProd 
+            {
+              Object RESULT =null;
+		int cleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)).right;
+		Token c = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)).value;
 		int ptleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).left;
 		int ptright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).right;
-		Integer pt = (Integer)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).value;
+		Token pt = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).value;
 		int numberleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int numberright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Double number = (Double)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
 		
-        if(pt == POSX){
-            pointBuilder.withPosX(number);
-        } else {
-            pointBuilder.withPosY(number);
+        try{
+            if(pt.getType() == POSX){
+                pointBuilder.withPosX(number);
+            } else {
+                pointBuilder.withPosY(number);
+            }
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), SEMANTICO, e.getMessage()));
+
         }
+
     
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardAttribute",18, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 25: // boardAttribute ::= COMILLA TYPE COMILLA DOS_PUNTOS COMILLA boardType COMILLA 
+          case 32: // boardAttribute ::= COMILLA TYPE COMILLA DOS_PUNTOS COMILLA boardType COMILLA 
             {
               Object RESULT =null;
+		int tpleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).left;
+		int tpright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).right;
+		Token tp = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).value;
 		int btleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
 		int btright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		Integer bt = (Integer)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
-		boardBuilder.withType(bt);
+		
+        try{
+
+            boardBuilder.withType(bt);
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[tp.getType()], tp.getLine(), tp.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardAttribute",18, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 26: // boardType ::= BRICK 
+          case 33: // boardType ::= BRICK 
             {
               Integer RESULT =null;
 		int bleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Token b = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
 		RESULT = b.getType();
-              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType",12, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType",11, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 27: // boardType ::= HALL 
+          case 34: // boardType ::= HALL 
             {
               Integer RESULT =null;
 		int hleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int hright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Token h = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
 		RESULT = h.getType();
-              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType",12, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType",11, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 28: // posType ::= POSX 
+          case 35: // posType ::= POSX 
             {
-              Integer RESULT =null;
+              Token RESULT =null;
 		int xleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int xright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Token x = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
-		RESULT = x.getType();
-              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("posType",11, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+		RESULT = x;
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("posType",14, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 29: // posType ::= POSY 
+          case 36: // posType ::= POSY 
             {
-              Integer RESULT =null;
+              Token RESULT =null;
 		int yleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int yright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Token y = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
-		RESULT = y.getType();
-              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("posType",11, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+		RESULT = y;
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("posType",14, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 30: // configProd ::= configProd COMA configAttribute 
+          case 37: // configProd ::= configProd COMA configAttribute 
             {
               Object RESULT =null;
 
@@ -681,7 +968,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 31: // configProd ::= configAttribute 
+          case 38: // configProd ::= configAttribute 
             {
               Object RESULT =null;
 
@@ -690,7 +977,16 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 32: // configAttribute ::= COMILLA colorType COMILLA DOS_PUNTOS COMILLA HEXADECIMAL COMILLA 
+          case 39: // configProd ::= error COMA 
+            {
+              Object RESULT =null;
+
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configProd",2, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 40: // configAttribute ::= COMILLA colorType COMILLA DOS_PUNTOS COMILLA HEXADECIMAL COMILLA 
             {
               Object RESULT =null;
 		int typeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).left;
@@ -700,15 +996,21 @@ class CUP$JsonParser$actions {
 		int valueright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		Token value = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
 		
-        switch (type) {
-            case BOX_COLOR -> configBuilder.withBoxColor(String.valueOf(value.getValue()));
-            case BOX_ON_TARGET_COLOR -> configBuilder.withBoxOnTargetColor(String.valueOf(value.getValue()));
-            case TARGET_COLOR -> configBuilder.withTargetColor(String.valueOf(value.getValue()));
-            case BRICK_COLOR -> configBuilder.withBrickColor(String.valueOf(value.getValue()));
-            case HALL_COLOR -> configBuilder.withHallColor(String.valueOf(value.getValue()));
-            case UNDEFINED_COLOR -> configBuilder.withUndefinedColor(String.valueOf(value.getValue()));
-            case PLAYER_COLOR -> configBuilder.withPlayerColor(String.valueOf(value.getValue()));
-            case default -> System.err.println("Something went wrong. :c");
+        try{
+            switch (type) {
+                case BOX_COLOR -> configBuilder.withBoxColor(value.getValue());
+                case BOX_ON_TARGET_COLOR -> configBuilder.withBoxOnTargetColor(value.getValue());
+                case TARGET_COLOR -> configBuilder.withTargetColor(value.getValue());
+                case BRICK_COLOR -> configBuilder.withBrickColor(value.getValue());
+                case HALL_COLOR -> configBuilder.withHallColor(value.getValue());
+                case UNDEFINED_COLOR -> configBuilder.withUndefinedColor(value.getValue());
+                case PLAYER_COLOR -> configBuilder.withPlayerColor(value.getValue());
+                case default -> System.err.println("Something went wrong. :c");
+            }
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[type], value.getLine(), value.getColumn(), SEMANTICO, e.getMessage()));
+
         }
     
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configAttribute",3, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
@@ -716,7 +1018,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 33: // colorType ::= BOX_COLOR 
+          case 41: // colorType ::= BOX_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -728,7 +1030,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 34: // colorType ::= BOX_ON_TARGET_COLOR 
+          case 42: // colorType ::= BOX_ON_TARGET_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -740,7 +1042,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 35: // colorType ::= TARGET_COLOR 
+          case 43: // colorType ::= TARGET_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -752,7 +1054,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 36: // colorType ::= BRICK_COLOR 
+          case 44: // colorType ::= BRICK_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -764,7 +1066,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 37: // colorType ::= HALL_COLOR 
+          case 45: // colorType ::= HALL_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -776,7 +1078,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 38: // colorType ::= UNDEFINED_COLOR 
+          case 46: // colorType ::= UNDEFINED_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -788,7 +1090,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 39: // colorType ::= PLAYER_COLOR 
+          case 47: // colorType ::= PLAYER_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -800,7 +1102,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 40: // numProd ::= ENTERO 
+          case 48: // numProd ::= ENTERO 
             {
               Double RESULT =null;
 		int numberleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -812,7 +1114,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 41: // numProd ::= COMILLA a COMILLA 
+          case 49: // numProd ::= COMILLA a COMILLA 
             {
               Double RESULT =null;
 		int numberleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
@@ -824,7 +1126,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 42: // a ::= a SUMA b 
+          case 50: // a ::= a SUMA b 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
@@ -839,7 +1141,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 43: // a ::= a RESTA b 
+          case 51: // a ::= a RESTA b 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
@@ -854,7 +1156,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 44: // a ::= b 
+          case 52: // a ::= b 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -866,7 +1168,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 45: // b ::= b MULTIPLICACION c 
+          case 53: // b ::= b MULTIPLICACION c 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
@@ -881,7 +1183,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 46: // b ::= b DIVISION c 
+          case 54: // b ::= b DIVISION c 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
@@ -896,7 +1198,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 47: // b ::= RESTA c 
+          case 55: // b ::= RESTA c 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -908,7 +1210,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 48: // b ::= c 
+          case 56: // b ::= c 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -920,7 +1222,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 49: // c ::= PARENTESIS_A a PARENTESIS_C 
+          case 57: // c ::= PARENTESIS_A a PARENTESIS_C 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
@@ -932,7 +1234,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 50: // c ::= d 
+          case 58: // c ::= d 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -944,7 +1246,16 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 51: // d ::= funcion PARENTESIS_A a PARENTESIS_C 
+          case 59: // c ::= error PARENTESIS_C 
+            {
+              Double RESULT =null;
+		RESULT = 1d;
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("c",6, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 60: // d ::= funcion PARENTESIS_A a PARENTESIS_C 
             {
               Double RESULT =null;
 		int fleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).left;
@@ -959,7 +1270,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 52: // d ::= ENTERO 
+          case 61: // d ::= ENTERO 
             {
               Double RESULT =null;
 		int eleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -971,7 +1282,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 53: // d ::= DECIMAL 
+          case 62: // d ::= DECIMAL 
             {
               Double RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -983,7 +1294,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 54: // funcion ::= FLOOR 
+          case 63: // funcion ::= FLOOR 
             {
               Integer RESULT =null;
 		int fleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -995,7 +1306,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 55: // funcion ::= CEIL 
+          case 64: // funcion ::= CEIL 
             {
               Integer RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;

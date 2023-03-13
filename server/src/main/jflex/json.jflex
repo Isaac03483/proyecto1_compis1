@@ -7,7 +7,13 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/serv
 
 import com.mio.server.compiler.Token;
 import static com.mio.server.compiler.parser.JsonParserSym.*;
+
+import com.mio.server.models.WorldError;
+import com.mio.server.models.ErrorType;
 import java_cup.runtime.Symbol;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -22,6 +28,8 @@ import java_cup.runtime.Symbol;
 %cup
 
 %{
+
+
     private Symbol symbolWithValue(int type, Object value){
         return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
     }
@@ -29,6 +37,7 @@ import java_cup.runtime.Symbol;
     private Symbol symbolWithoutValue(int type){
         return new Symbol(type, new Token(type, null, yyline+1, yycolumn+1 ));
     }
+
 %}
 
 /*
@@ -95,11 +104,12 @@ HEXADECIMAL = "#"[a-f0-9]{6}
 ENTERO = 0 | [1-9][0-9]*
 PALABRA = [a-zA-Z_][a-zA-z][a-zA-z0-9]*
 DECIMAL = {ENTERO} \. [0-9]+
+SYM = [#$~%½&¬!\|@·<>\?ºª]+
 
 %%
 
 <YYINITIAL>{
-    {ESPACIO_BLANCO}                {;}
+    {ESPACIO_BLANCO}    {;}
 
     {DOS_PUNTOS}
     {
@@ -334,10 +344,16 @@ DECIMAL = {ENTERO} \. [0-9]+
         return symbolWithValue(PALABRA, yytext());
     }
 
+    {SYM}
+    {
+        System.out.println("Finding something else: <" + yytext() + ">");
+        return symbolWithValue(SYM, yytext());
+    }
+
 }
 
 [^]
 {
-    System.out.println("Error: <" + yytext() + ">");
+    System.out.println("Simbolo Ilegal: "+yytext()+", Linea: "+(yyline+1)+", Columna: "+(yycolumn+1));
 }
 

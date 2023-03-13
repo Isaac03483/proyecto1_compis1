@@ -1,5 +1,6 @@
 package com.mio.server.builders;
 
+import com.mio.server.exceptions.DuplicateAttributeException;
 import com.mio.server.models.Point;
 
 public class PointBuilder {
@@ -12,7 +13,7 @@ public class PointBuilder {
 
     public PointBuilder withPosX(Double posX){
         if(this.posX != null){
-            throw  new RuntimeException("la posición X ya ha sido declarada");
+            throw  new DuplicateAttributeException("la posición X ya ha sido declarada");
 
         }
         this.posX = posX;
@@ -21,7 +22,7 @@ public class PointBuilder {
 
     public PointBuilder withPosY(Double posY){
         if(this.posY != null){
-            throw  new RuntimeException("la posición X ya ha sido declarada");
+            throw  new DuplicateAttributeException("la posición X ya ha sido declarada");
 
         }
         this.posY = posY;

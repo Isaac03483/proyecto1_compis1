@@ -1,5 +1,6 @@
 package com.mio.server.builders;
 
+import com.mio.server.exceptions.DuplicateAttributeException;
 import com.mio.server.models.WorldConfig;
 
 public class WConfigBuilder {
@@ -17,7 +18,7 @@ public class WConfigBuilder {
 
     public WConfigBuilder withBoxColor(String boxColor){
         if(this.boxColor != null){
-            throw new RuntimeException("El color de las cajas ya ha sido declarado");
+            throw new DuplicateAttributeException("El color de las cajas ya ha sido declarado");
         }
         this.boxColor = boxColor;
         return this;
@@ -25,7 +26,7 @@ public class WConfigBuilder {
 
     public WConfigBuilder withBoxOnTargetColor(String boxOnTargetColor){
         if(this.boxOnTargetColor != null){
-            throw new RuntimeException("El color de las cajas ya ha sido declarado");
+            throw new DuplicateAttributeException("El color de las cajas ya ha sido declarado");
         }
         this.boxOnTargetColor = boxOnTargetColor;
         return this;
@@ -33,7 +34,7 @@ public class WConfigBuilder {
 
     public WConfigBuilder withTargetColor(String targetColor){
         if(this.targetColor != null){
-            throw new RuntimeException("El color de las cajas ya ha sido declarado");
+            throw new DuplicateAttributeException("El color de las cajas ya ha sido declarado");
         }
         this.targetColor = targetColor;
         return this;
@@ -41,7 +42,7 @@ public class WConfigBuilder {
 
     public WConfigBuilder withBrickColor(String brickColor){
         if(this.brickColor != null){
-            throw new RuntimeException("El color de las cajas ya ha sido declarado");
+            throw new DuplicateAttributeException("El color de las cajas ya ha sido declarado");
         }
         this.brickColor = brickColor;
         return this;
@@ -49,7 +50,7 @@ public class WConfigBuilder {
 
     public WConfigBuilder withHallColor(String hallColor){
         if(this.hallColor != null){
-            throw new RuntimeException("El color de las cajas ya ha sido declarado");
+            throw new DuplicateAttributeException("El color de las cajas ya ha sido declarado");
         }
         this.hallColor =hallColor;
         return this;
@@ -57,7 +58,7 @@ public class WConfigBuilder {
 
     public WConfigBuilder withUndefinedColor(String undefinedColor){
         if(this.undefinedColor != null){
-            throw new RuntimeException("El color de las cajas ya ha sido declarado");
+            throw new DuplicateAttributeException("El color de las cajas ya ha sido declarado");
         }
         this.undefinedColor= undefinedColor;
         return this;
@@ -65,7 +66,7 @@ public class WConfigBuilder {
 
     public WConfigBuilder withPlayerColor(String playerColor){
         if(this.playerColor != null){
-            throw new RuntimeException("El color de las cajas ya ha sido declarado");
+            throw new DuplicateAttributeException("El color de las cajas ya ha sido declarado");
         }
         this.playerColor= playerColor;
         return this;

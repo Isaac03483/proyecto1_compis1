@@ -2,14 +2,17 @@ package com.mio.server.dao;
 
 import com.mio.server.models.World;
 
+import java.io.IOException;
+import java.util.List;
+
 public interface WorldDAO {
 
 
-    String create(World world);
+    World create(World world) throws IOException;
 
-    String findAll();
+    List<World> findAll();
 
-    String findByName(String name);
+    World findByName(String name);
 
 
 }

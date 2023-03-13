@@ -3,11 +3,16 @@ package com.mio.server.compiler.parser;
 import com.mio.server.compiler.Token;
 import com.mio.server.builders.*;
 import com.mio.server.compiler.lexer.JsonLexer;
+import com.mio.server.exceptions.DuplicateAttributeException;
 import com.mio.server.models.Board;
 import com.mio.server.models.Point;
 import com.mio.server.models.Request;
 import java.util.ArrayList;
+import java.util.List;
+import com.mio.server.models.WorldError;
+import java_cup.runtime.Symbol;
 //import static com.mio.server.compiler.parser.JsonParserSym.*;
+//import static com.mio.server.models.ErrorType.*;
 //import static com.mio.server.models.RequestType.*;
 
 class JsonParser;
@@ -19,36 +24,107 @@ parser code {:
     PointBuilder pointBuilder;
     WConfigBuilder configBuilder;
     WorldBuilder worldBuilder;
+    JsonLexer lexer;
+    List<WorldError> errors;
+
     public JsonParser(JsonLexer lexer){
 
         super(lexer);
+        this.lexer = lexer;
         this.boardBuilder = new BoardBuilder();
         this.pointBuilder = new PointBuilder();
         this.configBuilder = new WConfigBuilder();
         this.worldBuilder = new WorldBuilder();
+        errors = new ArrayList<>();
 
     }
+    
+    public List<WorldError> getErrors(){
+        return errors;
+    }
+
+    public Symbol scan() throws Exception {
+            Symbol symbol = this.getScanner().next_token();
+            if (symbol == null) {
+                return this.getSymbolFactory().newSymbol("END_OF_FILE", this.EOF_sym());
+            }
+
+            while(symbol != null && symbol.sym == JsonParserSym.SYM) {
+                this.report_expected_token_ids();
+                System.out.println("Ingorando: " + symbol.value.toString());
+                Token token = (Token) symbol.value;
+                errors.add(new WorldError(token.getValue(),token.getLine(),token.getColumn(), LEXICO,"No existe esta cadena en el lenguaje"));
+                symbol = this.getScanner().next_token();
+            }
+
+            if (symbol == null) {
+                return this.getSymbolFactory().newSymbol("END_OF_FILE", this.EOF_sym());
+            }
+
+            return symbol;
+    }
+
+    public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        Token token = (Token) cur_token.value;
+
+        if (cur_token.sym == JsonParserSym.EOF) {
+//          String er = "Simbolo inesperado, se esperaba: "+ simbolosTerminales.obtenerSimbolos(expected_token_ids()).toString();
+            String er = "Simbolo inesperado";
+            errors.add(new WorldError("Fin del archivo", token.getLine(),token.getColumn(), SINTACTICO,er));
+            System.out.println(er);
+        } else {
+            String er = "Simbolo inesperado";
+            errors.add(new WorldError(token.getValue(), token.getLine(), token.getColumn(),SINTACTICO,er));
+
+            System.out.println(er);
+        }
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        if (cur_token.sym == JsonParserSym.EOF) {
+            String er = "Error irrecuperable se llego al final del archivo";
+            errors.add(new WorldError("FIN ARCHIVO", cur_token.left, cur_token.right, SINTACTICO,er));
+            System.out.println(er);
+        } else {
+            Token tok = (Token) cur_token.value;
+            //String er = "Error irrecuperable, un posible simbolo esperado: "+ simbolosTerminales.obtenerSimbolos(expected_token_ids()).toString();
+            String er = "Error irrecuperable resuelva el error anterior";
+            errors.add(new WorldError(tok.getValue(), tok.getLine(), tok.getColumn(), SINTACTICO, er));
+            System.out.println(er);
+        }
+    }
+
 
 :}
 
 
 terminal Token NAME, ROWS, COLS, PLAYER, CONFIG, TARGETS, BOXES, BOARD,WORLDS, WORLD,ALL, TYPE, POSX, POSY, COMILLA;
 terminal Token BOX_COLOR, BOX_ON_TARGET_COLOR, TARGET_COLOR, UNDEFINED_COLOR, BRICK_COLOR, HALL_COLOR, PLAYER_COLOR;
-terminal Token LLAVE_A, LLAVE_C, PARENTESIS_A, PARENTESIS_C, CORCHETE_A, CORCHETE_C, COMA, DOS_PUNTOS;
+terminal Token LLAVE_A, LLAVE_C, PARENTESIS_A, PARENTESIS_C, CORCHETE_A, CORCHETE_C, COMA, DOS_PUNTOS,SYM;
 terminal Token SUMA, RESTA, MULTIPLICACION, DIVISION;
 terminal Token HEXADECIMAL, HALL, BRICK, ENTERO, DECIMAL, PALABRA, FLOOR, CEIL;
 
 non terminal worldProd, worldAttribute, configProd, configAttribute;
 non terminal Double a, b, c, d,numProd;
-non terminal Integer funcion,colorType,posType,boardType;
+non terminal Integer funcion,colorType,boardType;
 non terminal ArrayList<Board> boardArray;
 non terminal ArrayList<Point> pointArray;
+non terminal Token posType;
 non terminal Request optionProd, main;
 non terminal boardProd, boardAttribute, pointProd, pointAttribute;
 
 start with main;
 
 main ::= LLAVE_A optionProd:request LLAVE_C                                           {:RESULT = request;:}
+    | error LLAVE_C
     ;
 
 optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL:all COMILLA            {:worldBuilder.withName(JsonParserSym.terminalNames[all.getType()]);
@@ -63,91 +139,214 @@ optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL:all COMILLA        
 
 worldProd ::= worldProd COMA worldAttribute
     | worldAttribute
+    | error COMA
     ;
 
-worldAttribute ::= COMILLA NAME COMILLA DOS_PUNTOS COMILLA PALABRA:name COMILLA             {:worldBuilder.withName(String.valueOf(name.getValue()));:}
-    | COMILLA ROWS COMILLA DOS_PUNTOS numProd:number                                        {:worldBuilder.withRows(number);:}
-    | COMILLA COLS COMILLA DOS_PUNTOS numProd:number                                        {:worldBuilder.withCols(number);:}
-    | COMILLA CONFIG COMILLA DOS_PUNTOS LLAVE_A configProd LLAVE_C                          {:worldBuilder.withConfig(configBuilder.build());
-                                                                                            configBuilder.clean();:}
-    | COMILLA BOARD COMILLA DOS_PUNTOS CORCHETE_A boardArray:array CORCHETE_C               {:worldBuilder.withBoards(array);:}
-    | COMILLA BOXES COMILLA DOS_PUNTOS CORCHETE_A pointArray:array CORCHETE_C               {:worldBuilder.withBoxes(array);:}
-    | COMILLA TARGETS COMILLA DOS_PUNTOS CORCHETE_A pointArray:array CORCHETE_C             {:worldBuilder.withTargets(array);:}
-    | COMILLA PLAYER COMILLA DOS_PUNTOS LLAVE_A pointProd LLAVE_C                           {:worldBuilder.withPlayer(pointBuilder.build());
-                                                                                            pointBuilder.clean();:}
+worldAttribute ::= COMILLA NAME COMILLA DOS_PUNTOS COMILLA PALABRA:name COMILLA
+    {:
+        try{
+            worldBuilder.withName(String.valueOf(name.getValue()));
+        } catch(DuplicateAttributeException e){
+            errors.add(new WorldError(name.getValue(), name.getLine(), name.getColumn(), SEMANTICO, e.getMessage()));
+        }
+    :}
+    | COMILLA ROWS:rows COMILLA DOS_PUNTOS numProd:number
+    {:
+        try{
+            worldBuilder.withRows(number);
+        } catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[rows.getType()], rows.getLine(), rows.getColumn(), SEMANTICO, e.getMessage()));
+        }
+    :}
+    | COMILLA COLS:cols COMILLA DOS_PUNTOS numProd:number
+    {:
+        try{
+            worldBuilder.withCols(number);
+        } catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[cols.getType()], cols.getLine(), cols.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    :}
+    | COMILLA CONFIG:config COMILLA DOS_PUNTOS LLAVE_A configProd LLAVE_C
+    {:
+        try{
+            worldBuilder.withConfig(configBuilder.build());
+        } catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[config.getType()], config.getLine(), config.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+            configBuilder.clean();
+    :}
+    | COMILLA BOARD:board COMILLA DOS_PUNTOS CORCHETE_A boardArray:array CORCHETE_C
+    {:
+        try{
+            worldBuilder.withBoards(array);
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[board.getType()], board.getLine(), board.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    :}
+    | COMILLA BOXES:boxes COMILLA DOS_PUNTOS CORCHETE_A pointArray:array CORCHETE_C
+    {:
+        try{
+            worldBuilder.withBoxes(array);
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[boxes.getType()], boxes.getLine(), boxes.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    :}
+    | COMILLA TARGETS:target COMILLA DOS_PUNTOS CORCHETE_A pointArray:array CORCHETE_C
+    {:
+        try{
+            worldBuilder.withTargets(array);
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[target.getType()], target.getLine(), target.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    :}
+    | COMILLA PLAYER:player COMILLA DOS_PUNTOS LLAVE_A pointProd LLAVE_C
+    {:
+        try{
+            worldBuilder.withPlayer(pointBuilder.build());
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[player.getType()], player.getLine(), player.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+            pointBuilder.clean();
+    :}
+    | error LLAVE_C
     ;
 
-pointArray ::= pointArray:array COMA LLAVE_A pointProd LLAVE_C                              {:array.add(pointBuilder.build());
-                                                                                            pointBuilder.clean();
-                                                                                            RESULT = array;:}
-    | LLAVE_A pointProd LLAVE_C                                                             {:RESULT = new ArrayList<Point>();
-                                                                                            RESULT.add(pointBuilder.build());
-                                                                                            pointBuilder.clean();:}
+pointArray ::= pointArray:array COMA LLAVE_A pointProd LLAVE_C
+    {:
+            array.add(pointBuilder.build());
+
+            RESULT = array;
+            pointBuilder.clean();
+    :}
+    | LLAVE_A pointProd LLAVE_C
+    {:
+            RESULT = new ArrayList<Point>();
+            RESULT.add(pointBuilder.build());
+            pointBuilder.clean();
+    :}
+    | error COMA
     ;
 
 pointProd ::= pointProd COMA pointAttribute
     | pointAttribute
+    | error COMA
     ;
 
 pointAttribute ::= COMILLA posType:pt COMILLA DOS_PUNTOS numProd:number
     {:
-        if(pt == POSX){
-            pointBuilder.withPosX(number);
-        } else {
-            pointBuilder.withPosY(number);
+        try{
+            if(pt.getType() == POSX){
+                pointBuilder.withPosX(number);
+            } else {
+                pointBuilder.withPosY(number);
+            }
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), SEMANTICO, e.getMessage()));
         }
+
     :}
     ;
 
-boardArray ::= boardArray:array COMA LLAVE_A boardProd:board LLAVE_C        {:array.add(boardBuilder.withPoint(pointBuilder.build()).build());
-                                                                            pointBuilder.clean();
-                                                                            boardBuilder.clean();
-                                                                            RESULT = array;:}
-    | LLAVE_A boardProd LLAVE_C                                             {:RESULT = new ArrayList<Board>();
-                                                                            RESULT.add(boardBuilder.withPoint(pointBuilder.build()).build());
-                                                                            pointBuilder.clean();
-                                                                            boardBuilder.clean();:}
+boardArray ::= boardArray:array COMA LLAVE_A:ll boardProd LLAVE_C
+    {:
+        try{
+            array.add(boardBuilder.withPoint(pointBuilder.build()).build());
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(),ll.getColumn(),SEMANTICO, e.getMessage()));
+        }
+        pointBuilder.clean();
+        boardBuilder.clean();
+        RESULT = array;
+    :}
+    | LLAVE_A:ll boardProd LLAVE_C
+    {:
+        RESULT = new ArrayList<Board>();
+        try{
+            RESULT.add(boardBuilder.withPoint(pointBuilder.build()).build());
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(),ll.getColumn(),SEMANTICO, e.getMessage()));
+        }
+        pointBuilder.clean();boardBuilder.clean();
+    :}
+    | error COMA
     ;
 
 boardProd ::= boardProd COMA boardAttribute
     | boardAttribute
+    | error COMA
     ;
 
-boardAttribute ::= COMILLA posType:pt COMILLA DOS_PUNTOS numProd:number
+boardAttribute ::= COMILLA:c posType:pt COMILLA DOS_PUNTOS numProd:number
     {:
-        if(pt == POSX){
-            pointBuilder.withPosX(number);
-        } else {
-            pointBuilder.withPosY(number);
+        try{
+            if(pt.getType() == POSX){
+                pointBuilder.withPosX(number);
+            } else {
+                pointBuilder.withPosY(number);
+            }
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), SEMANTICO, e.getMessage()));
+
         }
+
     :}
 
-    | COMILLA TYPE COMILLA DOS_PUNTOS COMILLA boardType:bt COMILLA              {:boardBuilder.withType(bt);:}
+    | COMILLA TYPE:tp COMILLA DOS_PUNTOS COMILLA boardType:bt COMILLA
+    {:
+        try{
+
+            boardBuilder.withType(bt);
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[tp.getType()], tp.getLine(), tp.getColumn(), SEMANTICO, e.getMessage()));
+
+        }
+    :}
+    | error COMILLA
     ;
 
 boardType ::= BRICK:b                               {:RESULT = b.getType();:}
     | HALL:h                                        {:RESULT = h.getType();:}
     ;
 
-posType ::= POSX:x                                  {:RESULT = x.getType();:}
-    | POSY:y                                        {:RESULT = y.getType();:}
+posType ::= POSX:x                                  {:RESULT = x;:}
+    | POSY:y                                        {:RESULT = y;:}
     ;
 
 configProd ::= configProd COMA configAttribute
     | configAttribute
+    | error COMA
     ;
 
 configAttribute ::= COMILLA colorType:type COMILLA DOS_PUNTOS COMILLA HEXADECIMAL:value COMILLA
     {:
-        switch (type) {
-            case BOX_COLOR -> configBuilder.withBoxColor(String.valueOf(value.getValue()));
-            case BOX_ON_TARGET_COLOR -> configBuilder.withBoxOnTargetColor(String.valueOf(value.getValue()));
-            case TARGET_COLOR -> configBuilder.withTargetColor(String.valueOf(value.getValue()));
-            case BRICK_COLOR -> configBuilder.withBrickColor(String.valueOf(value.getValue()));
-            case HALL_COLOR -> configBuilder.withHallColor(String.valueOf(value.getValue()));
-            case UNDEFINED_COLOR -> configBuilder.withUndefinedColor(String.valueOf(value.getValue()));
-            case PLAYER_COLOR -> configBuilder.withPlayerColor(String.valueOf(value.getValue()));
-            case default -> System.err.println("Something went wrong. :c");
+        try{
+            switch (type) {
+                case BOX_COLOR -> configBuilder.withBoxColor(value.getValue());
+                case BOX_ON_TARGET_COLOR -> configBuilder.withBoxOnTargetColor(value.getValue());
+                case TARGET_COLOR -> configBuilder.withTargetColor(value.getValue());
+                case BRICK_COLOR -> configBuilder.withBrickColor(value.getValue());
+                case HALL_COLOR -> configBuilder.withHallColor(value.getValue());
+                case UNDEFINED_COLOR -> configBuilder.withUndefinedColor(value.getValue());
+                case PLAYER_COLOR -> configBuilder.withPlayerColor(value.getValue());
+                case default -> System.err.println("Something went wrong. :c");
+            }
+
+        }catch(DuplicateAttributeException e){
+            errors.add(new WorldError(JsonParserSym.terminalNames[type], value.getLine(), value.getColumn(), SEMANTICO, e.getMessage()));
+
         }
     :}
     ;
@@ -163,6 +362,7 @@ colorType ::= BOX_COLOR:colorType               {:RESULT = colorType.getType();:
 
 numProd ::= ENTERO:number                       {:RESULT = Double.valueOf(number.getValue());:}
     | COMILLA a:number COMILLA                  {:RESULT = number;:}
+    | error COMILLA                             {:RESULT = 1.0:}
     ;
 
 a ::=
@@ -181,12 +381,14 @@ b ::=
 c ::=
     PARENTESIS_A a:n1 PARENTESIS_C              {:RESULT = n1;:}
     | d:n1                                      {:RESULT = n1;:}
+    | error PARENTESIS_C                        {:RESULT = 1d;:}
     ;
 
 d ::=
     funcion:f PARENTESIS_A a:n1 PARENTESIS_C      {:RESULT = f == JsonParserSym.FLOOR ? Math.floor(n1): Math.ceil(n1);:}
     | ENTERO:e                                  {:RESULT = Double.valueOf(e.getValue());:}
     | DECIMAL:d                                 {:RESULT = Double.valueOf(d.getValue());:}
+
     ;
 
 funcion ::=

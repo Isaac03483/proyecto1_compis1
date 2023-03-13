@@ -143,6 +143,7 @@ LITERAL = {PALABRA}\-({ENTERO}|{DECIMAL})|{ENTERO}| {DECIMAL}
 
 [^]
 {
-    System.out.println("Error: <" + yytext() + ">");
+    addError(new GameError(yytext(),yyline+1,yycolumn+1,ErrorType.LEXICO,des));
+    System.out.println("Simbolo Ilegal: "+yytext()+", Linea: "+(yyline+1)+", Columna: "+(yycolumn+1));
 }
 

@@ -25,4 +25,12 @@ public class Request {
     public void setWorld(World world) {
         this.world = world;
     }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "requestType=" + requestType +
+                ", world=" + world +
+                '}';
+    }
 }

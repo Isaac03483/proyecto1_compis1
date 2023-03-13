@@ -4,16 +4,9 @@
  */
 package com.mio.server.views;
 
-import com.mio.server.handlers.JsonParserHandler;
-import com.mio.server.handlers.RequestHandler;
-import com.mio.server.models.Request;
-import com.mio.server.models.Response;
+import com.mio.server.handlers.ServerViewHandler;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.concurrent.Executors;
+import javax.swing.*;
 
 /**
  *
@@ -21,58 +14,21 @@ import java.util.concurrent.Executors;
  */
 public class ServerView extends javax.swing.JFrame {
 
+
+    private ServerViewHandler serverViewHandler;
+
     /**
      * Creates new form serverView
      */
     public ServerView() {
+        serverViewHandler = new ServerViewHandler(this);
         initComponents();
         this.setLocationRelativeTo(null);
         initSocket();
     }
 
     public void initSocket(){
-        Executors.newFixedThreadPool(1).execute(() -> {
-            ServerSocket server;
-            Socket socket;
-            DataInputStream scanner;
-            DataOutputStream printWriter;
-
-            try {
-                server = new ServerSocket(50000);
-                System.out.println("Servidor iniciado");
-                infoLabel.setText("Servidor esperando...");
-
-                while(true){
-                    socket = server.accept();
-                    printWriter = new DataOutputStream(socket.getOutputStream());
-                    scanner = new DataInputStream(socket.getInputStream());
-
-                    String texto = scanner.readUTF();
-                    System.out.println(texto);
-                    infoLabel.setText("Petición recibida desde: "+socket.getInetAddress().getHostAddress());
-                    System.out.println("Petición recibida desde: "+socket.getInetAddress().getHostAddress());
-
-                    jsonArea.setText("Información recibida del cliente:\n"+texto);
-
-                    JsonParserHandler jsonParserHandle = new JsonParserHandler();
-                    Response response = new RequestHandler().jsonParse(texto);
-
-//                    System.out.println(request.getRequestType()+" "+request.getWorld());
-
-                    printWriter.writeUTF("Mensaje de regreso del servidor");
-
-                    socket.close();
-
-//                    infoLabel.setText("Servidor esperando...");
-//                    jsonArea.setText("");
-
-                    System.out.println("Socket desconectado del servidor");
-
-                }
-            } catch (Exception e) {
-                System.err.println("Something  went wrong.");
-            }
-        });
+        serverViewHandler.initSocket();
     }
 
     /**
@@ -170,6 +126,26 @@ public class ServerView extends javax.swing.JFrame {
                 new ServerView().setVisible(true);
             }
         });
+    }
+
+    public JLabel getInfoLabel() {
+        return infoLabel;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    public JScrollPane getjScrollPane2() {
+        return jScrollPane2;
+    }
+
+    public JTextArea getJsonArea() {
+        return jsonArea;
+    }
+
+    public JTextArea getXmlArea() {
+        return xmlArea;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

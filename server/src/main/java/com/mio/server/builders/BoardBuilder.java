@@ -1,5 +1,6 @@
 package com.mio.server.builders;
 
+import com.mio.server.exceptions.DuplicateAttributeException;
 import com.mio.server.models.Board;
 import com.mio.server.models.Point;
 
@@ -13,7 +14,7 @@ public class BoardBuilder {
 
     public BoardBuilder withPoint(Point point){
         if(this.point != null){
-            throw  new RuntimeException("El punto ya ha sido declarado.");
+            throw  new DuplicateAttributeException("El punto ya ha sido declarado.");
 
         }
         this.point = point;
@@ -22,7 +23,7 @@ public class BoardBuilder {
 
     public BoardBuilder withType(Integer type){
         if(this.type != null){
-            throw new RuntimeException("El tipo ya ha sido declarado");
+            throw new DuplicateAttributeException("El tipo ya ha sido declarado");
         }
         this.type = type;
         return this;

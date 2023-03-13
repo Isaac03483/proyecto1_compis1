@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class FileMaker {
 
-    private final String PATH = "src/main/resources/com/mio/server/xml/worlds.xml";
+    private final String PATH = "src/main/resources/com/mio/server/xml/sokoban.xml";
     private static FileMaker fileMaker;
 
     private FileMaker(){}

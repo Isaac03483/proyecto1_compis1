@@ -1,5 +1,6 @@
 package com.mio.server.builders;
 
+import com.mio.server.exceptions.DuplicateAttributeException;
 import com.mio.server.models.Board;
 import com.mio.server.models.Point;
 import com.mio.server.models.World;
@@ -22,33 +23,33 @@ public class WorldBuilder {
     public WorldBuilder() {
     }
 
-    public WorldBuilder withName(String name){
+    public WorldBuilder withName(String name) throws DuplicateAttributeException {
         if(this.name != null){
-            throw new RuntimeException("el nombre del mundo ya ha sido declarado");
+            throw new DuplicateAttributeException("el nombre del mundo ya ha sido declarado");
         }
         this.name = name;
         return this;
     }
 
-    public WorldBuilder withRows(Double rows){
+    public WorldBuilder withRows(Double rows) throws DuplicateAttributeException {
         if(this.rows != null){
-            throw new RuntimeException("El número de filas ya ha sido declarado.");
+            throw new DuplicateAttributeException("El número de filas ya ha sido declarado.");
         }
         this.rows = rows;
         return this;
     }
 
-    public WorldBuilder withCols(Double cols){
+    public WorldBuilder withCols(Double cols) throws DuplicateAttributeException {
         if(this.cols != null){
-            throw new RuntimeException("El número de filas ya ha sido declarado.");
+            throw new DuplicateAttributeException("El número de filas ya ha sido declarado.");
         }
         this.cols = cols;
         return this;
     }
 
-    public WorldBuilder withConfig(WorldConfig config){
+    public WorldBuilder withConfig(WorldConfig config) throws DuplicateAttributeException {
         if(this.worldConfig != null){
-            throw new RuntimeException("Las configuraciones ya han sido declaradas");
+            throw new DuplicateAttributeException("Las configuraciones ya han sido declaradas");
         }
         this.worldConfig = config;
         return this;
@@ -82,10 +83,9 @@ public class WorldBuilder {
 
     }
 
-    public WorldBuilder withBoards(List<Board> boards){
+    public WorldBuilder withBoards(List<Board> boards) throws DuplicateAttributeException {
         if(this.boards != null){
-            System.err.println("El atributo Boards ya ha sido declarado");
-            return null;
+            throw new DuplicateAttributeException("El atributo Boards ya ha sido declarado");
         }
 
         this.boards = boards;
@@ -93,19 +93,17 @@ public class WorldBuilder {
 
     }
 
-    public WorldBuilder withBoxes(List<Point> boxes){
+    public WorldBuilder withBoxes(List<Point> boxes) throws DuplicateAttributeException {
         if(this.boxes != null){
-            System.err.println("El atributo boxes ya ha sido declarado");
-            return null;
+            throw new DuplicateAttributeException("El atributo boxes ya ha sido declarado");
         }
         this.boxes = boxes;
         return this;
     }
 
-    public WorldBuilder withTargets(List<Point> targets){
+    public WorldBuilder withTargets(List<Point> targets) throws DuplicateAttributeException {
         if(this.targets != null){
-            System.err.println("El atributo targets1 ya ha sido declarado");
-            return null;
+            throw new DuplicateAttributeException("El atributo targets ya ha sido declarado");
         }
 
         this.targets = targets;
@@ -113,9 +111,9 @@ public class WorldBuilder {
 
     }
 
-    public WorldBuilder withPlayer(Point player){
+    public WorldBuilder withPlayer(Point player) throws DuplicateAttributeException {
         if(this.player != null){
-            throw new RuntimeException("La posición del jugador ya ha sido declarada");
+            throw new DuplicateAttributeException("La posición del jugador ya ha sido declarada");
         }
         this.player = player;
         return this;

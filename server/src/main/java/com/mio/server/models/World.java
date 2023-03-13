@@ -9,7 +9,7 @@ public class World {
     private final String name;
     private final Double rows;
     private final Double cols;
-    private final WorldConfig worldConfig;
+    private WorldConfig worldConfig;
     private final List<Board> board;
     private final List<Point> boxes;
     private final List<Point> targets;
@@ -71,5 +71,9 @@ public class World {
                 "\n, targets=" + targets +
                 "\n, player=" + player +
                 '}';
+    }
+
+    public void setWorldConfig(WorldConfig worldConfig) {
+        this.worldConfig = worldConfig;
     }
 }
