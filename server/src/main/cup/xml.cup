@@ -39,7 +39,7 @@ non terminal encoding, attributes, attribute, pointProd, pointAttribute;
 non terminal boardProd, boardAttribute, configProd, configAttribute;
 non terminal ArrayList<World> main,worldsProd;
 non terminal World worldProd;
-non terminal Integer typeAttribute;
+non terminal String typeAttribute;
 
 //tags
 non terminal rowsA, rowsC, colsA, colsC, configA, configC, boardA, boardC;
@@ -110,8 +110,8 @@ boardAttribute ::= posxA ENTERO:entero posxC                        {:pointBuild
     typeA typeAttribute:type typeC                                  {:boardBuilder.withType(type);:}
     ;
 
-typeAttribute ::= BRICK:type                                        {:RESULT = Integer.valueOf(type.getType());:}
-    | HALL:type                                                     {:RESULT = Integer.valueOf(type.getType());:}
+typeAttribute ::= BRICK:type                                        {:RESULT = XMLParserSym.terminalNames[type.getType()];:}
+    | HALL:type                                                     {:RESULT = XMLParserSym.terminalNames[type.getType()];:}
     ;
 
 pointProd ::= pointProd pointAttribute

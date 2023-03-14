@@ -11,13 +11,7 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/serv
 
 import com.mio.server.compiler.Token;
 import static com.mio.server.compiler.parser.JsonParserSym.*;
-
-import com.mio.server.models.WorldError;
-import com.mio.server.models.ErrorType;
 import java_cup.runtime.Symbol;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 

@@ -7,21 +7,21 @@ import com.mio.server.models.Point;
 public class BoardBuilder {
 
     private Point point;
-    private Integer type;
+    private String type;
 
     public BoardBuilder() {
     }
 
     public BoardBuilder withPoint(Point point){
         if(this.point != null){
-            throw  new DuplicateAttributeException("El punto ya ha sido declarado.");
+            throw  new DuplicateAttributeException("El punto ya ha sido declarado");
 
         }
         this.point = point;
         return this;
     }
 
-    public BoardBuilder withType(Integer type){
+    public BoardBuilder withType(String type){
         if(this.type != null){
             throw new DuplicateAttributeException("El tipo ya ha sido declarado");
         }
@@ -42,7 +42,7 @@ public class BoardBuilder {
         return point;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 }

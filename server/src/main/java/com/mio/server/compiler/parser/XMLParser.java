@@ -10,7 +10,6 @@ import com.mio.server.compiler.Token;
 import com.mio.server.compiler.lexer.XMLLexer;
 import com.mio.server.models.World;
 import java.util.ArrayList;
-import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
@@ -676,7 +675,7 @@ pointBuilder.withPosY(Double.valueOf(entero.getValue()));
 		Token entero = (Token)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-5)).value;
 		int typeleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).left;
 		int typeright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).right;
-		Integer type = (Integer)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
+		String type = (String)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
 		boardBuilder.withType(type);
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("boardAttribute",6, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-6)), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
@@ -685,11 +684,11 @@ pointBuilder.withPosY(Double.valueOf(entero.getValue()));
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 30: // typeAttribute ::= BRICK 
             {
-              Integer RESULT =null;
+              String RESULT =null;
 		int typeleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()).left;
 		int typeright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()).right;
 		Token type = (Token)((java_cup.runtime.Symbol) CUP$XMLParser$stack.peek()).value;
-		RESULT = Integer.valueOf(type.getType());
+		RESULT = XMLParserSym.terminalNames[type.getType()];
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("typeAttribute",12, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
           return CUP$XMLParser$result;
@@ -697,11 +696,11 @@ pointBuilder.withPosY(Double.valueOf(entero.getValue()));
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 31: // typeAttribute ::= HALL 
             {
-              Integer RESULT =null;
+              String RESULT =null;
 		int typeleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()).left;
 		int typeright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()).right;
 		Token type = (Token)((java_cup.runtime.Symbol) CUP$XMLParser$stack.peek()).value;
-		RESULT = Integer.valueOf(type.getType());
+		RESULT = XMLParserSym.terminalNames[type.getType()];
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("typeAttribute",12, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
           return CUP$XMLParser$result;

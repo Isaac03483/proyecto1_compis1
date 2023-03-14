@@ -33,7 +33,7 @@ public class WorldBuilder {
 
     public WorldBuilder withRows(Double rows) throws DuplicateAttributeException {
         if(this.rows != null){
-            throw new DuplicateAttributeException("El número de filas ya ha sido declarado.");
+            throw new DuplicateAttributeException("El número de filas ya ha sido declarado");
         }
         this.rows = rows;
         return this;
@@ -41,7 +41,7 @@ public class WorldBuilder {
 
     public WorldBuilder withCols(Double cols) throws DuplicateAttributeException {
         if(this.cols != null){
-            throw new DuplicateAttributeException("El número de filas ya ha sido declarado.");
+            throw new DuplicateAttributeException("El número de filas ya ha sido declarado");
         }
         this.cols = cols;
         return this;

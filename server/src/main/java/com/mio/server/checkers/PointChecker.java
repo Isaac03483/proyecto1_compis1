@@ -25,7 +25,7 @@ public class PointChecker {
     private void checkPosX(Point point){
 
         if(point.getPosX() == null){
-            worldErrors.add(new WorldError(null, -1,-1, ErrorType.SEMANTICO, "La posición X no puede ser nula"));
+            worldErrors.add(new WorldError(null, 0,0, ErrorType.SEMANTICO, "La posición X no puede ser nula"));
             return;
         }
 
@@ -35,7 +35,7 @@ public class PointChecker {
     private void checkPosY(Point point){
 
         if(point.getPosY() == null){
-            worldErrors.add(new WorldError(null, -1,-1, ErrorType.SEMANTICO, "La posición Y no puede ser nula"));
+            worldErrors.add(new WorldError(null, 0,0, ErrorType.SEMANTICO, "La posición Y no puede ser nula"));
             return;
         }
 

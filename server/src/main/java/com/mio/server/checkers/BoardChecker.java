@@ -26,9 +26,9 @@ public class BoardChecker {
         pointChecker.checkAll(point);
     }
 
-    private void checkType(Integer type){
+    private void checkType(String type){
         if (type == null) {
-            worldErrors.add(new WorldError(null, -1,-1, ErrorType.SEMANTICO, "El tipo de tablero no se ha definido."));
+            worldErrors.add(new WorldError(null, 0,0, ErrorType.SEMANTICO, "El tipo de tablero no se ha definido."));
         }
     }
 }

@@ -23,9 +23,26 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point{" +
-                "posX=" + posX +
-                ", posY=" + posY +
-                '}';
+        return "Point " +
+                "posX " + posX +
+                " posY " + posY;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Point point = (Point) o;
+
+        if (!posX.equals(point.posX)) return false;
+        return posY.equals(point.posY);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = posX.hashCode();
+        result = 31 * result + posY.hashCode();
+        return result;
     }
 }

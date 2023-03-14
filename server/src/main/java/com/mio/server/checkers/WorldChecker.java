@@ -1,5 +1,7 @@
 package com.mio.server.checkers;
 
+import com.mio.server.builders.PointBuilder;
+import com.mio.server.compiler.parser.JsonParserSym;
 import com.mio.server.models.*;
 
 import java.util.List;
@@ -91,10 +93,16 @@ public class WorldChecker {
         }
 
         world.getTargets().forEach(target -> {
-            Optional<Point> point = world.getBoard().stream().map(Board::getPoint).filter(point1 -> Objects.equals(point1, target)).findFirst();
+            Optional<Point> point = world.getBoard().stream().map(board -> {
+                if(board.getType().equals(JsonParserSym.terminalNames[JsonParserSym.HALL])){
+                    return board.getPoint();
+                }
+
+                return null;
+            }).filter(point1 -> Objects.equals(point1, target)).findFirst();
 
             if(point.isEmpty()){
-                worldErrors.add(new WorldError(target.toString(), -1,-1,ErrorType.SEMANTICO, "La coordenada del objetivo no se ha encontrado en el tablero"));
+                worldErrors.add(new WorldError(null, 0,0,ErrorType.SEMANTICO, "La coordenada del objetivo no se ha encontrado en el tablero"));
             }
         });
     }
@@ -112,11 +120,16 @@ public class WorldChecker {
             return;
         }
 
-        world.getBoard().forEach(box -> {
-            Optional<Point> point = world.getBoard().stream().map(Board::getPoint).filter(point1 -> Objects.equals(point1, box)).findFirst();
+        world.getBoxes().forEach(box -> {
+            Optional<Point> point = world.getBoard().stream().map(board -> {
+                if(board.getType().equals(JsonParserSym.terminalNames[JsonParserSym.HALL])){
+                    return board.getPoint();
+                }
+                return null;
+            }).filter(point1 -> Objects.equals(point1, box)).findFirst();
 
             if(point.isEmpty()){
-                worldErrors.add(new WorldError(box.toString(), -1,-1,ErrorType.SEMANTICO, "La coordenada de la caja no se ha encontrado en el mundo."));
+                worldErrors.add(new WorldError(null, 0,0,ErrorType.SEMANTICO, "La coordenada de la caja no se ha encontrado en el mundo"));
             }
         });
     }

@@ -99,17 +99,17 @@ public class ServerViewHandler {
                         responseContent = XMLMaker.getInstance().worldToXML(world);
                         return new Response(responseContent);
                     }catch (IOException e){
-                        JOptionPane.showMessageDialog(null, "No se pudo leer el archivo.");
+                        JOptionPane.showMessageDialog(null, "No se pudo leer el archivo");
                     } catch (DuplicateWorldException e){
-                        WorldError error = new WorldError(request.getWorld().getName(), -1,-1, ErrorType.SEMANTICO, e.getMessage());
+                        WorldError error = new WorldError(request.getWorld().getName(), 0,0, ErrorType.SEMANTICO, e.getMessage());
                         errors.add(error);
                         return new Response(XMLMaker.getInstance().errorsToXML(errors));
                     }
                 }
                 case FIND_ALL -> {
                     List<World> worlds = worldDao.findAll();
-                    if(worlds == null) {
-                        WorldError worldError = new WorldError(null, -1,-1, ErrorType.SEMANTICO, "No se ha encontrado ningún mundo.");
+                    if(worlds == null || worlds.isEmpty()) {
+                        WorldError worldError = new WorldError(null, 0,0, ErrorType.SEMANTICO, "No se ha encontrado ningún mundo");
                         errors.add(worldError);
                         return new Response(XMLMaker.getInstance().errorsToXML(errors));
                     }
@@ -121,7 +121,7 @@ public class ServerViewHandler {
                     World worldInfo = worldDao.findByName(request.getWorld().getName());
 
                     if(worldInfo == null){
-                        WorldError worldError = new WorldError(null,-1,-1, ErrorType.SEMANTICO, "No se ha encontrado el mundo.");
+                        WorldError worldError = new WorldError(null,0,0, ErrorType.SEMANTICO, "No se ha encontrado el mundo");
                         errors.add(worldError);
                         return new Response(XMLMaker.getInstance().errorsToXML(errors));
                     }
@@ -135,8 +135,8 @@ public class ServerViewHandler {
 
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Imposible analizar la cadena enviada.");
-            System.err.println(e.getMessage());
+//            JOptionPane.showMessageDialog(null, "Imposible analizar la cadena enviada");
+            e.printStackTrace();
         }
 
         return null;

@@ -19,7 +19,7 @@ public class IntChecker {
         float decPart = Float.parseFloat(str.substring(str.indexOf(".")));
         System.out.println(decPart);
         if(decPart != 0.0){
-            errors.add(new WorldError(value.toString(), -1,-1, ErrorType.SEMANTICO, "El número debe ser un valor entero"));
+            errors.add(new WorldError(value.toString(), 0,0, ErrorType.SEMANTICO, "El número debe ser un valor entero"));
         }
 
     }

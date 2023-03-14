@@ -4,6 +4,7 @@ import com.mio.server.compiler.lexer.JsonLexer;
 import com.mio.server.compiler.parser.JsonParser;
 import com.mio.server.models.WorldError;
 import com.mio.server.models.Request;
+import java_cup.runtime.Symbol;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -20,7 +21,12 @@ public class JsonParserHandler implements ParserHandler<Request> {
         errors =new ArrayList<>();
         JsonParser parser = new JsonParser(lexer);
 //        parser.parse();
-        request = (Request) parser.parse().value;
+        Symbol sym = parser.parse();
+
+        if(sym != null){
+            request =(Request) sym.value;
+        }
+
         errors = parser.getErrors();
     }
 

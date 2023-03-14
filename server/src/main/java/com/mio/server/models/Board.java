@@ -5,7 +5,7 @@ import com.mio.server.builders.BoardBuilder;
 public class Board {
 
     private final Point point;
-    private final Integer type;
+    private final String type;
 
     public Board(BoardBuilder builder) {
         this.point = builder.getPoint();
@@ -16,7 +16,7 @@ public class Board {
         return point;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
@@ -26,5 +26,23 @@ public class Board {
                 "point=" + point +
                 ", type=" + type +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Board board = (Board) o;
+
+        if (!point.equals(board.point)) return false;
+        return type.equals(board.type);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = point.hashCode();
+        result = 31 * result + type.hashCode();
+        return result;
     }
 }

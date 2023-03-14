@@ -65,11 +65,11 @@ public class World {
                 "name='" + name + '\'' +
                 ", rows=" + rows +
                 ", cols=" + cols +
-                "\n, worldConfig=" + worldConfig +
-                "\n, board=" + board +
-                "\n, boxes=" + boxes +
-                "\n, targets=" + targets +
-                "\n, player=" + player +
+                "\n\n, worldConfig=" + worldConfig +
+                "\n\n, board=" + board +
+                "\n\n, boxes=" + boxes +
+                "\n\n, targets=" + targets +
+                "\n\n, player=" + player +
                 '}';
     }
 

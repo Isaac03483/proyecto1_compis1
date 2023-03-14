@@ -9,17 +9,10 @@ import com.mio.server.compiler.Token;
 import com.mio.server.builders.*;
 import com.mio.server.compiler.lexer.JsonLexer;
 import com.mio.server.exceptions.DuplicateAttributeException;
-import com.mio.server.models.Board;
-import com.mio.server.models.Point;
-import com.mio.server.models.Request;
+import com.mio.server.models.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.mio.server.models.WorldError;
 import java_cup.runtime.Symbol;
-import static com.mio.server.compiler.parser.JsonParserSym.*;
-import static com.mio.server.models.ErrorType.*;
-import static com.mio.server.models.RequestType.*;
-
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -45,7 +38,7 @@ public class JsonParser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\101\000\002\002\004\000\002\022\005\000\002\022" +
+    "\000\103\000\002\002\004\000\002\022\005\000\002\022" +
     "\004\000\002\021\011\000\002\021\011\000\002\021\003" +
     "\000\002\002\005\000\002\002\003\000\002\002\004\000" +
     "\002\003\011\000\002\003\007\000\002\003\007\000\002" +
@@ -55,17 +48,17 @@ public class JsonParser extends java_cup.runtime.lr_parser {
     "\002\025\003\000\002\025\004\000\002\026\007\000\002" +
     "\016\007\000\002\016\005\000\002\016\004\000\002\023" +
     "\005\000\002\023\003\000\002\023\004\000\002\024\007" +
-    "\000\002\024\011\000\002\015\003\000\002\015\003\000" +
-    "\002\020\003\000\002\020\003\000\002\004\005\000\002" +
-    "\004\003\000\002\004\004\000\002\005\011\000\002\014" +
-    "\003\000\002\014\003\000\002\014\003\000\002\014\003" +
+    "\000\002\024\011\000\002\024\004\000\002\015\003\000" +
+    "\002\015\003\000\002\020\003\000\002\020\003\000\002" +
+    "\004\005\000\002\004\003\000\002\004\004\000\002\005" +
+    "\011\000\002\014\003\000\002\014\003\000\002\014\003" +
     "\000\002\014\003\000\002\014\003\000\002\014\003\000" +
-    "\002\012\003\000\002\012\005\000\002\006\005\000\002" +
-    "\006\005\000\002\006\003\000\002\007\005\000\002\007" +
-    "\005\000\002\007\004\000\002\007\003\000\002\010\005" +
-    "\000\002\010\003\000\002\010\004\000\002\011\006\000" +
-    "\002\011\003\000\002\011\003\000\002\013\003\000\002" +
-    "\013\003" });
+    "\002\014\003\000\002\012\003\000\002\012\005\000\002" +
+    "\012\004\000\002\006\005\000\002\006\005\000\002\006" +
+    "\003\000\002\007\005\000\002\007\005\000\002\007\004" +
+    "\000\002\007\003\000\002\010\005\000\002\010\003\000" +
+    "\002\010\004\000\002\011\006\000\002\011\003\000\002" +
+    "\011\003\000\002\013\003\000\002\013\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -73,117 +66,120 @@ public class JsonParser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\253\000\006\003\005\032\006\001\002\000\004\002" +
-    "\255\001\002\000\004\033\254\001\002\000\006\003\011" +
-    "\022\012\001\002\000\004\033\253\001\002\000\006\033" +
-    "\ufffa\040\ufffa\001\002\000\006\033\235\040\252\001\002" +
+    "\000\257\000\006\003\005\032\006\001\002\000\004\002" +
+    "\261\001\002\000\004\033\260\001\002\000\006\003\011" +
+    "\022\012\001\002\000\004\033\257\001\002\000\006\033" +
+    "\ufffa\040\ufffa\001\002\000\006\033\241\040\256\001\002" +
     "\000\026\004\027\005\021\006\022\007\023\010\020\011" +
-    "\026\012\024\013\025\014\237\015\236\001\002\000\006" +
+    "\026\012\024\013\025\014\243\015\242\001\002\000\006" +
     "\033\ufffc\040\014\001\002\000\006\003\016\022\017\001" +
-    "\002\000\006\033\ufffb\040\ufffb\001\002\000\004\033\235" +
+    "\002\000\006\033\ufffb\040\ufffb\001\002\000\004\033\241" +
     "\001\002\000\022\004\027\005\021\006\022\007\023\010" +
-    "\020\011\026\012\024\013\025\001\002\000\004\022\205" +
-    "\001\002\000\004\022\202\001\002\000\004\022\177\001" +
-    "\002\000\004\022\172\001\002\000\004\022\165\001\002" +
-    "\000\004\022\125\001\002\000\004\022\035\001\002\000" +
+    "\020\011\026\012\024\013\025\001\002\000\004\022\211" +
+    "\001\002\000\004\022\206\001\002\000\004\022\203\001" +
+    "\002\000\004\022\176\001\002\000\004\022\171\001\002" +
+    "\000\004\022\127\001\002\000\004\022\035\001\002\000" +
     "\004\022\030\001\002\000\004\041\031\001\002\000\004" +
     "\022\032\001\002\000\004\054\033\001\002\000\004\022" +
     "\034\001\002\000\006\033\ufff8\040\ufff8\001\002\000\004" +
     "\041\036\001\002\000\004\036\037\001\002\000\006\003" +
-    "\041\032\042\001\002\000\006\037\121\040\120\001\002" +
-    "\000\004\040\117\001\002\000\006\003\043\022\045\001" +
-    "\002\000\004\040\116\001\002\000\006\033\114\040\113" +
+    "\041\032\042\001\002\000\006\037\123\040\122\001\002" +
+    "\000\004\040\121\001\002\000\006\003\043\022\045\001" +
+    "\002\000\004\040\120\001\002\000\006\033\116\040\115" +
     "\001\002\000\006\020\050\021\047\001\002\000\006\033" +
-    "\uffeb\040\uffeb\001\002\000\004\022\uffdd\001\002\000\004" +
-    "\022\uffde\001\002\000\004\022\052\001\002\000\004\041" +
-    "\053\001\002\000\006\022\055\052\056\001\002\000\006" +
-    "\033\uffe9\040\uffe9\001\002\000\020\003\065\034\072\044" +
-    "\071\052\062\053\057\055\061\056\070\001\002\000\006" +
-    "\033\uffd1\040\uffd1\001\002\000\016\022\uffc3\035\uffc3\043" +
-    "\uffc3\044\uffc3\045\uffc3\046\uffc3\001\002\000\004\034\110" +
-    "\001\002\000\004\034\uffc2\001\002\000\016\022\uffc4\035" +
-    "\uffc4\043\uffc4\044\uffc4\045\uffc4\046\uffc4\001\002\000\016" +
-    "\022\uffc7\035\uffc7\043\uffc7\044\uffc7\045\uffc7\046\uffc7\001" +
-    "\002\000\016\022\uffc9\035\uffc9\043\uffc9\044\uffc9\045\uffc9" +
-    "\046\uffc9\001\002\000\004\035\107\001\002\000\016\022" +
-    "\uffcd\035\uffcd\043\uffcd\044\uffcd\045\100\046\101\001\002" +
-    "\000\010\022\106\043\076\044\074\001\002\000\004\034" +
-    "\uffc1\001\002\000\016\003\065\034\072\052\062\053\057" +
-    "\055\061\056\070\001\002\000\020\003\065\034\072\044" +
-    "\071\052\062\053\057\055\061\056\070\001\002\000\010" +
-    "\035\075\043\076\044\074\001\002\000\020\003\065\034" +
-    "\072\044\071\052\062\053\057\055\061\056\070\001\002" +
-    "\000\016\022\uffc8\035\uffc8\043\uffc8\044\uffc8\045\uffc8\046" +
-    "\uffc8\001\002\000\020\003\065\034\072\044\071\052\062" +
-    "\053\057\055\061\056\070\001\002\000\016\022\uffcf\035" +
-    "\uffcf\043\uffcf\044\uffcf\045\100\046\101\001\002\000\016" +
-    "\003\065\034\072\052\062\053\057\055\061\056\070\001" +
-    "\002\000\016\003\065\034\072\052\062\053\057\055\061" +
-    "\056\070\001\002\000\016\022\uffcb\035\uffcb\043\uffcb\044" +
-    "\uffcb\045\uffcb\046\uffcb\001\002\000\016\022\uffcc\035\uffcc" +
-    "\043\uffcc\044\uffcc\045\uffcc\046\uffcc\001\002\000\016\022" +
-    "\uffce\035\uffce\043\uffce\044\uffce\045\100\046\101\001\002" +
-    "\000\016\022\uffca\035\uffca\043\uffca\044\uffca\045\uffca\046" +
-    "\uffca\001\002\000\006\033\uffd0\040\uffd0\001\002\000\016" +
+    "\uffeb\040\uffeb\001\002\000\004\022\uffdc\001\002\000\004" +
+    "\022\uffdd\001\002\000\004\022\052\001\002\000\004\041" +
+    "\053\001\002\000\010\003\055\022\056\052\057\001\002" +
+    "\000\006\033\uffe9\040\uffe9\001\002\000\004\022\114\001" +
+    "\002\000\020\003\066\034\072\044\073\052\063\053\060" +
+    "\055\062\056\071\001\002\000\006\033\uffd0\040\uffd0\001" +
+    "\002\000\016\022\uffc1\035\uffc1\043\uffc1\044\uffc1\045\uffc1" +
+    "\046\uffc1\001\002\000\004\034\111\001\002\000\004\034" +
+    "\uffc0\001\002\000\016\022\uffc2\035\uffc2\043\uffc2\044\uffc2" +
+    "\045\uffc2\046\uffc2\001\002\000\016\022\uffc5\035\uffc5\043" +
+    "\uffc5\044\uffc5\045\uffc5\046\uffc5\001\002\000\016\022\uffc7" +
+    "\035\uffc7\043\uffc7\044\uffc7\045\uffc7\046\uffc7\001\002\000" +
+    "\004\035\110\001\002\000\016\022\uffcb\035\uffcb\043\uffcb" +
+    "\044\uffcb\045\102\046\103\001\002\000\010\022\107\043" +
+    "\100\044\076\001\002\000\004\034\uffbf\001\002\000\020" +
+    "\003\066\034\072\044\073\052\063\053\060\055\062\056" +
+    "\071\001\002\000\016\003\066\034\072\052\063\053\060" +
+    "\055\062\056\071\001\002\000\016\022\uffc8\035\uffc8\043" +
+    "\uffc8\044\uffc8\045\uffc8\046\uffc8\001\002\000\010\035\077" +
+    "\043\100\044\076\001\002\000\020\003\066\034\072\044" +
+    "\073\052\063\053\060\055\062\056\071\001\002\000\016" +
     "\022\uffc6\035\uffc6\043\uffc6\044\uffc6\045\uffc6\046\uffc6\001" +
-    "\002\000\020\003\065\034\072\044\071\052\062\053\057" +
-    "\055\061\056\070\001\002\000\010\035\112\043\076\044" +
-    "\074\001\002\000\016\022\uffc5\035\uffc5\043\uffc5\044\uffc5" +
-    "\045\uffc5\046\uffc5\001\002\000\004\022\045\001\002\000" +
-    "\006\037\uffee\040\uffee\001\002\000\006\033\uffec\040\uffec" +
-    "\001\002\000\006\033\uffea\040\uffea\001\002\000\006\037" +
-    "\uffed\040\uffed\001\002\000\004\032\122\001\002\000\006" +
-    "\033\ufff2\040\ufff2\001\002\000\006\003\043\022\045\001" +
-    "\002\000\006\033\124\040\113\001\002\000\006\037\uffef" +
-    "\040\uffef\001\002\000\004\041\126\001\002\000\004\036" +
-    "\127\001\002\000\006\003\130\032\132\001\002\000\004" +
-    "\040\164\001\002\000\006\037\160\040\157\001\002\000" +
-    "\006\003\135\022\136\001\002\000\006\033\155\040\154" +
-    "\001\002\000\006\033\uffe4\040\uffe4\001\002\000\004\040" +
-    "\153\001\002\000\010\017\140\020\050\021\047\001\002" +
-    "\000\004\022\150\001\002\000\004\022\141\001\002\000" +
-    "\004\041\142\001\002\000\004\022\143\001\002\000\006" +
-    "\050\145\051\144\001\002\000\004\022\uffe0\001\002\000" +
-    "\004\022\uffdf\001\002\000\004\022\147\001\002\000\006" +
-    "\033\uffe1\040\uffe1\001\002\000\004\041\151\001\002\000" +
-    "\006\022\055\052\056\001\002\000\006\033\uffe2\040\uffe2" +
-    "\001\002\000\006\033\uffe3\040\uffe3\001\002\000\004\022" +
-    "\136\001\002\000\006\037\uffe7\040\uffe7\001\002\000\006" +
-    "\033\uffe5\040\uffe5\001\002\000\004\032\161\001\002\000" +
-    "\006\033\ufff4\040\ufff4\001\002\000\006\003\135\022\136" +
-    "\001\002\000\006\033\163\040\154\001\002\000\006\037" +
-    "\uffe8\040\uffe8\001\002\000\006\037\uffe6\040\uffe6\001\002" +
-    "\000\004\041\166\001\002\000\004\036\167\001\002\000" +
-    "\006\003\041\032\042\001\002\000\006\037\171\040\120" +
-    "\001\002\000\006\033\ufff3\040\ufff3\001\002\000\004\041" +
-    "\173\001\002\000\004\032\174\001\002\000\006\003\043" +
-    "\022\045\001\002\000\006\033\176\040\113\001\002\000" +
-    "\006\033\ufff1\040\ufff1\001\002\000\004\041\200\001\002" +
-    "\000\006\022\055\052\056\001\002\000\006\033\ufff6\040" +
-    "\ufff6\001\002\000\004\041\203\001\002\000\006\022\055" +
-    "\052\056\001\002\000\006\033\ufff7\040\ufff7\001\002\000" +
-    "\004\041\206\001\002\000\004\032\207\001\002\000\006" +
-    "\003\210\022\212\001\002\000\004\040\234\001\002\000" +
-    "\006\033\uffdb\040\uffdb\001\002\000\020\023\222\024\226" +
-    "\025\224\026\225\027\220\030\217\031\223\001\002\000" +
-    "\006\033\215\040\214\001\002\000\004\022\212\001\002" +
-    "\000\006\033\ufff5\040\ufff5\001\002\000\006\033\uffdc\040" +
-    "\uffdc\001\002\000\004\022\uffd4\001\002\000\004\022\uffd5" +
-    "\001\002\000\004\022\227\001\002\000\004\022\uffd8\001" +
+    "\002\000\020\003\066\034\072\044\073\052\063\053\060" +
+    "\055\062\056\071\001\002\000\016\022\uffcd\035\uffcd\043" +
+    "\uffcd\044\uffcd\045\102\046\103\001\002\000\016\003\066" +
+    "\034\072\052\063\053\060\055\062\056\071\001\002\000" +
+    "\016\003\066\034\072\052\063\053\060\055\062\056\071" +
+    "\001\002\000\016\022\uffc9\035\uffc9\043\uffc9\044\uffc9\045" +
+    "\uffc9\046\uffc9\001\002\000\016\022\uffca\035\uffca\043\uffca" +
+    "\044\uffca\045\uffca\046\uffca\001\002\000\016\022\uffcc\035" +
+    "\uffcc\043\uffcc\044\uffcc\045\102\046\103\001\002\000\006" +
+    "\033\uffcf\040\uffcf\001\002\000\016\022\uffc4\035\uffc4\043" +
+    "\uffc4\044\uffc4\045\uffc4\046\uffc4\001\002\000\020\003\066" +
+    "\034\072\044\073\052\063\053\060\055\062\056\071\001" +
+    "\002\000\010\035\113\043\100\044\076\001\002\000\016" +
+    "\022\uffc3\035\uffc3\043\uffc3\044\uffc3\045\uffc3\046\uffc3\001" +
+    "\002\000\006\033\uffce\040\uffce\001\002\000\004\022\045" +
+    "\001\002\000\006\037\uffee\040\uffee\001\002\000\006\033" +
+    "\uffec\040\uffec\001\002\000\006\033\uffea\040\uffea\001\002" +
+    "\000\006\037\uffed\040\uffed\001\002\000\004\032\124\001" +
+    "\002\000\006\033\ufff2\040\ufff2\001\002\000\006\003\043" +
+    "\022\045\001\002\000\006\033\126\040\115\001\002\000" +
+    "\006\037\uffef\040\uffef\001\002\000\004\041\130\001\002" +
+    "\000\004\036\131\001\002\000\006\003\132\032\134\001" +
+    "\002\000\004\040\170\001\002\000\006\037\164\040\163" +
+    "\001\002\000\006\003\137\022\140\001\002\000\006\033" +
+    "\160\040\157\001\002\000\006\033\uffe4\040\uffe4\001\002" +
+    "\000\006\022\156\040\155\001\002\000\010\017\142\020" +
+    "\050\021\047\001\002\000\004\022\152\001\002\000\004" +
+    "\022\143\001\002\000\004\041\144\001\002\000\004\022" +
+    "\145\001\002\000\006\050\147\051\146\001\002\000\004" +
+    "\022\uffdf\001\002\000\004\022\uffde\001\002\000\004\022" +
+    "\151\001\002\000\006\033\uffe1\040\uffe1\001\002\000\004" +
+    "\041\153\001\002\000\010\003\055\022\056\052\057\001" +
+    "\002\000\006\033\uffe2\040\uffe2\001\002\000\006\033\uffe3" +
+    "\040\uffe3\001\002\000\006\033\uffe0\040\uffe0\001\002\000" +
+    "\006\003\161\022\140\001\002\000\006\037\uffe7\040\uffe7" +
+    "\001\002\000\004\022\156\001\002\000\006\033\uffe5\040" +
+    "\uffe5\001\002\000\004\032\165\001\002\000\006\033\ufff4" +
+    "\040\ufff4\001\002\000\006\003\137\022\140\001\002\000" +
+    "\006\033\167\040\157\001\002\000\006\037\uffe8\040\uffe8" +
+    "\001\002\000\006\037\uffe6\040\uffe6\001\002\000\004\041" +
+    "\172\001\002\000\004\036\173\001\002\000\006\003\041" +
+    "\032\042\001\002\000\006\037\175\040\122\001\002\000" +
+    "\006\033\ufff3\040\ufff3\001\002\000\004\041\177\001\002" +
+    "\000\004\032\200\001\002\000\006\003\043\022\045\001" +
+    "\002\000\006\033\202\040\115\001\002\000\006\033\ufff1" +
+    "\040\ufff1\001\002\000\004\041\204\001\002\000\010\003" +
+    "\055\022\056\052\057\001\002\000\006\033\ufff6\040\ufff6" +
+    "\001\002\000\004\041\207\001\002\000\010\003\055\022" +
+    "\056\052\057\001\002\000\006\033\ufff7\040\ufff7\001\002" +
+    "\000\004\041\212\001\002\000\004\032\213\001\002\000" +
+    "\006\003\215\022\216\001\002\000\006\033\uffda\040\uffda" +
+    "\001\002\000\004\040\240\001\002\000\020\023\226\024" +
+    "\232\025\230\026\231\027\225\030\223\031\227\001\002" +
+    "\000\006\033\221\040\220\001\002\000\004\022\216\001" +
+    "\002\000\006\033\ufff5\040\ufff5\001\002\000\006\033\uffdb" +
+    "\040\uffdb\001\002\000\004\022\uffd3\001\002\000\004\022" +
+    "\233\001\002\000\004\022\uffd4\001\002\000\004\022\uffd7" +
+    "\001\002\000\004\022\uffd1\001\002\000\004\022\uffd5\001" +
     "\002\000\004\022\uffd2\001\002\000\004\022\uffd6\001\002" +
-    "\000\004\022\uffd3\001\002\000\004\022\uffd7\001\002\000" +
-    "\004\041\230\001\002\000\004\022\231\001\002\000\004" +
-    "\047\232\001\002\000\004\022\233\001\002\000\006\033" +
-    "\uffd9\040\uffd9\001\002\000\006\033\uffda\040\uffda\001\002" +
-    "\000\006\033\ufff0\040\ufff0\001\002\000\004\022\245\001" +
-    "\002\000\004\022\240\001\002\000\004\041\241\001\002" +
-    "\000\004\022\242\001\002\000\004\016\243\001\002\000" +
-    "\004\022\244\001\002\000\004\033\ufffe\001\002\000\004" +
-    "\041\246\001\002\000\004\022\247\001\002\000\004\054" +
-    "\250\001\002\000\004\022\251\001\002\000\004\033\ufffd" +
-    "\001\002\000\006\033\ufff9\040\ufff9\001\002\000\004\002" +
-    "\000\001\002\000\004\002\uffff\001\002\000\004\002\001" +
-    "\001\002" });
+    "\000\004\041\234\001\002\000\004\022\235\001\002\000" +
+    "\004\047\236\001\002\000\004\022\237\001\002\000\006" +
+    "\033\uffd8\040\uffd8\001\002\000\006\033\uffd9\040\uffd9\001" +
+    "\002\000\006\033\ufff0\040\ufff0\001\002\000\004\022\251" +
+    "\001\002\000\004\022\244\001\002\000\004\041\245\001" +
+    "\002\000\004\022\246\001\002\000\004\016\247\001\002" +
+    "\000\004\022\250\001\002\000\004\033\ufffe\001\002\000" +
+    "\004\041\252\001\002\000\004\022\253\001\002\000\004" +
+    "\054\254\001\002\000\004\022\255\001\002\000\004\033" +
+    "\ufffd\001\002\000\006\033\ufff9\040\ufff9\001\002\000\004" +
+    "\002\000\001\002\000\004\002\uffff\001\002\000\004\002" +
+    "\001\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -191,7 +187,7 @@ public class JsonParser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\253\000\004\022\003\001\001\000\002\001\001\000" +
+    "\000\257\000\004\022\003\001\001\000\002\001\001\000" +
     "\002\001\001\000\010\002\012\003\007\021\006\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\004\003\014\001\001" +
@@ -205,55 +201,56 @@ public class JsonParser extends java_cup.runtime.lr_parser {
     "\045\001\001\000\002\001\001\000\002\001\001\000\004" +
     "\020\050\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
-    "\012\053\001\001\000\002\001\001\000\014\006\066\007" +
-    "\065\010\063\011\062\013\057\001\001\000\002\001\001" +
+    "\012\053\001\001\000\002\001\001\000\002\001\001\000" +
+    "\014\006\067\007\066\010\064\011\063\013\060\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\010\010\104\011\062\013\057\001\001\000\014" +
-    "\006\072\007\065\010\063\011\062\013\057\001\001\000" +
-    "\002\001\001\000\012\007\103\010\063\011\062\013\057" +
-    "\001\001\000\002\001\001\000\012\007\076\010\063\011" +
-    "\062\013\057\001\001\000\002\001\001\000\010\010\102" +
-    "\011\062\013\057\001\001\000\010\010\101\011\062\013" +
-    "\057\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\000\002\001\001\000\014\006\074\007\066\010\064" +
+    "\011\063\013\060\001\001\000\010\010\073\011\063\013" +
+    "\060\001\001\000\002\001\001\000\002\001\001\000\012" +
+    "\007\105\010\064\011\063\013\060\001\001\000\002\001" +
+    "\001\000\012\007\100\010\064\011\063\013\060\001\001" +
+    "\000\002\001\001\000\010\010\104\011\063\013\060\001" +
+    "\001\000\010\010\103\011\063\013\060\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\014\006\110\007\065\010\063\011\062\013\057" +
-    "\001\001\000\002\001\001\000\002\001\001\000\004\026" +
-    "\114\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\000\002\001\001\000\014\006\111\007\066\010\064" +
+    "\011\063\013\060\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\004\026\116\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\006\025\122\026\045\001\001\000\002\001\001" +
+    "\001\000\002\001\001\000\002\001\001\000\006\025\124" +
+    "\026\045\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\004\016\132\001\001" +
+    "\000\002\001\001\000\002\001\001\000\006\023\134\024" +
+    "\135\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\004\020\140\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\015\147\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\012\153\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\004\024\161\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\004\016\130\001\001\000\002\001\001\000\002\001\001" +
-    "\000\006\023\132\024\133\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\004\020\136\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\004\015\145\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\004\012\151\001\001\000\002\001\001" +
-    "\000\002\001\001\000\004\024\155\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\006\023\161\024\133\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\017\167\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\006" +
-    "\025\174\026\045\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\012\200\001\001\000\002" +
-    "\001\001\000\002\001\001\000\004\012\203\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\006" +
-    "\004\212\005\210\001\001\000\002\001\001\000\002\001" +
-    "\001\000\004\014\220\001\001\000\002\001\001\000\004" +
-    "\005\215\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\002\001\001\000\006\023\165\024\135\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\000\002\001\001\000\004\017\173\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\006\025\200\026\045\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\004\012\204\001" +
+    "\001\000\002\001\001\000\002\001\001\000\004\012\207" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\006\004\216\005\213\001\001\000\002\001\001" +
+    "\000\002\001\001\000\004\014\223\001\001\000\002\001" +
+    "\001\000\004\005\221\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001" });
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -326,7 +323,7 @@ public class JsonParser extends java_cup.runtime.lr_parser {
                 this.report_expected_token_ids();
                 System.out.println("Ingorando: " + symbol.value.toString());
                 Token token = (Token) symbol.value;
-                errors.add(new WorldError(token.getValue(),token.getLine(),token.getColumn(), LEXICO,"No existe esta cadena en el lenguaje"));
+                errors.add(new WorldError(token.getValue(),token.getLine(),token.getColumn(), ErrorType.LEXICO,"No existe esta cadena en el lenguaje"));
                 symbol = this.getScanner().next_token();
             }
 
@@ -335,7 +332,7 @@ public class JsonParser extends java_cup.runtime.lr_parser {
             }
 
             return symbol;
-        }
+    }
 
     public void report_error(String message, Object info) {
         System.out.println("public void report_error");
@@ -351,11 +348,11 @@ public class JsonParser extends java_cup.runtime.lr_parser {
         if (cur_token.sym == JsonParserSym.EOF) {
 //          String er = "Simbolo inesperado, se esperaba: "+ simbolosTerminales.obtenerSimbolos(expected_token_ids()).toString();
             String er = "Simbolo inesperado";
-            errors.add(new WorldError("Fin del archivo", token.getLine(),token.getColumn(), SINTACTICO,er));
+            errors.add(new WorldError("Fin del archivo", token.getLine(),token.getColumn(), ErrorType.SINTACTICO,er));
             System.out.println(er);
         } else {
             String er = "Simbolo inesperado";
-            errors.add(new WorldError(token.getValue(), token.getLine(), token.getColumn(),SINTACTICO,er));
+            errors.add(new WorldError(token.getValue(), token.getLine(), token.getColumn(),ErrorType.SINTACTICO,er));
 
             System.out.println(er);
         }
@@ -363,14 +360,15 @@ public class JsonParser extends java_cup.runtime.lr_parser {
 
     public void unrecovered_syntax_error(Symbol cur_token) {
         if (cur_token.sym == JsonParserSym.EOF) {
+            Token tok = (Token) cur_token.value;
             String er = "Error irrecuperable se llego al final del archivo";
-            errors.add(new WorldError("FIN ARCHIVO", cur_token.left, cur_token.right, SINTACTICO,er));
+            errors.add(new WorldError("FIN ARCHIVO", tok.getLine(), tok.getColumn(), ErrorType.SINTACTICO, er));
             System.out.println(er);
         } else {
             Token tok = (Token) cur_token.value;
             //String er = "Error irrecuperable, un posible simbolo esperado: "+ simbolosTerminales.obtenerSimbolos(expected_token_ids()).toString();
             String er = "Error irrecuperable resuelva el error anterior";
-            errors.add(new WorldError(tok.getValue(), tok.getLine(), tok.getColumn(), SINTACTICO, er));
+            errors.add(new WorldError(tok.getValue(), tok.getLine(), tok.getColumn(), ErrorType.SINTACTICO, er));
             System.out.println(er);
         }
     }
@@ -445,7 +443,7 @@ class CUP$JsonParser$actions {
 		int allright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		Token all = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
 		worldBuilder.withName(JsonParserSym.terminalNames[all.getType()]);
-                                                                                    RESULT =new Request(FIND_ALL, null);
+                                                                                    RESULT =new Request(RequestType.FIND_ALL, null);
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd",15, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
@@ -458,7 +456,7 @@ class CUP$JsonParser$actions {
 		int nameright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
 		Token name = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
 		worldBuilder.withName(String.valueOf(name.getValue()));
-                                                                                    RESULT = new Request(FIND_BY_NAME, worldBuilder.build());
+                                                                                    RESULT = new Request(RequestType.FIND_BY_NAME, worldBuilder.build());
                                                                                     worldBuilder.clean();
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd",15, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
@@ -468,7 +466,7 @@ class CUP$JsonParser$actions {
           case 5: // optionProd ::= worldProd 
             {
               Request RESULT =null;
-		RESULT = new Request(CREATE, worldBuilder.build());
+		RESULT = new Request(RequestType.CREATE, worldBuilder.build());
                                                                                     System.out.println("Creando el mundo  "+RESULT);
                                                                                     worldBuilder.clean();
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd",15, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
@@ -513,7 +511,7 @@ class CUP$JsonParser$actions {
         try{
             worldBuilder.withName(String.valueOf(name.getValue()));
         } catch(DuplicateAttributeException e){
-            errors.add(new WorldError(name.getValue(), name.getLine(), name.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(name.getValue(), name.getLine(), name.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
         }
     
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-6)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
@@ -534,7 +532,7 @@ class CUP$JsonParser$actions {
         try{
             worldBuilder.withRows(number);
         } catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[rows.getType()], rows.getLine(), rows.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[rows.getType()], rows.getLine(), rows.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
         }
     
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute",1, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-4)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
@@ -555,7 +553,7 @@ class CUP$JsonParser$actions {
         try{
             worldBuilder.withCols(number);
         } catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[cols.getType()], cols.getLine(), cols.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[cols.getType()], cols.getLine(), cols.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
 
         }
     
@@ -574,7 +572,7 @@ class CUP$JsonParser$actions {
         try{
             worldBuilder.withConfig(configBuilder.build());
         } catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[config.getType()], config.getLine(), config.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[config.getType()], config.getLine(), config.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
 
         }
             configBuilder.clean();
@@ -598,7 +596,7 @@ class CUP$JsonParser$actions {
             worldBuilder.withBoards(array);
 
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[board.getType()], board.getLine(), board.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[board.getType()], board.getLine(), board.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
 
         }
     
@@ -621,7 +619,7 @@ class CUP$JsonParser$actions {
             worldBuilder.withBoxes(array);
 
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[boxes.getType()], boxes.getLine(), boxes.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[boxes.getType()], boxes.getLine(), boxes.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
 
         }
     
@@ -644,7 +642,7 @@ class CUP$JsonParser$actions {
             worldBuilder.withTargets(array);
 
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[target.getType()], target.getLine(), target.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[target.getType()], target.getLine(), target.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
 
         }
     
@@ -664,7 +662,7 @@ class CUP$JsonParser$actions {
             worldBuilder.withPlayer(pointBuilder.build());
 
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[player.getType()], player.getLine(), player.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[player.getType()], player.getLine(), player.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
 
         }
             pointBuilder.clean();
@@ -760,14 +758,14 @@ class CUP$JsonParser$actions {
 		Double number = (Double)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
 		
         try{
-            if(pt.getType() == POSX){
+            if(pt.getType() == JsonParserSym.POSX){
                 pointBuilder.withPosX(number);
             } else {
                 pointBuilder.withPosY(number);
             }
 
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
         }
 
     
@@ -790,7 +788,7 @@ class CUP$JsonParser$actions {
             array.add(boardBuilder.withPoint(pointBuilder.build()).build());
 
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(),ll.getColumn(),SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(),ll.getColumn(),ErrorType.SEMANTICO, e.getMessage()));
         }
         pointBuilder.clean();
         boardBuilder.clean();
@@ -812,7 +810,7 @@ class CUP$JsonParser$actions {
         try{
             RESULT.add(boardBuilder.withPoint(pointBuilder.build()).build());
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(),ll.getColumn(),SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(),ll.getColumn(),ErrorType.SEMANTICO, e.getMessage()));
         }
         pointBuilder.clean();boardBuilder.clean();
     
@@ -871,14 +869,14 @@ class CUP$JsonParser$actions {
 		Double number = (Double)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
 		
         try{
-            if(pt.getType() == POSX){
+            if(pt.getType() == JsonParserSym.POSX){
                 pointBuilder.withPosX(number);
             } else {
                 pointBuilder.withPosY(number);
             }
 
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
 
         }
 
@@ -896,13 +894,13 @@ class CUP$JsonParser$actions {
 		Token tp = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).value;
 		int btleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
 		int btright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
-		Integer bt = (Integer)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
+		String bt = (String)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
 		
         try{
 
             boardBuilder.withType(bt);
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[tp.getType()], tp.getLine(), tp.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[tp.getType()], tp.getLine(), tp.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
 
         }
     
@@ -911,31 +909,40 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 33: // boardType ::= BRICK 
+          case 33: // boardAttribute ::= error COMILLA 
             {
-              Integer RESULT =null;
+              Object RESULT =null;
+
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardAttribute",18, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 34: // boardType ::= BRICK 
+            {
+              String RESULT =null;
 		int bleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Token b = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
-		RESULT = b.getType();
+		RESULT = JsonParserSym.terminalNames[b.getType()];
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType",11, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 34: // boardType ::= HALL 
+          case 35: // boardType ::= HALL 
             {
-              Integer RESULT =null;
+              String RESULT =null;
 		int hleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int hright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Token h = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
-		RESULT = h.getType();
+		RESULT = JsonParserSym.terminalNames[h.getType()];
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType",11, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 35: // posType ::= POSX 
+          case 36: // posType ::= POSX 
             {
               Token RESULT =null;
 		int xleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -947,7 +954,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 36: // posType ::= POSY 
+          case 37: // posType ::= POSY 
             {
               Token RESULT =null;
 		int yleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -959,7 +966,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 37: // configProd ::= configProd COMA configAttribute 
+          case 38: // configProd ::= configProd COMA configAttribute 
             {
               Object RESULT =null;
 
@@ -968,7 +975,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 38: // configProd ::= configAttribute 
+          case 39: // configProd ::= configAttribute 
             {
               Object RESULT =null;
 
@@ -977,7 +984,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 39: // configProd ::= error COMA 
+          case 40: // configProd ::= error COMA 
             {
               Object RESULT =null;
 
@@ -986,7 +993,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 40: // configAttribute ::= COMILLA colorType COMILLA DOS_PUNTOS COMILLA HEXADECIMAL COMILLA 
+          case 41: // configAttribute ::= COMILLA colorType COMILLA DOS_PUNTOS COMILLA HEXADECIMAL COMILLA 
             {
               Object RESULT =null;
 		int typeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-5)).left;
@@ -998,18 +1005,18 @@ class CUP$JsonParser$actions {
 		
         try{
             switch (type) {
-                case BOX_COLOR -> configBuilder.withBoxColor(value.getValue());
-                case BOX_ON_TARGET_COLOR -> configBuilder.withBoxOnTargetColor(value.getValue());
-                case TARGET_COLOR -> configBuilder.withTargetColor(value.getValue());
-                case BRICK_COLOR -> configBuilder.withBrickColor(value.getValue());
-                case HALL_COLOR -> configBuilder.withHallColor(value.getValue());
-                case UNDEFINED_COLOR -> configBuilder.withUndefinedColor(value.getValue());
-                case PLAYER_COLOR -> configBuilder.withPlayerColor(value.getValue());
+                case JsonParserSym.BOX_COLOR -> configBuilder.withBoxColor(value.getValue());
+                case JsonParserSym.BOX_ON_TARGET_COLOR -> configBuilder.withBoxOnTargetColor(value.getValue());
+                case JsonParserSym.TARGET_COLOR -> configBuilder.withTargetColor(value.getValue());
+                case JsonParserSym.BRICK_COLOR -> configBuilder.withBrickColor(value.getValue());
+                case JsonParserSym.HALL_COLOR -> configBuilder.withHallColor(value.getValue());
+                case JsonParserSym.UNDEFINED_COLOR -> configBuilder.withUndefinedColor(value.getValue());
+                case JsonParserSym.PLAYER_COLOR -> configBuilder.withPlayerColor(value.getValue());
                 case default -> System.err.println("Something went wrong. :c");
             }
 
         }catch(DuplicateAttributeException e){
-            errors.add(new WorldError(JsonParserSym.terminalNames[type], value.getLine(), value.getColumn(), SEMANTICO, e.getMessage()));
+            errors.add(new WorldError(JsonParserSym.terminalNames[type], value.getLine(), value.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
 
         }
     
@@ -1018,7 +1025,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 41: // colorType ::= BOX_COLOR 
+          case 42: // colorType ::= BOX_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1030,7 +1037,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 42: // colorType ::= BOX_ON_TARGET_COLOR 
+          case 43: // colorType ::= BOX_ON_TARGET_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1042,7 +1049,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 43: // colorType ::= TARGET_COLOR 
+          case 44: // colorType ::= TARGET_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1054,7 +1061,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 44: // colorType ::= BRICK_COLOR 
+          case 45: // colorType ::= BRICK_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1066,7 +1073,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 45: // colorType ::= HALL_COLOR 
+          case 46: // colorType ::= HALL_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1078,7 +1085,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 46: // colorType ::= UNDEFINED_COLOR 
+          case 47: // colorType ::= UNDEFINED_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1090,7 +1097,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 47: // colorType ::= PLAYER_COLOR 
+          case 48: // colorType ::= PLAYER_COLOR 
             {
               Integer RESULT =null;
 		int colorTypeleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1102,7 +1109,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 48: // numProd ::= ENTERO 
+          case 49: // numProd ::= ENTERO 
             {
               Double RESULT =null;
 		int numberleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1114,7 +1121,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 49: // numProd ::= COMILLA a COMILLA 
+          case 50: // numProd ::= COMILLA a COMILLA 
             {
               Double RESULT =null;
 		int numberleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
@@ -1126,7 +1133,16 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 50: // a ::= a SUMA b 
+          case 51: // numProd ::= error COMILLA 
+            {
+              Double RESULT =null;
+		RESULT = 1.0;
+              CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("numProd",8, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
+            }
+          return CUP$JsonParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 52: // a ::= a SUMA b 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
@@ -1141,7 +1157,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 51: // a ::= a RESTA b 
+          case 53: // a ::= a RESTA b 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
@@ -1156,7 +1172,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 52: // a ::= b 
+          case 54: // a ::= b 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1168,7 +1184,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 53: // b ::= b MULTIPLICACION c 
+          case 55: // b ::= b MULTIPLICACION c 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
@@ -1183,22 +1199,31 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 54: // b ::= b DIVISION c 
+          case 56: // b ::= b DIVISION c 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).left;
 		int n1right = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).right;
 		Double n1 = (Double)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)).value;
+		int dleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).right;
+		Token d = (Token)((java_cup.runtime.Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).value;
 		int n2left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
 		int n2right = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).right;
 		Double n2 = (Double)((java_cup.runtime.Symbol) CUP$JsonParser$stack.peek()).value;
-		RESULT = n1 / n2;
+		
+        if(n2 == 0){
+            errors.add(new WorldError(String.valueOf(n2), d.getLine(), d.getColumn(), ErrorType.SEMANTICO, "Imposible dividir entre 0"));
+            RESULT = 1.0;
+        }
+        RESULT = n1 / n2;
+    
               CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("b",5, ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-2)), ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()), RESULT);
             }
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 55: // b ::= RESTA c 
+          case 57: // b ::= RESTA c 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1210,7 +1235,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 56: // b ::= c 
+          case 58: // b ::= c 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1222,7 +1247,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 57: // c ::= PARENTESIS_A a PARENTESIS_C 
+          case 59: // c ::= PARENTESIS_A a PARENTESIS_C 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-1)).left;
@@ -1234,7 +1259,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 58: // c ::= d 
+          case 60: // c ::= d 
             {
               Double RESULT =null;
 		int n1left = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1246,7 +1271,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 59: // c ::= error PARENTESIS_C 
+          case 61: // c ::= error PARENTESIS_C 
             {
               Double RESULT =null;
 		RESULT = 1d;
@@ -1255,7 +1280,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 60: // d ::= funcion PARENTESIS_A a PARENTESIS_C 
+          case 62: // d ::= funcion PARENTESIS_A a PARENTESIS_C 
             {
               Double RESULT =null;
 		int fleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.elementAt(CUP$JsonParser$top-3)).left;
@@ -1270,7 +1295,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 61: // d ::= ENTERO 
+          case 63: // d ::= ENTERO 
             {
               Double RESULT =null;
 		int eleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1282,7 +1307,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 62: // d ::= DECIMAL 
+          case 64: // d ::= DECIMAL 
             {
               Double RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1294,7 +1319,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 63: // funcion ::= FLOOR 
+          case 65: // funcion ::= FLOOR 
             {
               Integer RESULT =null;
 		int fleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;
@@ -1306,7 +1331,7 @@ class CUP$JsonParser$actions {
           return CUP$JsonParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 64: // funcion ::= CEIL 
+          case 66: // funcion ::= CEIL 
             {
               Integer RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$JsonParser$stack.peek()).left;

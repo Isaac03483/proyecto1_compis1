@@ -1,5 +1,6 @@
 package com.mio.server.xmlMaker;
 
+import com.mio.server.compiler.parser.JsonParserSym;
 import com.mio.server.compiler.parser.XMLParserSym;
 import com.mio.server.models.*;
 import com.mio.server.models.WorldError;
@@ -76,7 +77,7 @@ public class XMLMaker {
                 content.append("\t\t").append(BOARD_A)
                         .append(pointToXML(board.getPoint()))
                         .append("\t").append(TYPE_A)
-                        .append(XMLParserSym.terminalNames[board.getType()])
+                        .append(board.getType())
                         .append(TYPE_C).append("\n\t\t")
                         .append(BOARD_C).append("\n")
         );

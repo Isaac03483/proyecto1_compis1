@@ -30,12 +30,12 @@ public class WorldDaoImpl implements WorldDAO{
     @Override
     public List<World> findAll() {
 
-        List<World> worlds;
+        List<World> worlds = new ArrayList<>();
         try {
             String xmlContent = FileMaker.getInstance().read();
 
             if(xmlContent.equals("")){
-                return new ArrayList<>();
+                return worlds;
             }
 
             XMLParserHandler xmlParserHandler=  new XMLParserHandler();
@@ -44,7 +44,7 @@ public class WorldDaoImpl implements WorldDAO{
             worlds = xmlParserHandler.getValue();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.err.println(e.getMessage());
         }
 
         return worlds;
