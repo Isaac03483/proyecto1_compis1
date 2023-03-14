@@ -1,11 +1,13 @@
 package com.mio.cliente.boxworld.compiler.parser;
 
-import com.mio.server.builders.*;
-import com.mio.server.compiler.Token;
-import com.mio.server.compiler.lexer.XMLLexer;
-import com.mio.server.models.World;
+import com.mio.cliente.boxworld.builders.*;
+import com.mio.cliente.boxworld.compiler.Token;
+import com.mio.cliente.boxworld.compiler.lexer.XMLLexer;
+import com.mio.cliente.boxworld.models.ErrorType;
+import com.mio.cliente.boxworld.models.Response;
+import com.mio.cliente.boxworld.models.ResponseType;
+import com.mio.cliente.boxworld.models.WorldError;
 import java.util.ArrayList;
-
 
 class XMLParser;
 
@@ -19,28 +21,35 @@ parser code {:
     private WConfigBuilder configBuilder;
     private PointBuilder pointBuilder;
     private BoardBuilder boardBuilder;
+    private ErrorBuilder errorBuilder;
     public XMLParser(XMLLexer lexer){
         super(lexer);
         this.worldBuilder = new WorldBuilder();
         this.configBuilder = new WConfigBuilder();
         this.pointBuilder = new PointBuilder();
         this.boardBuilder = new BoardBuilder();
+        this.errorBuilder = new ErrorBuilder();
     }
 :}
 
 
 terminal Token NAME, ROWS, COLS, PLAYER, CONFIG, TARGETS, BOXES, BOARD, WORLD, WORLDS, TYPE, POSX, POSY, MENOR_QUE, MAYOR_QUE;
 terminal Token BOX_COLOR, BOX_ON_TARGET_COLOR, TARGET_COLOR, UNDEFINED_COLOR, BRICK_COLOR, HALL_COLOR, PLAYER_COLOR;
-terminal Token INTERROGACION, XML, VERSION, IGUAL, LITERAL, ENCODING, DIAGONAL;
-terminal Token ERRORS, ERROR, LINE, COLUMN, DESCRIPTION;
+terminal Token INTERROGACION, XML, VERSION, IGUAL, LITERAL, ENCODING, DIAGONAL,SYM,LEXICO, SINTACTICO, SEMANTICO;
+terminal Token ERRORS, ERROR, LINE, COLUMN, DESCRIPTION, LEXEMA;
 terminal Token HEXADECIMAL, HALL, BRICK, ENTERO, PALABRA;
 
 //non terminals
 non terminal encoding, attributes, attribute, pointProd, pointAttribute;
-non terminal boardProd, boardAttribute, configProd, configAttribute;
-non terminal ArrayList<World> main,worldsProd;
+non terminal boardProd, boardAttribute, configProd, configAttribute, errProd, errAttribute;
+non terminal Response main, responseProd;
 non terminal World worldProd;
-non terminal Integer typeAttribute;
+non terminal String typeAttribute;
+non terminal ArrayList<WorldError> errsProd;
+non terminal ArrayList<String> worldNamesProd;
+non terminal String descType, descProd;
+non terminal ErrorType errType;
+non terminal ArrayList<WorldError> errorProd;
 
 //tags
 non terminal rowsA, rowsC, colsA, colsC, configA, configC, boardA, boardC;
@@ -48,25 +57,58 @@ non terminal boxesA, boxesC, targetsA, targetsC, playerA, playerC, worldsC, worl
 non terminal boxColorA, boxColorC, boxOnTargetColorA, boxOnTargetColorC, targetColorA, targetColorC;
 non terminal brickColorA, brickColorC, hallColorA, hallColorC, undefinedColorA, undefinedColorC, playerColorA;
 non terminal posxA, posxC, posyA, posyC, typeA, typeC, playerColorC;
+non terminal errsA, errsC, errA, errC, lexemaA, lexemaC, lineA, lineC, columnA, columnC, descriptionA, descriptionC;
 
 start with main;
 
-main ::= encoding worldsA worldsProd:ws worldsC                     {:RESULT = ws;:}
+main ::= encoding responseProd:response                                 {:RESULT = response;:}
 	;
 
 encoding ::= MENOR_QUE INTERROGACION XML VERSION IGUAL LITERAL ENCODING IGUAL LITERAL INTERROGACION MAYOR_QUE
     ;
 
-worldsProd ::= worldsProd:array worldProd:world                     {:array.add(world);
-                                                                    System.out.println(world);
-                                                                    RESULT = array;:}
-    | worldProd:world                                               {:RESULT = new ArrayList<World>();
-                                                                    System.out.println(world);
-                                                                    RESULT.add(world);:}
+responseProd ::= worldA attributes worldC                                   {:RESULT = new Response(ResponseType.WORLD, worldBuilder.build(), null, null);:}
+    | worldsA worldNamesProd:array worldsC                                  {:RESULT = new Response(ResponseType.WORLD_NAMES, null, null, array);:}
+    | errsA errsProd:array errsC                                            {:RESULT = new Response(ResponseType.ERRORS, null, array, null);:}
     ;
 
-worldProd ::= worldA attributes worldC                              {:RESULT = worldBuilder.build();
-                                                                    worldBuilder.clean();:}
+worldNamesProd ::= worldNamesProd:array worldA PALABRA:name worldC          {:array.add(name.getValue());
+                                                                            RESULT = array;:}
+    | worldA PALABRA:name worldC                                            {:RESULT = new ArrayList<String>();
+                                                                            RESULT.add(name.getValue());:}
+    ;
+
+errsProd ::= errsProd:array errA errProd errC                               {:array.add(errorBuilder.build());
+                                                                            errorBuilder.clean();
+                                                                            RESULT = array;:}
+    | errA errProd errC                                                     {:RESULT = new ArrayList<>();
+                                                                            RESULT.add(errorBuilder.build());
+                                                                            errorBuilder.clean();:}
+    ;
+
+errProd ::= errProd errAttribute
+    | errAttribute
+    ;
+
+errAttribute ::= lexemaA descType:lexeme lexemaC                            {:errorBuilder.withLexema(lexeme);:}
+    | lineA ENTERO:i lineC                                                  {:errorBuilder.withLine(Integer.valueOf(i.getValue()));:}
+    | columnA ENTERO:i columnC                                              {:errorBuilder.withColumn(Integer.valueOf(i.getValue()));:}
+    | typeA errType:error typeC                                             {:errorBuilder.withErrorType(error);:}
+    | descriptionA descProd:description descriptionC                        {:errorBuilder.withDescription(description);:}
+    ;
+
+descProd ::= descProd:string descType:another                               {:RESULT = string+" "+another;:}
+    | descType:string                                                       {:RESULT = string;:}
+    ;
+
+descType ::= PALABRA:p                                                      {:RESULT = p.getValue();:}
+    | ENTERO:e                                                              {:RESULT = e.getValue();:}
+    | SYM:sym                                                               {:RESULT =sym.getValue();:}
+    ;
+
+errType ::= LEXICO                                                          {:RESULT = ErrorType.LEXICO;:}
+    | SINTACTICO                                                            {:RESULT = ErrorType.SINTACTICO;:}
+    | SEMANTICO                                                             {:RESULT = ErrorType.SEMANTICO;:}
     ;
 
 attributes ::= attributes attribute
@@ -74,8 +116,8 @@ attributes ::= attributes attribute
     ;
 
 attribute ::= nameA PALABRA:nombre nameC                            {:worldBuilder.withName(nombre.getValue());:}
-    | rowsA ENTERO:entero rowsC                                     {:worldBuilder.withRows(Double.valueOf(entero.getValue()));:}
-    | colsA ENTERO:entero colsC                                     {:worldBuilder.withCols(Double.valueOf(entero.getValue()));:}
+    | rowsA ENTERO:entero rowsC                                     {:worldBuilder.withRows(Integer.valueOf(entero.getValue()));:}
+    | colsA ENTERO:entero colsC                                     {:worldBuilder.withCols(Integer.valueOf(entero.getValue()));:}
     | configA configProd configC                                    {:worldBuilder.withConfig(configBuilder.build());
                                                                     configBuilder.clean();:}
     | boardA boardProd boardC                                       {:worldBuilder.withBoard(boardBuilder.withPoint(pointBuilder.build()).build());
@@ -106,21 +148,21 @@ boardProd ::= boardProd boardAttribute
     | boardAttribute
     ;
 
-boardAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Double.valueOf(entero.getValue()));:}
-    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Double.valueOf(entero.getValue()));:}
+boardAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Integer.valueOf(entero.getValue()));:}
+    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Integer.valueOf(entero.getValue()));:}
     typeA typeAttribute:type typeC                                  {:boardBuilder.withType(type);:}
     ;
 
-typeAttribute ::= BRICK:type                                        {:RESULT = Integer.valueOf(type.getType());:}
-    | HALL:type                                                     {:RESULT = Integer.valueOf(type.getType());:}
+typeAttribute ::= BRICK:type                                        {:RESULT = XMLParserSym.terminalNames[type.getType()];:}
+    | HALL:type                                                     {:RESULT = XMLParserSym.terminalNames[type.getType()];:}
     ;
 
 pointProd ::= pointProd pointAttribute
     | pointAttribute
     ;
 
-pointAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Double.valueOf(entero.getValue()));:}
-    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Double.valueOf(entero.getValue()));:}
+pointAttribute ::= posxA ENTERO:entero posxC                        {:pointBuilder.withPosX(Integer.valueOf(entero.getValue()));:}
+    | posyA ENTERO:entero posyC                                     {:pointBuilder.withPosY(Integer.valueOf(entero.getValue()));:}
     ;
 
 
@@ -240,16 +282,22 @@ playerA ::= MENOR_QUE PLAYER MAYOR_QUE
 playerC ::= MENOR_QUE DIAGONAL PLAYER MAYOR_QUE
 	;
 
-errorsA ::= MENOR_QUE ERRORS MAYOR_QUE
+errsA ::= MENOR_QUE ERRORS MAYOR_QUE
     ;
 
-errorsC ::= MENOR_QUE DIAGONAL ERRORS MAYOR_QUE
+errsC ::= MENOR_QUE DIAGONAL ERRORS MAYOR_QUE
     ;
 
-errorA ::= MENOR_QUE ERROR MAYOR_QUE
+errA ::= MENOR_QUE ERROR MAYOR_QUE
     ;
 
-errorC ::= MENOR_QUE DIAGONAL ERROR MAYOR_QUE
+errC ::= MENOR_QUE DIAGONAL ERROR MAYOR_QUE
+    ;
+
+lexemaA ::= MENOR_QUE LEXEMA MAYOR_QUE
+    ;
+
+lexemaC ::= MENOR_QUE DIAGONAL LEXEMA MAYOR_QUE
     ;
 
 lineA ::= MENOR_QUE LINE MAYOR_QUE
@@ -264,7 +312,7 @@ columnA ::= MENOR_QUE COLUMN MAYOR_QUE
 columnC ::= MENOR_QUE DIAGONAL COLUMN MAYOR_QUE
     ;
 
-descriptionA ::= MENOR_QUE DIAGONAL DESCRIPTION MAYOR_QUE
+descriptionA ::= MENOR_QUE DESCRIPTION MAYOR_QUE
     ;
 
 descriptionC ::= MENOR_QUE DIAGONAL DESCRIPTION MAYOR_QUE

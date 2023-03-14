@@ -1,4 +1,9 @@
 package com.mio.cliente.boxworld.models
 
-class Point(val posX: Int, val poxY:Int) {
+import com.mio.cliente.boxworld.builders.PointBuilder
+
+class Point(val pointBuilder: PointBuilder) {
+
+    val posX = pointBuilder.posX
+    val posY = pointBuilder.posY
 }

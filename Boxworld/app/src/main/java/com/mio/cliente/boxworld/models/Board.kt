@@ -1,4 +1,9 @@
 package com.mio.cliente.boxworld.models
 
-class Board(val point: Point, val type: Int) {
+import com.mio.cliente.boxworld.builders.BoardBuilder
+
+class Board(private val builder: BoardBuilder) {
+
+    val point = builder.point
+    val type: String = builder.type
 }

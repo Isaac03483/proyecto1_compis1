@@ -20,7 +20,7 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/Boxw
 %cup
 
 %state ESTADO_COMILLAS
-%state ESTADO_MENSAJE
+
 
 %{
     private Symbol symbolWithValue(int type, Object value){
@@ -56,9 +56,16 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/Boxw
 
 SALTO_LINEA = \r|\n|\r\n
 ESPACIO_BLANCO = {SALTO_LINEA}|[ \t\f]
-CONTRA_DIAGONAL = "/"
+DIAGONAL = "/"
 MENOR_QUE = "<"
 MAYOR_QUE = ">"
+COMILLA = \"
+INTERROGACION = "?"
+IGUAL = "="
+ENCODING = "encoding"
+XML = "xml"
+VERSION = "version"
+
 WORLDS = "worlds"
 WORLD = "world"
 NAME = "name"
@@ -86,11 +93,16 @@ ERRORS = "errors"
 LEXEMA = "lexema"
 LINE = "line"
 COLUMN = "column"
+LEXICO = "LEXICO"
+SINTACTICO = "SINTACTICO"
+SEMANTICO = "SEMANTICO"
 DESCRIPTION = "description"
 HEXADECIMAL = "#"[a-f0-9]{6}
 ENTERO = 0 | [1-9][0-9]*
+DECIMAL = {ENTERO} \. [0-9]+
 PALABRA = [a-zA-Z_][a-zA-z][a-zA-z0-9]*
 LITERAL = {PALABRA}\-({ENTERO}|{DECIMAL})|{ENTERO}| {DECIMAL}
+SYM = [#$~%½&¬!\|@·ºª]+
 
 %%
 
@@ -98,11 +110,12 @@ LITERAL = {PALABRA}\-({ENTERO}|{DECIMAL})|{ENTERO}| {DECIMAL}
     {ESPACIO_BLANCO}                    {;}
     {COMILLA}                           {yybegin(ESTADO_COMILLAS);}
     {WORLDS}                            {return symbolWithoutValue(WORLDS);}
-    {ERRORS}                            {return symbolWithoytValue(ERRORS);}
-    {LEXEMA}                            {return symbolWithoytValue(ERROR);}
-    {LINE}                              {return symbolWithoytValue(LINE);}
-    {COLUMN}                            {return symbolWithoytValue(COLUMN);}
-    {DESCRIPTION}                       {return symbolWithoytValue(DESCRIPTION);}
+    {ERRORS}                            {return symbolWithoutValue(ERRORS);}
+    {ERROR}                            {return symbolWithoutValue(ERROR);}
+    {LEXEMA}                            {return symbolWithoutValue(LEXEMA);}
+    {LINE}                              {return symbolWithoutValue(LINE);}
+    {COLUMN}                            {return symbolWithoutValue(COLUMN);}
+    {DESCRIPTION}                       {return symbolWithoutValue(DESCRIPTION);}
     {IGUAL}                             {return symbolWithoutValue(IGUAL);}
     {INTERROGACION}                     {return symbolWithoutValue(INTERROGACION);}
     {ENCODING}                          {return symbolWithoutValue(ENCODING);}
@@ -134,6 +147,10 @@ LITERAL = {PALABRA}\-({ENTERO}|{DECIMAL})|{ENTERO}| {DECIMAL}
     {MENOR_QUE}                         {return symbolWithoutValue(MENOR_QUE);}
     {ENTERO}                            {return symbolWithValue(ENTERO, yytext());}
     {HEXADECIMAL}                       {return symbolWithValue(HEXADECIMAL, yytext());}
+    {SYM}                               {return symbolWithValue(SYM, yytext());}
+    {LEXICO}                            {return symbolWithoutValue(LEXICO);}
+    {SINTACTICO}                        {return symbolWithoutValue(SINTACTICO);}
+    {SEMANTICO}                         {return symbolWithoutValue(SEMANTICO);}
     {PALABRA}                           {return symbolWithValue(PALABRA, yytext());}
 }
 
