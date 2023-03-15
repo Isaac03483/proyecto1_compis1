@@ -6,7 +6,7 @@
   "rows": 4,
   "name": "nombrePrueba",
   "cols": 4,
-  "config": {
+  "config" {
     "box_color": "#ffff00",
     "box_on_target_color": "#fe0002",
     "target_color": "#d6fe0a",
@@ -79,6 +79,6 @@
   ],
   "player": {
     "posX": 1,
-    "posY": "(5 + 2) / (3 + 4)"
-  }
+    "posY": "(5 + 2) / (3 + 4"
+
 }

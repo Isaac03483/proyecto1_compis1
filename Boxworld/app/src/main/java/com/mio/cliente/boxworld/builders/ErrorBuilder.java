@@ -3,7 +3,9 @@ package com.mio.cliente.boxworld.builders;
 import com.mio.cliente.boxworld.models.ErrorType;
 import com.mio.cliente.boxworld.models.WorldError;
 
-public class ErrorBuilder {
+import java.io.Serializable;
+
+public class ErrorBuilder implements Serializable {
 
     private String lexema;
     private Integer line;

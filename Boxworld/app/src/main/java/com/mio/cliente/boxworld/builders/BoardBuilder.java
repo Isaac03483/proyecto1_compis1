@@ -3,7 +3,9 @@ package com.mio.cliente.boxworld.builders;
 import com.mio.cliente.boxworld.models.Board;
 import com.mio.cliente.boxworld.models.Point;
 
-public class BoardBuilder {
+import java.io.Serializable;
+
+public class BoardBuilder implements Serializable {
 
     private Point point;
     private String type;

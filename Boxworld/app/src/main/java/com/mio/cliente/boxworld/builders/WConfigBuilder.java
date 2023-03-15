@@ -2,7 +2,9 @@ package com.mio.cliente.boxworld.builders;
 
 import com.mio.cliente.boxworld.models.WConfig;
 
-public class WConfigBuilder {
+import java.io.Serializable;
+
+public class WConfigBuilder implements Serializable {
 
     private String boxColor;
     private String boxOnTargetColor;

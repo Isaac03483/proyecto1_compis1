@@ -1,8 +1,9 @@
 package com.mio.cliente.boxworld.models
 
 import com.mio.cliente.boxworld.builders.ErrorBuilder
+import java.io.Serializable
 
-class WorldError(val errorBuilder: ErrorBuilder) {
+data class WorldError(val errorBuilder: ErrorBuilder): Serializable {
 
     var lexema = errorBuilder.lexema
     var line = errorBuilder.line

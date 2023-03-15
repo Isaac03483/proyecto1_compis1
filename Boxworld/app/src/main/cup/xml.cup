@@ -81,7 +81,7 @@ worldNamesProd ::= worldNamesProd:array worldA PALABRA:name worldC          {:ar
 errsProd ::= errsProd:array errA errProd errC                               {:array.add(errorBuilder.build());
                                                                             errorBuilder.clean();
                                                                             RESULT = array;:}
-    | errA errProd errC                                                     {:RESULT = new ArrayList<>();
+    | errA errProd errC                                                     {:RESULT = new ArrayList<WorldError>();
                                                                             RESULT.add(errorBuilder.build());
                                                                             errorBuilder.clean();:}
     ;
@@ -90,7 +90,7 @@ errProd ::= errProd errAttribute
     | errAttribute
     ;
 
-errAttribute ::= lexemaA descType:lexeme lexemaC                            {:errorBuilder.withLexema(lexeme);:}
+errAttribute ::= lexemaA descProd:lexeme lexemaC                            {:errorBuilder.withLexema(lexeme);:}
     | lineA ENTERO:i lineC                                                  {:errorBuilder.withLine(Integer.valueOf(i.getValue()));:}
     | columnA ENTERO:i columnC                                              {:errorBuilder.withColumn(Integer.valueOf(i.getValue()));:}
     | typeA errType:error typeC                                             {:errorBuilder.withErrorType(error);:}

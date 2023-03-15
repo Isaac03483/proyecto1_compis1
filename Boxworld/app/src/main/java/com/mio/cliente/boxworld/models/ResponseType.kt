@@ -1,6 +1,8 @@
 package com.mio.cliente.boxworld.models
 
-enum class ResponseType {
+import java.io.Serializable
+
+enum class ResponseType: Serializable {
 
     WORLD,ERRORS,WORLD_NAMES
 }

@@ -1,8 +1,9 @@
 package com.mio.cliente.boxworld.models
 
 import com.mio.cliente.boxworld.builders.WConfigBuilder
+import java.io.Serializable
 
-class WConfig(val builderWConfigBuilder: WConfigBuilder) {
+data class WConfig(val builderWConfigBuilder: WConfigBuilder): Serializable {
 
     val boxColor = builderWConfigBuilder.boxColor
     val boxOnTargetColor = builderWConfigBuilder.boxOnTargetColor

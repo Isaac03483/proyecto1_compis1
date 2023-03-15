@@ -1,6 +1,8 @@
 package com.mio.cliente.boxworld.models
 
-enum class ErrorType {
+import java.io.Serializable
+
+enum class ErrorType: Serializable {
 
     LEXICO, SINTACTICO, SEMANTICO
 }

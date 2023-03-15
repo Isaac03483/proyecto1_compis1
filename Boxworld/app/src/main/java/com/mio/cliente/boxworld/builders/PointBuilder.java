@@ -2,7 +2,9 @@ package com.mio.cliente.boxworld.builders;
 
 import com.mio.cliente.boxworld.models.Point;
 
-public class PointBuilder {
+import java.io.Serializable;
+
+public class PointBuilder implements Serializable {
 
     private Integer posX;
     private Integer posY;

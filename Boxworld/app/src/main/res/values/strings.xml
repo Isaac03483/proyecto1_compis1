@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Boxworld</string>
     <string name="compilar">Compilar</string>
+    <string name="namesTitle">Nombres de Mundos</string>
+    <string name="errorsTitle">Reporte de Errores</string>
+    <string name="GameTitle">Juego</string>
 </resources>

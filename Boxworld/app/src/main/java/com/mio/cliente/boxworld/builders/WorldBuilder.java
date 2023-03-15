@@ -6,10 +6,11 @@ import com.mio.cliente.boxworld.models.Point;
 import com.mio.cliente.boxworld.models.WConfig;
 import com.mio.cliente.boxworld.models.World;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorldBuilder {
+public class WorldBuilder implements Serializable {
 
     private String name;
     private Integer rows;
