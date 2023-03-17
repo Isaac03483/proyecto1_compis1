@@ -131,6 +131,7 @@ optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL:all COMILLA        
     | worldProd                                                                     {:RESULT = new Request(RequestType.CREATE, worldBuilder.build());
                                                                                     System.out.println("Creando el mundo  "+RESULT);
                                                                                     worldBuilder.clean();:}
+    | error COMILLA
     ;
 
 worldProd ::= worldProd COMA worldAttribute
