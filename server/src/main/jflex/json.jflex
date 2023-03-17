@@ -7,11 +7,7 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/serv
 
 import com.mio.server.compiler.Token;
 import static com.mio.server.compiler.parser.JsonParserSym.*;
-
-import com.mio.server.models.WorldError;
-import com.mio.server.models.ErrorType;
 import java_cup.runtime.Symbol;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +25,25 @@ import java.util.List;
 
 %{
 
+    private List<Token> arithmeticTokens = new ArrayList<>();
 
     private Symbol symbolWithValue(int type, Object value){
         return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
     }
 
     private Symbol symbolWithoutValue(int type){
-        return new Symbol(type, new Token(type, null, yyline+1, yycolumn+1 ));
+
+        Token token = new Token(type, null, yyline+1, yycolumn+1 );
+
+        if(type == SUMA || type == RESTA || type == MULTIPLICACION || type == DIVISION || type == CEIL || type == FLOOR){
+            arithmeticTokens.add(token);
+        }
+
+        return new Symbol(type, token);
+    }
+
+    public List<Token> getArithmeticReport(){
+        return arithmeticTokens;
     }
 
 %}
@@ -193,6 +201,7 @@ SYM = [#$~%½&¬!\|@·<>\?ºª]+
 
     {RESTA}
     {
+
         return symbolWithoutValue(RESTA);
 
     }

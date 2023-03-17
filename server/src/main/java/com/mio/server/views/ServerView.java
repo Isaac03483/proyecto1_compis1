@@ -24,12 +24,14 @@ public class ServerView extends javax.swing.JFrame {
         serverViewHandler = new ServerViewHandler(this);
         initComponents();
         this.setLocationRelativeTo(null);
+        reportButton.setEnabled(false);
         initSocket();
     }
 
     public void initSocket(){
         serverViewHandler.initSocket();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -45,6 +47,7 @@ public class ServerView extends javax.swing.JFrame {
         jsonArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         xmlArea = new javax.swing.JTextArea();
+        reportButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -61,6 +64,13 @@ public class ServerView extends javax.swing.JFrame {
         xmlArea.setEnabled(false);
         jScrollPane2.setViewportView(xmlArea);
 
+        reportButton.setText("Reportes");
+        reportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -69,7 +79,9 @@ public class ServerView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(infoLabel))
+                        .addComponent(infoLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(reportButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 6, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -80,9 +92,11 @@ public class ServerView extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(infoLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(infoLabel)
+                    .addComponent(reportButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))
@@ -91,6 +105,12 @@ public class ServerView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void reportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportButtonActionPerformed
+        // TODO add your handling code here:
+        serverViewHandler.buttonEvent();
+
+    }//GEN-LAST:event_reportButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,11 +168,16 @@ public class ServerView extends javax.swing.JFrame {
         return xmlArea;
     }
 
+    public JButton getReportButton() {
+        return reportButton;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel infoLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jsonArea;
+    private javax.swing.JButton reportButton;
     private javax.swing.JTextArea xmlArea;
     // End of variables declaration//GEN-END:variables
 }

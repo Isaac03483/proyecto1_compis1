@@ -12,6 +12,8 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/serv
 import com.mio.server.compiler.Token;
 import static com.mio.server.compiler.parser.JsonParserSym.*;
 import java_cup.runtime.Symbol;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -419,15 +421,25 @@ public class JsonLexer implements java_cup.runtime.Scanner {
 
   /* user code: */
 
+    private List<Token> arithmeticTokens = new ArrayList<>();
 
     private Symbol symbolWithValue(int type, Object value){
-      System.out.println("Encontré "+value.toString());
         return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
     }
 
     private Symbol symbolWithoutValue(int type){
-      System.out.println("Encontré "+type);
-        return new Symbol(type, new Token(type, null, yyline+1, yycolumn+1 ));
+
+        Token token = new Token(type, null, yyline+1, yycolumn+1 );
+
+        if(type == SUMA || type == RESTA || type == MULTIPLICACION || type == DIVISION || type == CEIL || type == FLOOR){
+            arithmeticTokens.add(token);
+        }
+
+        return new Symbol(type, token);
+    }
+
+    public List<Token> getArithmeticReport(){
+        return arithmeticTokens;
     }
 
 

@@ -1,10 +1,12 @@
 package com.mio.server.handlers;
 
 import com.mio.server.checkers.WorldChecker;
+import com.mio.server.compiler.Token;
 import com.mio.server.dao.WorldDAO;
 import com.mio.server.dao.WorldDaoImpl;
 import com.mio.server.exceptions.DuplicateWorldException;
 import com.mio.server.models.*;
+import com.mio.server.views.ReportView;
 import com.mio.server.views.ServerView;
 import com.mio.server.xmlMaker.XMLMaker;
 
@@ -14,12 +16,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
 public class ServerViewHandler {
 
     private ServerView serverView;
+    private List<Token> arithmeticReport;
 
     public ServerViewHandler(ServerView serverView) {
         this.serverView = serverView;
@@ -77,6 +81,11 @@ public class ServerViewHandler {
             jsonParserHandler.compile(requestInfo);
             Request request = jsonParserHandler.getValue();
             List<WorldError> errors = jsonParserHandler.getErrors();
+            arithmeticReport = jsonParserHandler.getReport();
+
+            if(!serverView.getReportButton().isEnabled()){
+                serverView.getReportButton().setEnabled(true);
+            }
 
             if(!errors.isEmpty()){
                 responseContent = XMLMaker.getInstance().errorsToXML(errors);
@@ -136,7 +145,11 @@ public class ServerViewHandler {
 
         } catch (Exception e) {
 //            JOptionPane.showMessageDialog(null, "Imposible analizar la cadena enviada");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            WorldError error = new WorldError(null, 0, 0, ErrorType.SEMANTICO, "Algo salió mal");
+            List<WorldError> errors = new ArrayList<>();
+            errors.add(error);
+            return new Response(XMLMaker.getInstance().errorsToXML(errors));
         }
 
         return null;
@@ -149,5 +162,10 @@ public class ServerViewHandler {
 
     public void setServerView(ServerView serverView) {
         this.serverView = serverView;
+    }
+
+    public void buttonEvent() {
+        ReportView reportView = new ReportView(this.serverView, arithmeticReport, true);
+        reportView.setVisible(true);
     }
 }

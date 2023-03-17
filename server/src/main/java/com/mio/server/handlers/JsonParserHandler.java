@@ -1,5 +1,6 @@
 package com.mio.server.handlers;
 
+import com.mio.server.compiler.Token;
 import com.mio.server.compiler.lexer.JsonLexer;
 import com.mio.server.compiler.parser.JsonParser;
 import com.mio.server.models.WorldError;
@@ -14,6 +15,7 @@ public class JsonParserHandler implements ParserHandler<Request> {
 
     private Request request;
     private List<WorldError> errors;
+    private List<Token> arithmeticReport;
 
     @Override
     public void compile(String text) throws Exception {
@@ -23,11 +25,12 @@ public class JsonParserHandler implements ParserHandler<Request> {
 //        parser.parse();
         Symbol sym = parser.parse();
 
-        if(sym != null){
+        if(sym != null && sym.value instanceof Request){
             request =(Request) sym.value;
         }
 
         errors = parser.getErrors();
+        arithmeticReport = lexer.getArithmeticReport();
     }
 
     @Override
@@ -40,4 +43,7 @@ public class JsonParserHandler implements ParserHandler<Request> {
         return errors;
     }
 
+    public List<Token> getReport() {
+        return arithmeticReport;
+    }
 }

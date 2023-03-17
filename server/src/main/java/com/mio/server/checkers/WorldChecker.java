@@ -102,7 +102,7 @@ public class WorldChecker {
             }).filter(point1 -> Objects.equals(point1, target)).findFirst();
 
             if(point.isEmpty()){
-                worldErrors.add(new WorldError(null, 0,0,ErrorType.SEMANTICO, "La coordenada del objetivo no se ha encontrado en el tablero"));
+                worldErrors.add(new WorldError(null, 0,0,ErrorType.SEMANTICO, "La coordenada del objetivo no se ha encontrado en el tablero o intentó posicionarlo en un muro"));
             }
         });
     }
@@ -129,7 +129,7 @@ public class WorldChecker {
             }).filter(point1 -> Objects.equals(point1, box)).findFirst();
 
             if(point.isEmpty()){
-                worldErrors.add(new WorldError(null, 0,0,ErrorType.SEMANTICO, "La coordenada de la caja no se ha encontrado en el mundo"));
+                worldErrors.add(new WorldError(null, 0,0,ErrorType.SEMANTICO, "La coordenada de la caja no se ha encontrado en el mundo o intentó posicionarlo en un muro"));
             }
         });
     }
@@ -139,8 +139,18 @@ public class WorldChecker {
             worldErrors.add(new WorldError(null, 1,1,ErrorType.SEMANTICO, "La posición del jugador en el tablero no ha sido declarado"));
             return;
         }
-
         pointChecker.checkAll(world.getPlayer());
+
+        Optional<Point> point = world.getBoard().stream().map(board -> {
+            if(board.getType().equals(JsonParserSym.terminalNames[JsonParserSym.HALL])){
+                return board.getPoint();
+            }
+            return null;
+        }).filter(point1 -> Objects.equals(point1, world.getPlayer())).findFirst();
+
+        if(point.isEmpty()){
+            worldErrors.add(new WorldError(null, 0,0,ErrorType.SEMANTICO, "La coordenada del jugador no se ha encontrado en el mundo o intentó posicionarlo en un muro"));
+        }
     }
 
 }

@@ -384,7 +384,7 @@ b ::=
 c ::=
     PARENTESIS_A a:n1 PARENTESIS_C              {:RESULT = n1;:}
     | d:n1                                      {:RESULT = n1;:}
-    | error PARENTESIS_C                        {:RESULT = 1d;:}
+    | error PARENTESIS_C                        {:RESULT = 1.0;:}
     ;
 
 d ::=

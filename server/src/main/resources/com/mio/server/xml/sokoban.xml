@@ -97,10 +97,10 @@
 
 		<boxes>
 			<posX>1</posX>
-			<posY>2</posY>
+			<posY>1</posY>
 		</boxes>
 		<boxes>
-			<posX>2</posX>
+			<posX>1</posX>
 			<posY>2</posY>
 		</boxes>
 
@@ -110,7 +110,7 @@
 		</targets>
 
 		<player>
-			<posX>0</posX>
+			<posX>2</posX>
 			<posY>1</posY>
 		</player>
 	</world>
