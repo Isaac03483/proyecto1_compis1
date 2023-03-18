@@ -6,7 +6,7 @@ import com.mio.cliente.boxworld.compiler.lexer.XMLLexer;
 import com.mio.cliente.boxworld.models.ErrorType;
 import com.mio.cliente.boxworld.models.Response;
 import com.mio.cliente.boxworld.models.ResponseType;
-import com.mio.cliente.boxworld.models.WorldError;
+import com.mio.cliente.boxworld.models.ParserError;
 import java.util.ArrayList;
 
 class XMLParser;
@@ -45,11 +45,10 @@ non terminal boardProd, boardAttribute, configProd, configAttribute, errProd, er
 non terminal Response main, responseProd;
 non terminal World worldProd;
 non terminal String typeAttribute;
-non terminal ArrayList<WorldError> errsProd;
 non terminal ArrayList<String> worldNamesProd;
 non terminal String descType, descProd;
 non terminal ErrorType errType;
-non terminal ArrayList<WorldError> errorProd;
+non terminal ArrayList<ParserError> errsProd, errorProd;
 
 //tags
 non terminal rowsA, rowsC, colsA, colsC, configA, configC, boardA, boardC;
@@ -81,7 +80,7 @@ worldNamesProd ::= worldNamesProd:array worldA PALABRA:name worldC          {:ar
 errsProd ::= errsProd:array errA errProd errC                               {:array.add(errorBuilder.build());
                                                                             errorBuilder.clean();
                                                                             RESULT = array;:}
-    | errA errProd errC                                                     {:RESULT = new ArrayList<WorldError>();
+    | errA errProd errC                                                     {:RESULT = new ArrayList<ParserError>();
                                                                             RESULT.add(errorBuilder.build());
                                                                             errorBuilder.clean();:}
     ;

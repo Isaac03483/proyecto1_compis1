@@ -1,10 +1,16 @@
 package com.mio.cliente.boxworld.compiler.parser;
 
+import com.mio.cliente.boxworld.builders.ErrorBuilder;
 import com.mio.cliente.boxworld.compiler.lexer.MovesLexer;
 import com.mio.cliente.boxworld.compiler.parser.MovesParserSym;
 import com.mio.cliente.boxworld.compiler.Token;
+import com.mio.cliente.boxworld.models.ErrorType;
 import com.mio.cliente.boxworld.models.Move;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.mio.cliente.boxworld.models.ParserError;
+import java_cup.runtime.Symbol;
 
 
 /*
@@ -15,9 +21,98 @@ class MovesParser;
 
 parser code{:
 
+
+    List<ParserError> errors;
     public MovesParser(MovesLexer lexer){
         super(lexer);
+        errors = new ArrayList<>();
     }
+
+    public List<ParserError> getErrors() {
+        return errors;
+    }
+
+    public Symbol scan() throws Exception {
+        Symbol symbol = this.getScanner().next_token();
+        if (symbol == null) {
+            return this.getSymbolFactory().newSymbol("END_OF_FILE", this.EOF_sym());
+            }
+
+            while(symbol != null && symbol.sym == MovesParserSym.SYM) {
+//                this.report_expected_token_ids();
+                System.out.println("Ingorando: " + symbol.value.toString());
+                Token token = (Token) symbol.value;
+                errors.add(
+                        new ParserError(new ErrorBuilder().withLexema(token.getValue())
+                                .withLine(token.getLine()).withColumn(token.getColumn())
+                                .withErrorType(ErrorType.LEXICO).withDescription("Este error no se encuentra en el lenguaje.")
+                        )
+                );
+                symbol = this.getScanner().next_token();
+            }
+
+            if (symbol == null) {
+                return this.getSymbolFactory().newSymbol("END_OF_FILE", this.EOF_sym());
+            }
+
+            return symbol;
+    }
+
+    public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        Token token = (Token) cur_token.value;
+
+        if (cur_token.sym == MovesParserSym.EOF) {
+    //          String er = "Simbolo inesperado, se esperaba: "+ simbolosTerminales.obtenerSimbolos(expected_token_ids()).toString();
+            String er = "Simbolo inesperado";
+            errors.add(
+                    new ParserError(new ErrorBuilder().withLexema("").withLine(token.getLine())
+                            .withColumn(token.getColumn()).withErrorType(ErrorType.SEMANTICO).withDescription(er)
+                    )
+
+            );
+            System.out.println(er);
+        } else {
+            String er = "Simbolo inesperado";
+            errors.add(
+                    new ParserError(new ErrorBuilder().withLexema(token.getValue()).withLine(token.getLine())
+                            .withColumn(token.getColumn()).withErrorType(ErrorType.SEMANTICO).withDescription(er)
+                    )
+            );
+
+            System.out.println(er);
+        }
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        if (cur_token.sym == MovesParserSym.EOF) {
+            Token token = (Token) cur_token.value;
+            String er = "Error irrecuperable se llego al final del archivo";
+            errors.add(
+                    new ParserError(new ErrorBuilder().withLexema("Fin del archivo").withLine(token.getLine())
+                            .withColumn(token.getColumn()).withErrorType(ErrorType.SEMANTICO).withDescription(er)
+                    )
+            );
+            System.out.println(er);
+        } else {
+            Token token = (Token) cur_token.value;
+            //String er = "Error irrecuperable, un posible simbolo esperado: "+ simbolosTerminales.obtenerSimbolos(expected_token_ids()).toString();
+            String er = "Error irrecuperable resuelva el error anterior";
+            errors.add(
+                    new ParserError(new ErrorBuilder().withLexema(token.getValue()).withLine(token.getLine())
+                            .withColumn(token.getColumn()).withErrorType(ErrorType.SEMANTICO).withDescription(er)
+                    )
+            );
+            System.out.println(er);
+        }
+    }
+
 :}
 
 
@@ -59,7 +154,7 @@ parser code{:
 */
 
 terminal Token SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_A, PARENTESIS_C, PUNTO_COMA, ENTERO, DECIMAL;
-terminal Token RIGHT, LEFT, UP, DOWN, PUSH, FLOOR, CEIL;
+terminal Token RIGHT, LEFT, UP, DOWN, PUSH, FLOOR, CEIL, SYM;
 non terminal ArrayList<Move> main;
 non terminal Move movProd, dirProd;
 non terminal Double a, b, c, d;
@@ -83,6 +178,8 @@ movProd ::=
 
 dirProd ::=
     direccion:d PARENTESIS_A numero:n1 PARENTESIS_C PUNTO_COMA        {:RESULT = new Move(false,d,n1);:}
+    | error PUNTO_COMA
+    | error PARENTESIS_C
     ;
 
 direccion ::=
@@ -104,7 +201,18 @@ a ::=
 
 b ::=
     b:n1 MULTIPLICACION c:n2                    {:RESULT = n1 * n2;:}
-    | b:n1 DIVISION c:n2                        {:RESULT = n1 / n2;:}
+    | b:n1 DIVISION:d c:n2
+    {:
+        if(n2 == 0){
+            errors.add(
+                new ParserError(
+                    new ErrorBuilder().withLexema(String.valueOf(n2)).withLine(d.getLine()).withColumn(d.getColumn()).withErrorType(ErrorType.SEMANTICO).withDescription("Imposible dividir entre 0.")
+                )
+            );
+            n2 = 1.0;
+        }
+        RESULT = n1 / n2;
+    :}
     | RESTA c:n1                                {:RESULT = -1 * n1;:}
     | c:n1                                      {:RESULT = n1;:}
     ;
@@ -112,6 +220,7 @@ b ::=
 c ::=
     PARENTESIS_A a:n1 PARENTESIS_C              {:RESULT = n1;:}
     | d:n1                                      {:RESULT = n1;:}
+    | error PARENTESIS_C
     ;
 
 d ::=

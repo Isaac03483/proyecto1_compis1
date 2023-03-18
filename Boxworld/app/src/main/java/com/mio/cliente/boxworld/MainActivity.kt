@@ -46,18 +46,13 @@ class MainActivity : AppCompatActivity() {
             }
             ResponseType.WORLD_NAMES -> {
                 val intent = Intent(this, NamesActivity::class.java)
-                val bundle = Bundle()
-                bundle.putSerializable("response", response)
-                intent.putExtras(bundle)
-
+                intent.putExtra("response", response)
                 startActivity(intent)
 
             }
             else -> {
                 val intent = Intent(this, ErrorActivity::class.java)
-                val bundle = Bundle()
-                bundle.putSerializable("response", response)
-                intent.putExtras(bundle)
+                intent.putExtra("response", response)
                 startActivity(intent)
             }
         }

@@ -1,7 +1,7 @@
 package com.mio.cliente.boxworld.builders;
 
 import com.mio.cliente.boxworld.models.ErrorType;
-import com.mio.cliente.boxworld.models.WorldError;
+import com.mio.cliente.boxworld.models.ParserError;
 
 import java.io.Serializable;
 
@@ -41,8 +41,8 @@ public class ErrorBuilder implements Serializable {
         return this;
     }
 
-    public WorldError build(){
-        return new WorldError(this);
+    public ParserError build(){
+        return new ParserError(this);
     }
 
     public void clean(){

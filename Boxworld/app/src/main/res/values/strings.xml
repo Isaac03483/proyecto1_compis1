@@ -4,4 +4,10 @@
     <string name="namesTitle">Nombres de Mundos</string>
     <string name="errorsTitle">Reporte de Errores</string>
     <string name="GameTitle">Juego</string>
+    <string name="reports">Reportes</string>
+    <string name="movesHint">Ingrese sus movimientos</string>
+    <string name="movesTokenReport">Reporte de Movimientos</string>
+    <string name="arithmeticTokenReport">Reporte de Operaciones</string>
+    <string name="movesCountReport">Reporte de número de movimientos</string>
+    <string name="wait">Esperando movimientos</string>
 </resources>

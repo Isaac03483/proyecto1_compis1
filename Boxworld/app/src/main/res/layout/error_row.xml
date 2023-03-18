@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableRow
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/tvLexeme"
+            android:layout_weight="1" android:textSize="16sp" android:background="@drawable/border"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/tvLine"
+            android:layout_weight="1" android:textSize="16sp" android:background="@drawable/border"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/tvCol"
+            android:layout_weight="1" android:textSize="16sp" android:background="@drawable/border"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/tvType"
+            android:layout_weight="1" android:textSize="16sp" android:background="@drawable/border"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/tvDesc"
+            android:layout_weight="1" android:textSize="16sp" android:background="@drawable/border"/>
+</TableRow>

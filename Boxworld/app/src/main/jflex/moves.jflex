@@ -1,7 +1,10 @@
 package com.mio.cliente.boxworld;
 
 import com.mio.cliente.boxworld.compiler.Token;
+import com.mio.cliente.boxworld.models.MovesCount;
 import java_cup.runtime.Symbol;
+import java.util.ArrayList;
+import java.util.List;
 import static com.mio.cliente.boxworld.compiler.parser.MovesParserSym.*;
 
 
@@ -23,12 +26,51 @@ java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/proyecto-1-compis1/Boxw
 
 
 %{
+
+    private List<Token> arithmeticTokens = new ArrayList<>();
+    private List<Token> movesTokens = new ArrayList<>();
+    private MovesCount count = new MovesCount();
+
     private Symbol symbolWithValue(int type, Object value){
         return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
     }
 
     private Symbol symbolWithoutValue(int type){
-        return new Symbol(type, new Token(type, null, yyline+1, yycolumn+1 ));
+
+      Token token = new Token(type, null, yyline+1, yycolumn+1 );
+
+      if(type == SUMA || type == RESTA || type == MULTIPLICACION || type == DIVISION || type == CEIL || type == FLOOR){
+        arithmeticTokens.add(token);
+      }
+
+      switch (type) {
+        case LEFT: count.addLeft();
+            break;
+        case RIGHT: count.addRight();
+            break;
+        case UP : count.addUp();
+            break;
+        case DOWN: count.addDown();
+            break;
+        }
+
+      if(type == LEFT || type == RIGHT || type == UP || type == DOWN){
+        movesTokens.add(token);
+      }
+
+      return new Symbol(type, token);
+    }
+
+    public List<Token> getArithmeticReport(){
+        return arithmeticTokens;
+    }
+
+    public MovesCount getCount(){
+      return count;
+    }
+
+    public List<Token> getMovesTokens() {
+        return movesTokens;
     }
 %}
 
@@ -72,6 +114,7 @@ FLOOR = "FLOOR"
 CEIL = "CEIL"
 ENTERO = 0 | [1-9][0-9]*
 DECIMAL = {ENTERO} \. [0-9]+
+SYM = [a-zA-Z·:,´_'\"!\|\?ªº$~%½&¬\{\[\]\}=¿]+
 
 %%
 
@@ -164,8 +207,10 @@ DECIMAL = {ENTERO} \. [0-9]+
     {
         return symbolWithValue(DECIMAL, yytext());
     }
-
-
+    {SYM}
+    {
+        return symbolWithValue(SYM, yytext());
+    }
 }
 
 <BLOQUE_COMENTARIO>{

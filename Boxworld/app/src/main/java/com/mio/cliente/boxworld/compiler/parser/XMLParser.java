@@ -5,15 +5,15 @@
 
 package com.mio.cliente.boxworld.compiler.parser;
 
+import android.annotation.SuppressLint;
 import com.mio.cliente.boxworld.builders.*;
 import com.mio.cliente.boxworld.compiler.Token;
 import com.mio.cliente.boxworld.compiler.lexer.XMLLexer;
 import com.mio.cliente.boxworld.models.ErrorType;
 import com.mio.cliente.boxworld.models.Response;
 import com.mio.cliente.boxworld.models.ResponseType;
-import com.mio.cliente.boxworld.models.WorldError;
+import com.mio.cliente.boxworld.models.ParserError;
 import java.util.ArrayList;
-import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
@@ -418,6 +418,7 @@ class CUP$XMLParser$actions {
   }
 
   /** Method 0 with the actual generated action code for actions 0 to 300. */
+  @SuppressLint("SuspiciousIndentation")
   public final java_cup.runtime.Symbol CUP$XMLParser$do_action_part00000000(
     int                        CUP$XMLParser$act_num,
     java_cup.runtime.lr_parser CUP$XMLParser$parser,
@@ -493,7 +494,7 @@ class CUP$XMLParser$actions {
               Response RESULT =null;
 		int arrayleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).left;
 		int arrayright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).right;
-		ArrayList<WorldError> array = (ArrayList<WorldError>)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
+		ArrayList<ParserError> array = (ArrayList<ParserError>)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-1)).value;
 		RESULT = new Response(ResponseType.ERRORS, null, array, null);
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("responseProd",12, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-2)), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);
             }
@@ -531,10 +532,10 @@ class CUP$XMLParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 8: // errsProd ::= errsProd errA errProd errC 
             {
-              ArrayList<WorldError> RESULT =null;
+              ArrayList<ParserError> RESULT =null;
 		int arrayleft = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-3)).left;
 		int arrayright = ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-3)).right;
-		ArrayList<WorldError> array = (ArrayList<WorldError>)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-3)).value;
+		ArrayList<ParserError> array = (ArrayList<ParserError>)((java_cup.runtime.Symbol) CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-3)).value;
 		array.add(errorBuilder.build());
                                                                             errorBuilder.clean();
                                                                             RESULT = array;
@@ -545,8 +546,8 @@ class CUP$XMLParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 9: // errsProd ::= errA errProd errC 
             {
-              ArrayList<WorldError> RESULT =null;
-		RESULT = new ArrayList<WorldError>();
+              ArrayList<ParserError> RESULT =null;
+		RESULT = new ArrayList<ParserError>();
                                                                             RESULT.add(errorBuilder.build());
                                                                             errorBuilder.clean();
               CUP$XMLParser$result = parser.getSymbolFactory().newSymbol("errsProd",15, ((java_cup.runtime.Symbol)CUP$XMLParser$stack.elementAt(CUP$XMLParser$top-2)), ((java_cup.runtime.Symbol)CUP$XMLParser$stack.peek()), RESULT);

@@ -10,4 +10,6 @@ data class Board(private val builder: BoardBuilder): Serializable {
     var hasBox: Boolean = false
     var hasTarget: Boolean = false
     var hasPlayer: Boolean = false
+
+
 }

@@ -17,6 +17,7 @@ public class MovesParserSym {
   public static final int CEIL = 17;
   public static final int RIGHT = 11;
   public static final int LEFT = 12;
+  public static final int SYM = 18;
   public static final int EOF = 0;
   public static final int PUSH = 15;
   public static final int PARENTESIS_C = 7;
@@ -44,7 +45,8 @@ public class MovesParserSym {
   "DOWN",
   "PUSH",
   "FLOOR",
-  "CEIL"
+  "CEIL",
+  "SYM"
   };
 }
 
