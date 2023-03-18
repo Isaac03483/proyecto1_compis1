@@ -1,6 +1,5 @@
 package com.mio.server.models;
 
-
 public record WorldError(String value, int line, int column, ErrorType errorType, String description) {
 
     @Override

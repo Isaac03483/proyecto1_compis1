@@ -30,7 +30,7 @@ public class ServerViewHandler {
     }
 
     public void initSocket(){
-        Executors.newFixedThreadPool(1).execute(() -> {
+        Executors.newFixedThreadPool(2).execute(() -> {
             ServerSocket server;
             Socket socket;
             DataInputStream scanner;

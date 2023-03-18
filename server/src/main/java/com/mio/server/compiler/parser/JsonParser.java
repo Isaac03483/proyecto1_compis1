@@ -400,1032 +400,833 @@ class CUP$JsonParser$actions {
       java_cup.runtime.Symbol CUP$JsonParser$result;
 
       /* select the action based on the action number */
-        switch (CUP$JsonParser$act_num) {
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 0 -> { // $START ::= main EOF
-                {
-                    Object RESULT = null;
-                    int start_valleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int start_valright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Request start_val = (Request) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-                    RESULT = start_val;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("$START", 0, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                /* ACCEPT */
-                CUP$JsonParser$parser.done_parsing();
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 1 -> { // main ::= LLAVE_A optionProd LLAVE_C
-                {
-                    Request RESULT = null;
-                    int requestleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int requestright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Request request = (Request) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-                    RESULT = request;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("main", 16, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 2 -> { // main ::= error LLAVE_C
-                {
-                    Request RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("main", 16, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 3 -> { // optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL COMILLA
-                {
-                    Request RESULT = null;
-                    int allleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int allright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Token all = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-                    worldBuilder.withName(JsonParserSym.terminalNames[all.getType()]);
-                    RESULT = new Request(RequestType.FIND_ALL, null);
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd", 15, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 4 -> { // optionProd ::= COMILLA WORLD COMILLA DOS_PUNTOS COMILLA PALABRA COMILLA
-                {
-                    Request RESULT = null;
-                    int nameleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int nameright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Token name = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-                    worldBuilder.withName(String.valueOf(name.getValue()));
-                    RESULT = new Request(RequestType.FIND_BY_NAME, worldBuilder.build());
-                    worldBuilder.clean();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd", 15, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 5 -> { // optionProd ::= worldProd
-                {
-                    Request RESULT = null;
-                    RESULT = new Request(RequestType.CREATE, worldBuilder.build());
-                    System.out.println("Creando el mundo  " + RESULT);
-                    worldBuilder.clean();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd", 15, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 6 -> { // optionProd ::= error COMILLA
-                {
-                    Request RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd", 15, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 7 -> { // worldProd ::= worldProd COMA worldAttribute
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldProd", 0, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 8 -> { // worldProd ::= worldAttribute
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldProd", 0, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 9 -> { // worldProd ::= error COMA
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldProd", 0, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 10 -> { // worldAttribute ::= COMILLA NAME COMILLA DOS_PUNTOS COMILLA PALABRA COMILLA
-                {
-                    Object RESULT = null;
-                    int nameleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int nameright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Token name = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-
-                    try {
-                        worldBuilder.withName(String.valueOf(name.getValue()));
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(name.getValue(), name.getLine(), name.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-                    }
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 11 -> { // worldAttribute ::= COMILLA ROWS COMILLA DOS_PUNTOS numProd
-                {
-                    Object RESULT = null;
-                    int rowsleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
-                    int rowsright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
-                    Token rows = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
-                    int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double number = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-
-                    try {
-                        worldBuilder.withRows(number);
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[rows.getType()], rows.getLine(), rows.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-                    }
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 12 -> { // worldAttribute ::= COMILLA COLS COMILLA DOS_PUNTOS numProd
-                {
-                    Object RESULT = null;
-                    int colsleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
-                    int colsright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
-                    Token cols = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
-                    int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double number = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-
-                    try {
-                        worldBuilder.withCols(number);
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[cols.getType()], cols.getLine(), cols.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-
-                    }
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 13 -> { // worldAttribute ::= COMILLA CONFIG COMILLA DOS_PUNTOS LLAVE_A configProd LLAVE_C
-                {
-                    Object RESULT = null;
-                    int configleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
-                    int configright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
-                    Token config = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
-
-                    try {
-                        worldBuilder.withConfig(configBuilder.build());
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[config.getType()], config.getLine(), config.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-
-                    }
-                    configBuilder.clean();
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 14 -> { // worldAttribute ::= COMILLA BOARD COMILLA DOS_PUNTOS CORCHETE_A boardArray CORCHETE_C
-                {
-                    Object RESULT = null;
-                    int boardleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
-                    int boardright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
-                    Token board = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
-                    int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    ArrayList<Board> array = (ArrayList<Board>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-
-                    try {
-                        worldBuilder.withBoards(array);
-
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[board.getType()], board.getLine(), board.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-
-                    }
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 15 -> { // worldAttribute ::= COMILLA BOXES COMILLA DOS_PUNTOS CORCHETE_A pointArray CORCHETE_C
-                {
-                    Object RESULT = null;
-                    int boxesleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
-                    int boxesright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
-                    Token boxes = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
-                    int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    ArrayList<Point> array = (ArrayList<Point>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-
-                    try {
-                        worldBuilder.withBoxes(array);
-
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[boxes.getType()], boxes.getLine(), boxes.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-
-                    }
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 16 -> { // worldAttribute ::= COMILLA TARGETS COMILLA DOS_PUNTOS CORCHETE_A pointArray CORCHETE_C
-                {
-                    Object RESULT = null;
-                    int targetleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
-                    int targetright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
-                    Token target = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
-                    int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    ArrayList<Point> array = (ArrayList<Point>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-
-                    try {
-                        worldBuilder.withTargets(array);
-
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[target.getType()], target.getLine(), target.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-
-                    }
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 17 -> { // worldAttribute ::= COMILLA PLAYER COMILLA DOS_PUNTOS LLAVE_A pointProd LLAVE_C
-                {
-                    Object RESULT = null;
-                    int playerleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
-                    int playerright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
-                    Token player = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
-
-                    try {
-                        worldBuilder.withPlayer(pointBuilder.build());
-
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[player.getType()], player.getLine(), player.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-
-                    }
-                    pointBuilder.clean();
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 18 -> { // worldAttribute ::= error LLAVE_C
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 19 -> { // pointArray ::= pointArray COMA LLAVE_A pointProd LLAVE_C
-                {
-                    ArrayList<Point> RESULT = null;
-                    int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).left;
-                    int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).right;
-                    ArrayList<Point> array = (ArrayList<Point>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).value;
-
-                    array.add(pointBuilder.build());
-
-                    RESULT = array;
-                    pointBuilder.clean();
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray", 13, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 20 -> { // pointArray ::= LLAVE_A pointProd LLAVE_C
-                {
-                    ArrayList<Point> RESULT = null;
-
-                    RESULT = new ArrayList<Point>();
-                    RESULT.add(pointBuilder.build());
-                    pointBuilder.clean();
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray", 13, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 21 -> { // pointArray ::= error COMA
-                {
-                    ArrayList<Point> RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray", 13, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 22 -> { // pointProd ::= pointProd COMA pointAttribute
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointProd", 19, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 23 -> { // pointProd ::= pointAttribute
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointProd", 19, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 24 -> { // pointProd ::= error COMA
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointProd", 19, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 25 -> { // pointAttribute ::= COMILLA posType COMILLA DOS_PUNTOS numProd
-                {
-                    Object RESULT = null;
-                    int ptleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
-                    int ptright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
-                    Token pt = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
-                    int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double number = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-
-                    try {
-                        if (pt.getType() == JsonParserSym.POSX) {
-                            pointBuilder.withPosX(number);
-                        } else {
-                            pointBuilder.withPosY(number);
-                        }
-
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-                    }
-
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointAttribute", 20, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 26 -> { // boardArray ::= boardArray COMA LLAVE_A boardProd LLAVE_C
-                {
-                    ArrayList<Board> RESULT = null;
-                    int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).left;
-                    int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).right;
-                    ArrayList<Board> array = (ArrayList<Board>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).value;
-                    int llleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
-                    int llright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
-                    Token ll = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
-
-                    try {
-                        array.add(boardBuilder.withPoint(pointBuilder.build()).build());
-
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(), ll.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-                    }
-                    pointBuilder.clean();
-                    boardBuilder.clean();
-                    RESULT = array;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray", 12, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 27 -> { // boardArray ::= LLAVE_A boardProd LLAVE_C
-                {
-                    ArrayList<Board> RESULT = null;
-                    int llleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
-                    int llright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
-                    Token ll = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
-
-                    RESULT = new ArrayList<Board>();
-                    try {
-                        RESULT.add(boardBuilder.withPoint(pointBuilder.build()).build());
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(), ll.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-                    }
-                    pointBuilder.clean();
-                    boardBuilder.clean();
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray", 12, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 28 -> { // boardArray ::= error COMA
-                {
-                    ArrayList<Board> RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray", 12, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 29 -> { // boardProd ::= boardProd COMA boardAttribute
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardProd", 17, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 30 -> { // boardProd ::= boardAttribute
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardProd", 17, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 31 -> { // boardProd ::= error COMA
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardProd", 17, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 32 -> { // boardAttribute ::= COMILLA posType COMILLA DOS_PUNTOS numProd
-                {
-                    Object RESULT = null;
-                    int cleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).left;
-                    int cright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).right;
-                    Token c = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).value;
-                    int ptleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
-                    int ptright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
-                    Token pt = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
-                    int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double number = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-
-                    try {
-                        if (pt.getType() == JsonParserSym.POSX) {
-                            pointBuilder.withPosX(number);
-                        } else {
-                            pointBuilder.withPosY(number);
-                        }
-
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-
-                    }
-
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardAttribute", 18, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 33 -> { // boardAttribute ::= COMILLA TYPE COMILLA DOS_PUNTOS COMILLA boardType COMILLA
-                {
-                    Object RESULT = null;
-                    int tpleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
-                    int tpright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
-                    Token tp = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
-                    int btleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int btright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    String bt = (String) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-
-                    try {
-
-                        boardBuilder.withType(bt);
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[tp.getType()], tp.getLine(), tp.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-
-                    }
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardAttribute", 18, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 34 -> { // boardAttribute ::= error COMILLA
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardAttribute", 18, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 35 -> { // boardType ::= BRICK
-                {
-                    String RESULT = null;
-                    int bleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int bright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token b = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = JsonParserSym.terminalNames[b.getType()];
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType", 11, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 36 -> { // boardType ::= HALL
-                {
-                    String RESULT = null;
-                    int hleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int hright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token h = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = JsonParserSym.terminalNames[h.getType()];
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType", 11, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 37 -> { // posType ::= POSX
-                {
-                    Token RESULT = null;
-                    int xleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int xright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token x = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = x;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("posType", 14, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 38 -> { // posType ::= POSY
-                {
-                    Token RESULT = null;
-                    int yleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int yright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token y = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = y;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("posType", 14, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 39 -> { // configProd ::= configProd COMA configAttribute
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configProd", 2, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 40 -> { // configProd ::= configAttribute
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configProd", 2, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 41 -> { // configProd ::= error COMA
-                {
-                    Object RESULT = null;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configProd", 2, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 42 -> { // configAttribute ::= COMILLA colorType COMILLA DOS_PUNTOS COMILLA HEXADECIMAL COMILLA
-                {
-                    Object RESULT = null;
-                    int typeleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
-                    int typeright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
-                    Integer type = (Integer) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
-                    int valueleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int valueright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Token value = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-
-                    try {
-                        switch (type) {
-                            case JsonParserSym.BOX_COLOR -> configBuilder.withBoxColor(value.getValue());
-                            case JsonParserSym.BOX_ON_TARGET_COLOR ->
-                                    configBuilder.withBoxOnTargetColor(value.getValue());
-                            case JsonParserSym.TARGET_COLOR -> configBuilder.withTargetColor(value.getValue());
-                            case JsonParserSym.BRICK_COLOR -> configBuilder.withBrickColor(value.getValue());
-                            case JsonParserSym.HALL_COLOR -> configBuilder.withHallColor(value.getValue());
-                            case JsonParserSym.UNDEFINED_COLOR -> configBuilder.withUndefinedColor(value.getValue());
-                            case JsonParserSym.PLAYER_COLOR -> configBuilder.withPlayerColor(value.getValue());
-                            case default -> System.err.println("Something went wrong. :c");
-                        }
-
-                    } catch (DuplicateAttributeException e) {
-                        errors.add(new WorldError(JsonParserSym.terminalNames[type], value.getLine(), value.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
-
-                    }
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configAttribute", 3, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 43 -> { // colorType ::= BOX_COLOR
-                {
-                    Integer RESULT = null;
-                    int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = colorType.getType();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 44 -> { // colorType ::= BOX_ON_TARGET_COLOR
-                {
-                    Integer RESULT = null;
-                    int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = colorType.getType();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 45 -> { // colorType ::= TARGET_COLOR
-                {
-                    Integer RESULT = null;
-                    int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = colorType.getType();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 46 -> { // colorType ::= BRICK_COLOR
-                {
-                    Integer RESULT = null;
-                    int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = colorType.getType();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 47 -> { // colorType ::= HALL_COLOR
-                {
-                    Integer RESULT = null;
-                    int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = colorType.getType();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 48 -> { // colorType ::= UNDEFINED_COLOR
-                {
-                    Integer RESULT = null;
-                    int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = colorType.getType();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 49 -> { // colorType ::= PLAYER_COLOR
-                {
-                    Integer RESULT = null;
-                    int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = colorType.getType();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 50 -> { // numProd ::= ENTERO
-                {
-                    Double RESULT = null;
-                    int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token number = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = Double.valueOf(number.getValue());
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("numProd", 8, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 51 -> { // numProd ::= COMILLA a COMILLA
-                {
-                    Double RESULT = null;
-                    int numberleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int numberright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Double number = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-                    RESULT = number;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("numProd", 8, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 52 -> { // numProd ::= error COMILLA
-                {
-                    Double RESULT = null;
-                    RESULT = 1.0;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("numProd", 8, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 53 -> { // a ::= a SUMA b
-                {
-                    Double RESULT = null;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
-                    int n2left = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int n2right = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double n2 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = n1 + n2;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("a", 4, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 54 -> { // a ::= a RESTA b
-                {
-                    Double RESULT = null;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
-                    int n2left = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int n2right = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double n2 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = n1 - n2;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("a", 4, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 55 -> { // a ::= b
-                {
-                    Double RESULT = null;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = n1;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("a", 4, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 56 -> { // b ::= b MULTIPLICACION c
-                {
-                    Double RESULT = null;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
-                    int n2left = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int n2right = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double n2 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = n1 * n2;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("b", 5, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 57 -> { // b ::= b DIVISION c
-                {
-                    Double RESULT = null;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
-                    int dleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int dright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Token d = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-                    int n2left = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int n2right = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double n2 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-
-                    if (n2 == 0) {
-                        errors.add(new WorldError(String.valueOf(n2), d.getLine(), d.getColumn(), ErrorType.SEMANTICO, "Imposible dividir entre 0"));
-                        n2 = 1.0;
-                    }
-                    RESULT = n1 / n2;
-
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("b", 5, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 58 -> { // b ::= RESTA c
-                {
-                    Double RESULT = null;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = -1 * n1;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("b", 5, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 59 -> { // b ::= c
-                {
-                    Double RESULT = null;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = n1;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("b", 5, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 60 -> { // c ::= PARENTESIS_A a PARENTESIS_C
-                {
-                    Double RESULT = null;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-                    RESULT = n1;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("c", 6, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 61 -> { // c ::= d
-                {
-                    Double RESULT = null;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = n1;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("c", 6, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 62 -> { // c ::= error PARENTESIS_C
-                {
-                    Double RESULT = null;
-                    RESULT = 1.0;
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("c", 6, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 63 -> { // d ::= funcion PARENTESIS_A a PARENTESIS_C
-                {
-                    Double RESULT = null;
-                    int fleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
-                    int fright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
-                    Integer f = (Integer) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
-                    int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
-                    int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
-                    Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
-                    RESULT = f == JsonParserSym.FLOOR ? Math.floor(n1) : Math.ceil(n1);
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("d", 7, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 64 -> { // d ::= ENTERO
-                {
-                    Double RESULT = null;
-                    int eleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int eright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token e = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = Double.valueOf(e.getValue());
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("d", 7, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 65 -> { // d ::= DECIMAL
-                {
-                    Double RESULT = null;
-                    int dleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int dright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token d = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = Double.valueOf(d.getValue());
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("d", 7, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 66 -> { // funcion ::= FLOOR
-                {
-                    Integer RESULT = null;
-                    int fleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int fright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token f = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = f.getType();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("funcion", 9, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /*. . . . . . . . . . . . . . . . . . . .*/
-            case 67 -> { // funcion ::= CEIL
-                {
-                    Integer RESULT = null;
-                    int cleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
-                    int cright = ((Symbol) CUP$JsonParser$stack.peek()).right;
-                    Token c = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
-                    RESULT = c.getType();
-                    CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("funcion", 9, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
-                }
-                return CUP$JsonParser$result;
-            }
-
-            /* . . . . . .*/
-            default -> throw new Exception(
-                    "Invalid action number " + CUP$JsonParser$act_num + "found in internal parse table");
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /*. . . . . . . . . . . . . . . . . . . .*/
+        /* . . . . . .*/
+        // $START ::= main EOF
+        /* ACCEPT */
+        if (CUP$JsonParser$act_num == 0) {
+            Object RESULT = null;
+            int start_valleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int start_valright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Request start_val = (Request) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+            RESULT = start_val;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("$START", 0, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            CUP$JsonParser$parser.done_parsing();
+            return CUP$JsonParser$result;
+// main ::= LLAVE_A optionProd LLAVE_C
+        } else if (CUP$JsonParser$act_num == 1) {
+            Request RESULT = null;
+            int requestleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int requestright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Request request = (Request) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+            RESULT = request;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("main", 16, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// main ::= error LLAVE_C
+        } else if (CUP$JsonParser$act_num == 2) {
+            Request RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("main", 16, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// optionProd ::= COMILLA WORLDS COMILLA DOS_PUNTOS COMILLA ALL COMILLA
+        } else if (CUP$JsonParser$act_num == 3) {
+            Request RESULT = null;
+            int allleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int allright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Token all = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+            worldBuilder.withName(JsonParserSym.terminalNames[all.getType()]);
+            RESULT = new Request(RequestType.FIND_ALL, null);
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd", 15, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// optionProd ::= COMILLA WORLD COMILLA DOS_PUNTOS COMILLA PALABRA COMILLA
+        } else if (CUP$JsonParser$act_num == 4) {
+            Request RESULT = null;
+            int nameleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int nameright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Token name = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+            worldBuilder.withName(String.valueOf(name.getValue()));
+            RESULT = new Request(RequestType.FIND_BY_NAME, worldBuilder.build());
+            worldBuilder.clean();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd", 15, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// optionProd ::= worldProd
+        } else if (CUP$JsonParser$act_num == 5) {
+            Request RESULT = null;
+            RESULT = new Request(RequestType.CREATE, worldBuilder.build());
+            System.out.println("Creando el mundo  " + RESULT);
+            worldBuilder.clean();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd", 15, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// optionProd ::= error COMILLA
+        } else if (CUP$JsonParser$act_num == 6) {
+            Request RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("optionProd", 15, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldProd ::= worldProd COMA worldAttribute
+        } else if (CUP$JsonParser$act_num == 7) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldProd", 0, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldProd ::= worldAttribute
+        } else if (CUP$JsonParser$act_num == 8) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldProd", 0, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldProd ::= error COMA
+        } else if (CUP$JsonParser$act_num == 9) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldProd", 0, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldAttribute ::= COMILLA NAME COMILLA DOS_PUNTOS COMILLA PALABRA COMILLA
+        } else if (CUP$JsonParser$act_num == 10) {
+            Object RESULT = null;
+            int nameleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int nameright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Token name = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+
+            try {
+                worldBuilder.withName(String.valueOf(name.getValue()));
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(name.getValue(), name.getLine(), name.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+            }
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldAttribute ::= COMILLA ROWS COMILLA DOS_PUNTOS numProd
+        } else if (CUP$JsonParser$act_num == 11) {
+            Object RESULT = null;
+            int rowsleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
+            int rowsright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
+            Token rows = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
+            int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double number = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+
+            try {
+                worldBuilder.withRows(number);
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[rows.getType()], rows.getLine(), rows.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+            }
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldAttribute ::= COMILLA COLS COMILLA DOS_PUNTOS numProd
+        } else if (CUP$JsonParser$act_num == 12) {
+            Object RESULT = null;
+            int colsleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
+            int colsright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
+            Token cols = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
+            int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double number = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+
+            try {
+                worldBuilder.withCols(number);
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[cols.getType()], cols.getLine(), cols.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+
+            }
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldAttribute ::= COMILLA CONFIG COMILLA DOS_PUNTOS LLAVE_A configProd LLAVE_C
+        } else if (CUP$JsonParser$act_num == 13) {
+            Object RESULT = null;
+            int configleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
+            int configright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
+            Token config = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
+
+            try {
+                worldBuilder.withConfig(configBuilder.build());
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[config.getType()], config.getLine(), config.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+
+            }
+            configBuilder.clean();
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldAttribute ::= COMILLA BOARD COMILLA DOS_PUNTOS CORCHETE_A boardArray CORCHETE_C
+        } else if (CUP$JsonParser$act_num == 14) {
+            Object RESULT = null;
+            int boardleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
+            int boardright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
+            Token board = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
+            int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            ArrayList<Board> array = (ArrayList<Board>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+
+            try {
+                worldBuilder.withBoards(array);
+
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[board.getType()], board.getLine(), board.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+
+            }
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldAttribute ::= COMILLA BOXES COMILLA DOS_PUNTOS CORCHETE_A pointArray CORCHETE_C
+        } else if (CUP$JsonParser$act_num == 15) {
+            Object RESULT = null;
+            int boxesleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
+            int boxesright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
+            Token boxes = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
+            int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            ArrayList<Point> array = (ArrayList<Point>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+
+            try {
+                worldBuilder.withBoxes(array);
+
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[boxes.getType()], boxes.getLine(), boxes.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+
+            }
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldAttribute ::= COMILLA TARGETS COMILLA DOS_PUNTOS CORCHETE_A pointArray CORCHETE_C
+        } else if (CUP$JsonParser$act_num == 16) {
+            Object RESULT = null;
+            int targetleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
+            int targetright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
+            Token target = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
+            int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            ArrayList<Point> array = (ArrayList<Point>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+
+            try {
+                worldBuilder.withTargets(array);
+
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[target.getType()], target.getLine(), target.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+
+            }
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldAttribute ::= COMILLA PLAYER COMILLA DOS_PUNTOS LLAVE_A pointProd LLAVE_C
+        } else if (CUP$JsonParser$act_num == 17) {
+            Object RESULT = null;
+            int playerleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
+            int playerright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
+            Token player = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
+
+            try {
+                worldBuilder.withPlayer(pointBuilder.build());
+
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[player.getType()], player.getLine(), player.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+
+            }
+            pointBuilder.clean();
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// worldAttribute ::= error LLAVE_C
+        } else if (CUP$JsonParser$act_num == 18) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("worldAttribute", 1, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// pointArray ::= pointArray COMA LLAVE_A pointProd LLAVE_C
+        } else if (CUP$JsonParser$act_num == 19) {
+            ArrayList<Point> RESULT = null;
+            int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).left;
+            int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).right;
+            ArrayList<Point> array = (ArrayList<Point>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).value;
+
+            array.add(pointBuilder.build());
+
+            RESULT = array;
+            pointBuilder.clean();
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray", 13, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// pointArray ::= LLAVE_A pointProd LLAVE_C
+        } else if (CUP$JsonParser$act_num == 20) {
+            ArrayList<Point> RESULT = null;
+
+            RESULT = new ArrayList<Point>();
+            RESULT.add(pointBuilder.build());
+            pointBuilder.clean();
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray", 13, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// pointArray ::= error COMA
+        } else if (CUP$JsonParser$act_num == 21) {
+            ArrayList<Point> RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointArray", 13, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// pointProd ::= pointProd COMA pointAttribute
+        } else if (CUP$JsonParser$act_num == 22) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointProd", 19, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// pointProd ::= pointAttribute
+        } else if (CUP$JsonParser$act_num == 23) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointProd", 19, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// pointProd ::= error COMA
+        } else if (CUP$JsonParser$act_num == 24) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointProd", 19, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// pointAttribute ::= COMILLA posType COMILLA DOS_PUNTOS numProd
+        } else if (CUP$JsonParser$act_num == 25) {
+            Object RESULT = null;
+            int ptleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
+            int ptright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
+            Token pt = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
+            int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double number = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+
+            try {
+                if (pt.getType() == JsonParserSym.POSX) {
+                    pointBuilder.withPosX(number);
+                } else {
+                    pointBuilder.withPosY(number);
+                }
+
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+            }
+
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("pointAttribute", 20, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardArray ::= boardArray COMA LLAVE_A boardProd LLAVE_C
+        } else if (CUP$JsonParser$act_num == 26) {
+            ArrayList<Board> RESULT = null;
+            int arrayleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).left;
+            int arrayright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).right;
+            ArrayList<Board> array = (ArrayList<Board>) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).value;
+            int llleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
+            int llright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
+            Token ll = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
+
+            try {
+                array.add(boardBuilder.withPoint(pointBuilder.build()).build());
+
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(), ll.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+            }
+            pointBuilder.clean();
+            boardBuilder.clean();
+            RESULT = array;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray", 12, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardArray ::= LLAVE_A boardProd LLAVE_C
+        } else if (CUP$JsonParser$act_num == 27) {
+            ArrayList<Board> RESULT = null;
+            int llleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
+            int llright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
+            Token ll = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
+
+            RESULT = new ArrayList<Board>();
+            try {
+                RESULT.add(boardBuilder.withPoint(pointBuilder.build()).build());
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(boardBuilder.getPoint().toString(), ll.getLine(), ll.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+            }
+            pointBuilder.clean();
+            boardBuilder.clean();
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray", 12, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardArray ::= error COMA
+        } else if (CUP$JsonParser$act_num == 28) {
+            ArrayList<Board> RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardArray", 12, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardProd ::= boardProd COMA boardAttribute
+        } else if (CUP$JsonParser$act_num == 29) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardProd", 17, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardProd ::= boardAttribute
+        } else if (CUP$JsonParser$act_num == 30) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardProd", 17, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardProd ::= error COMA
+        } else if (CUP$JsonParser$act_num == 31) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardProd", 17, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardAttribute ::= COMILLA posType COMILLA DOS_PUNTOS numProd
+        } else if (CUP$JsonParser$act_num == 32) {
+            Object RESULT = null;
+            int cleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).left;
+            int cright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).right;
+            Token c = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)).value;
+            int ptleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
+            int ptright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
+            Token pt = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
+            int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double number = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+
+            try {
+                if (pt.getType() == JsonParserSym.POSX) {
+                    pointBuilder.withPosX(number);
+                } else {
+                    pointBuilder.withPosY(number);
+                }
+
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[pt.getType()], pt.getLine(), pt.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+
+            }
+
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardAttribute", 18, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 4)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardAttribute ::= COMILLA TYPE COMILLA DOS_PUNTOS COMILLA boardType COMILLA
+        } else if (CUP$JsonParser$act_num == 33) {
+            Object RESULT = null;
+            int tpleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
+            int tpright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
+            Token tp = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
+            int btleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int btright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            String bt = (String) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+
+            try {
+
+                boardBuilder.withType(bt);
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[tp.getType()], tp.getLine(), tp.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+
+            }
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardAttribute", 18, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardAttribute ::= error COMILLA
+        } else if (CUP$JsonParser$act_num == 34) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardAttribute", 18, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardType ::= BRICK
+        } else if (CUP$JsonParser$act_num == 35) {
+            String RESULT = null;
+            int bleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int bright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token b = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = JsonParserSym.terminalNames[b.getType()];
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType", 11, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// boardType ::= HALL
+        } else if (CUP$JsonParser$act_num == 36) {
+            String RESULT = null;
+            int hleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int hright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token h = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = JsonParserSym.terminalNames[h.getType()];
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("boardType", 11, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// posType ::= POSX
+        } else if (CUP$JsonParser$act_num == 37) {
+            Token RESULT = null;
+            int xleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int xright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token x = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = x;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("posType", 14, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// posType ::= POSY
+        } else if (CUP$JsonParser$act_num == 38) {
+            Token RESULT = null;
+            int yleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int yright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token y = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = y;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("posType", 14, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// configProd ::= configProd COMA configAttribute
+        } else if (CUP$JsonParser$act_num == 39) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configProd", 2, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// configProd ::= configAttribute
+        } else if (CUP$JsonParser$act_num == 40) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configProd", 2, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// configProd ::= error COMA
+        } else if (CUP$JsonParser$act_num == 41) {
+            Object RESULT = null;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configProd", 2, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// configAttribute ::= COMILLA colorType COMILLA DOS_PUNTOS COMILLA HEXADECIMAL COMILLA
+        } else if (CUP$JsonParser$act_num == 42) {
+            Object RESULT = null;
+            int typeleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).left;
+            int typeright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).right;
+            Integer type = (Integer) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 5)).value;
+            int valueleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int valueright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Token value = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+
+            try {
+                if (type == JsonParserSym.BOX_COLOR) {
+                    configBuilder.withBoxColor(value.getValue());
+                } else if (type == JsonParserSym.BOX_ON_TARGET_COLOR) {
+                    configBuilder.withBoxOnTargetColor(value.getValue());
+                } else if (type == JsonParserSym.TARGET_COLOR) {
+                    configBuilder.withTargetColor(value.getValue());
+                } else if (type == JsonParserSym.BRICK_COLOR) {
+                    configBuilder.withBrickColor(value.getValue());
+                } else if (type == JsonParserSym.HALL_COLOR) {
+                    configBuilder.withHallColor(value.getValue());
+                } else if (type == JsonParserSym.UNDEFINED_COLOR) {
+                    configBuilder.withUndefinedColor(value.getValue());
+                } else if (type == JsonParserSym.PLAYER_COLOR) {
+                    configBuilder.withPlayerColor(value.getValue());
+                } else {
+                    System.err.println("Something went wrong. :c");
+                }
+
+            } catch (DuplicateAttributeException e) {
+                errors.add(new WorldError(JsonParserSym.terminalNames[type], value.getLine(), value.getColumn(), ErrorType.SEMANTICO, e.getMessage()));
+
+            }
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("configAttribute", 3, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 6)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// colorType ::= BOX_COLOR
+        } else if (CUP$JsonParser$act_num == 43) {
+            Integer RESULT = null;
+            int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = colorType.getType();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// colorType ::= BOX_ON_TARGET_COLOR
+        } else if (CUP$JsonParser$act_num == 44) {
+            Integer RESULT = null;
+            int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = colorType.getType();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// colorType ::= TARGET_COLOR
+        } else if (CUP$JsonParser$act_num == 45) {
+            Integer RESULT = null;
+            int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = colorType.getType();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// colorType ::= BRICK_COLOR
+        } else if (CUP$JsonParser$act_num == 46) {
+            Integer RESULT = null;
+            int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = colorType.getType();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// colorType ::= HALL_COLOR
+        } else if (CUP$JsonParser$act_num == 47) {
+            Integer RESULT = null;
+            int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = colorType.getType();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// colorType ::= UNDEFINED_COLOR
+        } else if (CUP$JsonParser$act_num == 48) {
+            Integer RESULT = null;
+            int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = colorType.getType();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// colorType ::= PLAYER_COLOR
+        } else if (CUP$JsonParser$act_num == 49) {
+            Integer RESULT = null;
+            int colorTypeleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int colorTyperight = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token colorType = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = colorType.getType();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("colorType", 10, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// numProd ::= ENTERO
+        } else if (CUP$JsonParser$act_num == 50) {
+            Double RESULT = null;
+            int numberleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int numberright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token number = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = Double.valueOf(number.getValue());
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("numProd", 8, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// numProd ::= COMILLA a COMILLA
+        } else if (CUP$JsonParser$act_num == 51) {
+            Double RESULT = null;
+            int numberleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int numberright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Double number = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+            RESULT = number;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("numProd", 8, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// numProd ::= error COMILLA
+        } else if (CUP$JsonParser$act_num == 52) {
+            Double RESULT = null;
+            RESULT = 1.0;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("numProd", 8, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// a ::= a SUMA b
+        } else if (CUP$JsonParser$act_num == 53) {
+            Double RESULT = null;
+            int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
+            int n2left = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int n2right = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double n2 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = n1 + n2;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("a", 4, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// a ::= a RESTA b
+        } else if (CUP$JsonParser$act_num == 54) {
+            Double RESULT = null;
+            int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
+            int n2left = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int n2right = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double n2 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = n1 - n2;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("a", 4, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// a ::= b
+        } else if (CUP$JsonParser$act_num == 55) {
+            Double RESULT = null;
+            int n1left = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = n1;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("a", 4, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// b ::= b MULTIPLICACION c
+        } else if (CUP$JsonParser$act_num == 56) {
+            Double RESULT = null;
+            int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
+            int n2left = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int n2right = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double n2 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = n1 * n2;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("b", 5, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// b ::= b DIVISION c
+        } else if (CUP$JsonParser$act_num == 57) {
+            Double RESULT = null;
+            int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)).value;
+            int dleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int dright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Token d = (Token) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+            int n2left = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int n2right = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double n2 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+
+            if (n2 == 0) {
+                errors.add(new WorldError(String.valueOf(n2), d.getLine(), d.getColumn(), ErrorType.SEMANTICO, "Imposible dividir entre 0"));
+                n2 = 1.0;
+            }
+            RESULT = n1 / n2;
+
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("b", 5, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// b ::= RESTA c
+        } else if (CUP$JsonParser$act_num == 58) {
+            Double RESULT = null;
+            int n1left = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = -1 * n1;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("b", 5, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// b ::= c
+        } else if (CUP$JsonParser$act_num == 59) {
+            Double RESULT = null;
+            int n1left = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = n1;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("b", 5, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// c ::= PARENTESIS_A a PARENTESIS_C
+        } else if (CUP$JsonParser$act_num == 60) {
+            Double RESULT = null;
+            int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+            RESULT = n1;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("c", 6, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 2)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// c ::= d
+        } else if (CUP$JsonParser$act_num == 61) {
+            Double RESULT = null;
+            int n1left = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = n1;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("c", 6, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// c ::= error PARENTESIS_C
+        } else if (CUP$JsonParser$act_num == 62) {
+            Double RESULT = null;
+            RESULT = 1.0;
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("c", 6, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// d ::= funcion PARENTESIS_A a PARENTESIS_C
+        } else if (CUP$JsonParser$act_num == 63) {
+            Double RESULT = null;
+            int fleft = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).left;
+            int fright = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).right;
+            Integer f = (Integer) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)).value;
+            int n1left = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).left;
+            int n1right = ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).right;
+            Double n1 = (Double) ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 1)).value;
+            RESULT = f == JsonParserSym.FLOOR ? Math.floor(n1) : Math.ceil(n1);
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("d", 7, ((Symbol) CUP$JsonParser$stack.elementAt(CUP$JsonParser$top - 3)), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// d ::= ENTERO
+        } else if (CUP$JsonParser$act_num == 64) {
+            Double RESULT = null;
+            int eleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int eright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token e = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = Double.valueOf(e.getValue());
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("d", 7, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// d ::= DECIMAL
+        } else if (CUP$JsonParser$act_num == 65) {
+            Double RESULT = null;
+            int dleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int dright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token d = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = Double.valueOf(d.getValue());
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("d", 7, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// funcion ::= FLOOR
+        } else if (CUP$JsonParser$act_num == 66) {
+            Integer RESULT = null;
+            int fleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int fright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token f = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = f.getType();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("funcion", 9, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
+// funcion ::= CEIL
+        } else if (CUP$JsonParser$act_num == 67) {
+            Integer RESULT = null;
+            int cleft = ((Symbol) CUP$JsonParser$stack.peek()).left;
+            int cright = ((Symbol) CUP$JsonParser$stack.peek()).right;
+            Token c = (Token) ((Symbol) CUP$JsonParser$stack.peek()).value;
+            RESULT = c.getType();
+            CUP$JsonParser$result = parser.getSymbolFactory().newSymbol("funcion", 9, ((Symbol) CUP$JsonParser$stack.peek()), ((Symbol) CUP$JsonParser$stack.peek()), RESULT);
+            return CUP$JsonParser$result;
         }
+        throw new Exception(
+                "Invalid action number " + CUP$JsonParser$act_num + "found in internal parse table");
     } /* end of method */
 
   /** Method splitting the generated action code into several parts. */

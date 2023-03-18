@@ -105,6 +105,16 @@ public class WorldChecker {
                 worldErrors.add(new WorldError(null, 0,0,ErrorType.SEMANTICO, "La coordenada del objetivo no se ha encontrado en el tablero o intentó posicionarlo en un muro"));
             }
         });
+
+        if(world.getBoxes() == null){
+            worldErrors.add(new WorldError(null, 1,1,ErrorType.SEMANTICO, "Las cajas del mundo no han sido declaradas"));
+
+            return;
+        }
+        if(world.getBoxes().size() != world.getTargets().size()){
+            worldErrors.add(new WorldError(null, 0,0,ErrorType.SEMANTICO, "Número de cajas y objetivos diferentes"));
+
+        }
     }
 
     private void checkBoxes(){
