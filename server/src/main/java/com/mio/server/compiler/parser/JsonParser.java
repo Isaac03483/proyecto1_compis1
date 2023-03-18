@@ -322,7 +322,7 @@ public class JsonParser extends java_cup.runtime.lr_parser {
             }
 
             while(symbol != null && symbol.sym == JsonParserSym.SYM) {
-                this.report_expected_token_ids();
+//                this.report_expected_token_ids();
                 System.out.println("Ingorando: " + symbol.value.toString());
                 Token token = (Token) symbol.value;
                 errors.add(new WorldError(token.getValue(),token.getLine(),token.getColumn(), ErrorType.LEXICO,"No existe esta cadena en el lenguaje"));

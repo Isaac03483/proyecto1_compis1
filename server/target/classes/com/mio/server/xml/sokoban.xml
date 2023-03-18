@@ -13,12 +13,6 @@
 			<undefined_color>#30ff39</undefined_color>
 			<player_color>#ffff01</player_color>
 		</config>
-
-		<board>
-			<posX>0</posX>
-			<posY>0</posY>
-			<type>BRICK</type>
-		</board>
 		<board>
 			<posX>0</posX>
 			<posY>1</posY>

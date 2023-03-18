@@ -22,6 +22,10 @@ public class IntChecker {
             errors.add(new WorldError(value.toString(), 0,0, ErrorType.SEMANTICO, "El número debe ser un valor entero"));
         }
 
+        if(value < 0){
+            errors.add(new WorldError(value.toString(), 0,0, ErrorType.SEMANTICO, "No se aceptan valores negativos"));
+        }
+
     }
 
 }
