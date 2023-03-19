@@ -1,6 +1,7 @@
 package com.mio.cliente.boxworld
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,6 +21,9 @@ class MovesReportActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_moves_report)
+
+        val actionBar = supportActionBar
+        actionBar?.setBackgroundDrawable(ColorDrawable(Color.rgb(137,207,240)))
 
         val movesReport = intent.getSerializableExtra("movesReport", MovesReport::class.java)
 
